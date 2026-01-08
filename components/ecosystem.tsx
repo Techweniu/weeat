@@ -2,41 +2,42 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Target, TrendingUp, Palette, MenuIcon, Megaphone, Sparkles } from "lucide-react"
+// NOVOS ÍCONES IMPORTADOS
+import { ChefHat, Flame, UtensilsCrossed, ScrollText, Bell, Camera } from "lucide-react"
 
 const services = [
   {
-    icon: Target,
+    icon: ChefHat, // Estratégia = Chef
     title: "Delineamento Estratégico",
     description: "Planejamento direto ao ponto",
-    color: "#F27A23",
+    color: "#f78608", // Nova cor laranja
   },
   {
-    icon: TrendingUp,
+    icon: Flame, // Tráfego = Fogo/Potência
     title: "Tráfego Pago (Meta Ads)",
     description: "Foco em conversão",
     color: "#22C55E",
   },
   {
-    icon: Palette,
+    icon: UtensilsCrossed, // Criativos = Apresentação/Talheres
     title: "Criativos Competitivos",
     description: "Anúncios que dão fome",
-    color: "#F27A23",
+    color: "#f78608",
   },
   {
-    icon: MenuIcon,
+    icon: ScrollText, // Cardápio = Comanda/Menu
     title: "Cardápio Digital",
     description: "Engenharia de menu",
     color: "#22C55E",
   },
   {
-    icon: Megaphone,
+    icon: Bell, // Marketing = Sino de Atenção
     title: "Ações de Marketing",
     description: "Promoções que protegem o lucro",
-    color: "#F27A23",
+    color: "#f78608",
   },
   {
-    icon: Sparkles,
+    icon: Camera, // Audiovisual = Fotografia
     title: "Audiovisual Completo",
     description: "Conteúdo que vende",
     color: "#22C55E",
@@ -74,10 +75,10 @@ export function Ecosystem() {
                 viewport={{ once: true }}
                 whileHover={{ y: -5 }}
               >
-                <Card className="h-full bg-[#FFFBF5] border-none shadow-lg hover:shadow-xl transition-all cursor-pointer">
+                <Card className="h-full bg-[#FFFBF5] border-none shadow-lg hover:shadow-xl transition-all cursor-pointer group">
                   <CardHeader>
                     <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-colors group-hover:bg-white"
                       style={{ backgroundColor: `${service.color}15` }}
                     >
                       <Icon size={28} style={{ color: service.color }} />

@@ -8,14 +8,6 @@ import Image from "next/image"
 export function HeroSection() {
   return (
     <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative">
-      {/* ELEMENTOS DECORATIVOS DE FUNDO */}
-      <div className="absolute top-20 -left-20 w-96 h-96 bg-[#f78608]/10 rounded-full blur-3xl pointer-events-none -z-10 mix-blend-multiply"></div>
-      
-      {/* Ícone sutil de "calor/fogo" */}
-      <svg className="absolute top-40 right-[40%] text-[#f78608]/20 w-24 h-24 -z-10 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.1.24-2.15.7-3.144.28.86.6 1.63 1.8 2.644Z"/>
-      </svg>
-
       <div className="container mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Coluna da Esquerda - Texto */}
@@ -63,7 +55,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Coluna da Direita - Imagem do Chef 16:9 */}
+          {/* Coluna da Direita - Imagem do Chef 16:9 com efeito de corte */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}

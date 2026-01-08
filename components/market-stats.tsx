@@ -1,19 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { UtensilsCrossed } from "lucide-react"
 
 export function MarketStats() {
   return (
     <section className="py-24 px-4 bg-white relative overflow-hidden">
-      {/* DECORAÇÃO DE FUNDO */}
-      <div className="absolute top-10 right-10 text-[#f78608]/5 pointer-events-none select-none rotate-12">
-        <UtensilsCrossed size={200} strokeWidth={1} />
-      </div>
-      <div className="absolute bottom-10 left-10 text-[#f78608]/5 pointer-events-none select-none -rotate-12">
-        <UtensilsCrossed size={180} strokeWidth={1} />
-      </div>
-
       <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

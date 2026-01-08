@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Wind } from "lucide-react"
 
 export function SocialProof() {
   const [investimento, setInvestimento] = useState(1000)
@@ -18,15 +17,7 @@ export function SocialProof() {
 
   return (
     <section id="cases" className="py-20 px-4 bg-[#FFFBF5] relative overflow-hidden">
-      {/* VAPOR / CALOR DECORATIVO */}
-      <div className="absolute left-1/4 bottom-20 text-[#f78608]/10 animate-pulse duration-[4s] pointer-events-none">
-        <Wind size={120} strokeWidth={1} className="-rotate-90 scale-y-150" />
-      </div>
-      <div className="absolute right-1/4 bottom-40 text-[#f78608]/10 animate-pulse duration-[5s] delay-700 pointer-events-none">
-         <Wind size={100} strokeWidth={1} className="-rotate-90 scale-y-150" />
-      </div>
-
-      <div className="container mx-auto">
+      <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -47,6 +38,7 @@ export function SocialProof() {
             viewport={{ once: true }}
             className="bg-gradient-to-br from-[#f78608] to-[#da7607] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden"
           >
+            {/* Brilho interno do card (mantido pois é elegante) */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white rounded-full blur-3xl" />
             </div>
@@ -79,7 +71,7 @@ export function SocialProof() {
                   step="100"
                   value={investimento}
                   onChange={(e) => setInvestimento(Number(e.target.value))}
-                  className="w-full max-w-xs mt-4 h-2 bg-white/30 rounded-lg appearance-none cursor-pointer accent-white"
+                  className="w-full max-w-xs mt-4 h-2 bg-white/30 rounded-lg appearance-none cursor-pointer accent-white hover:bg-white/40 transition-all"
                 />
               </div>
 
