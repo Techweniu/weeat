@@ -3,10 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { Rocket, CheckCircle, TrendingUp } from "lucide-react"
+import Image from "next/image" // Importação adicionada
 
 export function HeroSection() {
   return (
-    <section className="pt-32 pb-20 px-4 bg-[#FFFBF5]">
+    <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Text */}
@@ -15,6 +16,7 @@ export function HeroSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            className="z-10 relative" // Garante que o texto fique sobre a imagem se houver sobreposição
           >
             <h1 className="font-[family-name:var(--font-gate)] text-5xl md:text-6xl lg:text-7xl text-[#1A1A1A] mb-6 leading-tight text-balance">
               Inteligência e Crescimento Real para o seu Food Service
@@ -23,9 +25,10 @@ export function HeroSection() {
               Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha
               previsibilidade de vendas e lucro saudável.
             </p>
+            {/* ATUALIZADO: Cores do botão para #f78608 e #da7607 */}
             <Button
               size="lg"
-              className="bg-[#F27A23] hover:bg-[#D66A1D] text-white rounded-full px-8 py-6 text-lg font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg"
+              className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-8 py-6 text-lg font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg"
             >
               Quero Escalar Meu Faturamento
             </Button>
@@ -39,7 +42,8 @@ export function HeroSection() {
                 viewport={{ once: true }}
                 className="flex items-center gap-2"
               >
-                <Rocket className="text-[#F27A23]" size={20} />
+                {/* ATUALIZADO: Cor do ícone */}
+                <Rocket className="text-[#f78608]" size={20} />
                 <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
                   ROAS Médio 25x
                 </span>
@@ -63,7 +67,8 @@ export function HeroSection() {
                 viewport={{ once: true }}
                 className="flex items-center gap-2"
               >
-                <TrendingUp className="text-[#F27A23]" size={20} />
+                {/* ATUALIZADO: Cor do ícone */}
+                <TrendingUp className="text-[#f78608]" size={20} />
                 <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
                   Foco 100% em Resultado
                 </span>
@@ -77,17 +82,23 @@ export function HeroSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="relative"
+            className="relative h-full flex items-center justify-center lg:justify-end"
           >
-            <div className="w-full aspect-square bg-gradient-to-br from-[#F27A23]/20 to-[#F27A23]/5 rounded-3xl flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
-                  <span className="font-[family-name:var(--font-gate)] text-[#F27A23] text-2xl">Hero Image</span>
-                </div>
-                <p className="font-[family-name:var(--font-poppins)] text-sm text-[#1A1A1A]/60">
-                  Placeholder for hero illustration
-                </p>
-              </div>
+            {/* Container da Imagem */}
+            <div className="relative w-full max-w-[600px] aspect-square lg:aspect-[4/3]">
+              <Image
+                src="/heroweeat.webp"
+                alt="Chef WeEat Ilustração"
+                fill
+                priority
+                className="object-contain"
+                // EFEITO: Máscara de gradiente
+                // 'transparent' na esquerda (0%) -> 'black' (visível) na direita
+                style={{
+                  maskImage: 'linear-gradient(to right, transparent 0%, black 30%, black 100%)',
+                  WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 30%, black 100%)'
+                }}
+              />
             </div>
           </motion.div>
         </div>
