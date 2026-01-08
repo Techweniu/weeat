@@ -7,16 +7,20 @@ import Image from "next/image"
 
 export function HeroSection() {
   return (
-    <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden">
-      <div className="container mx-auto">
+    // overflow-hidden crucial aqui para não criar barra de rolagem horizontal
+    <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative">
+      <div className="container mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Text */}
+          {/*
+             Coluna da Esquerda - Texto
+             Z-INDEX 20: Garante que o texto fique SOBRE a imagem que vai invadir o espaço
+          */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="z-10 relative"
+            className="z-20 relative"
           >
             <h1 className="font-[family-name:var(--font-gate)] text-5xl md:text-6xl lg:text-7xl text-[#1A1A1A] mb-6 leading-tight text-balance">
               Inteligência e Crescimento Real para o seu Food Service
@@ -32,69 +36,66 @@ export function HeroSection() {
               Quero Escalar Meu Faturamento
             </Button>
 
-            {/* Trust Badges */}
             <div className="mt-10 flex flex-wrap gap-6">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-2"
-              >
+              <div className="flex items-center gap-2">
                 <Rocket className="text-[#f78608]" size={20} />
-                <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
-                  ROAS Médio 25x
-                </span>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-2"
-              >
+                <span className="text-sm font-medium text-[#1A1A1A]">ROAS Médio 25x</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <CheckCircle className="text-[#22C55E]" size={20} />
-                <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
-                  ROI Mínimo 1.5
-                </span>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-2"
-              >
+                <span className="text-sm font-medium text-[#1A1A1A]">ROI Mínimo 1.5</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <TrendingUp className="text-[#f78608]" size={20} />
-                <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
-                  Foco 100% em Resultado
-                </span>
-              </motion.div>
+                <span className="text-sm font-medium text-[#1A1A1A]">Foco em Resultado</span>
+              </div>
             </div>
           </motion.div>
 
-          {/* Right Column - Hero Image */}
+          {/* Coluna da Direita - Área da Imagem */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="relative h-full flex items-center justify-center lg:justify-end"
+            className="relative h-full" // Removido flex center para permitir posicionamento livre
           >
-            {/* ATUALIZADO:
-              - Removido max-w fixo para aproveitar a largura da coluna
-              - Alterado para aspect-video (16:9)
-              - Removida a máscara (maskImage) pois a imagem já é transparente
+            {/*
+               --- AQUI ESTÁ A MÁGICA DO "QUADRADO AZUL" ---
             */}
-            <div className="relative w-full aspect-video">
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              /*
+                 1. POSICIONAMENTO EM TELAS GRANDES (lg:):
+                 - lg:w-[170%]: Aumenta a largura do container para 170% da coluna original.
+                 - lg:-ml-[70%]: Puxa o container 70% para a esquerda (margin-left negativa), fazendo invadir a área de texto.
+                 - aspect-video: Mantém a proporção 16:9.
+              */
+              className="relative w-full aspect-video lg:w-[170%] lg:-ml-[70%]"
+
+              /*
+                 2. TRANSPARÊNCIA (Fade perto do texto):
+                 - maskImage: Cria um degradê da esquerda para a direita.
+                 - transparent 5%: O início (esquerda, perto do texto) é transparente.
+                 - black 60%: A partir de 60% da largura, a imagem fica totalmente visível.
+                 (Ajuste esses % se quiser mais ou menos fade)
+              */
+              style={{
+                  maskImage: 'linear-gradient(to right, transparent 5%, black 60%)',
+                  WebkitMaskImage: 'linear-gradient(to right, transparent 5%, black 60%)'
+              }}
+            >
               <Image
                 src="/heroweeat.webp"
                 alt="Chef WeEat Ilustração"
                 fill
                 priority
-                className="object-contain" // Garante que a imagem 16:9 caiba perfeitamente no container 16:9
+                // Usamos object-cover para garantir que a imagem preencha o novo container gigante
+                // e object-right para garantir que o chefe (que está na direita da imagem) seja o foco.
+                className="object-cover lg:object-right"
               />
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
