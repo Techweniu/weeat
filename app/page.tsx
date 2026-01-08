@@ -1,6 +1,7 @@
 "use client"
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
+import { LogoCarousel } from "@/components/logo-carousel"
 import { MarketStats } from "@/components/market-stats"
 import { ProblemSolution } from "@/components/problem-solution"
 import { Ecosystem } from "@/components/ecosystem"
@@ -13,6 +14,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#FFFBF5]">
       <Header />
       <HeroSection />
+      <LogoCarousel />
       <MarketStats />
       <ProblemSolution />
       <Ecosystem />
