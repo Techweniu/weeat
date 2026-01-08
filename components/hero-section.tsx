@@ -6,11 +6,13 @@ import { Rocket, CheckCircle, TrendingUp } from "lucide-react"
 import Image from "next/image"
 
 export function HeroSection() {
+  // Link Específico da Hero
+  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Quero%20escalar%20meu%20faturamento%20com%20a%20metodologia%20da%20WeEat.%20Podem%20me%20ajudar%3F"
+
   return (
     <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative">
       <div className="container mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Coluna da Esquerda - Texto */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -25,14 +27,16 @@ export function HeroSection() {
               Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha
               previsibilidade de vendas e lucro saudável.
             </p>
+            
+            {/* BOTÃO COM LINK */}
             <Button
               size="lg"
               className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-8 py-6 text-lg font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg"
+              onClick={() => window.open(whatsappLink, '_blank')}
             >
               Quero Escalar Meu Faturamento
             </Button>
 
-            {/* Trust Badges */}
             <div className="mt-10 flex flex-wrap gap-6">
               <div className="flex items-center gap-2">
                 <Rocket className="text-[#f78608]" size={20} />
@@ -55,7 +59,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Coluna da Direita - Imagem do Chef 16:9 com efeito de corte */}
+          {/* Coluna da Direita - Imagem */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}

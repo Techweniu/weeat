@@ -10,6 +10,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+  // Link do WhatsApp codificado para o Header
+  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Vi%20o%20site%20da%20WeEat%20e%20gostaria%20de%20falar%20com%20um%20especialista%20sobre%20o%20crescimento%20do%20meu%20delivery."
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
@@ -29,12 +32,7 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo Container */}
           <div className="flex items-center">
-            {/* Container com a cor oficial #f78608.
-               'p-1' adicionado para garantir que o logo não toque nas bordas se for muito grande.
-               'object-contain' garante que o logo apareça inteiro.
-            */}
             <div className="relative w-32 h-10 bg-[#f78608] rounded overflow-hidden flex items-center justify-center p-1">
               <Image 
                 src="/logoweeat.webp" 
@@ -46,42 +44,27 @@ export function Header() {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a
-              href="#metodo"
-              className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors"
-            >
-              Método
-            </a>
-            <a
-              href="#cases"
-              className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors"
-            >
-              Cases
-            </a>
-            <a
-              href="#planos"
-              className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors"
-            >
-              Planos
-            </a>
+            <a href="#metodo" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Método</a>
+            <a href="#cases" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Cases</a>
+            <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Planos</a>
           </nav>
 
-          {/* CTA Button */}
           <div className="hidden md:block">
-            <Button className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-6 font-[family-name:var(--font-poppins)] transition-transform hover:scale-105">
+            {/* Botão Desktop com Link */}
+            <Button 
+              className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-6 font-[family-name:var(--font-poppins)] transition-transform hover:scale-105"
+              onClick={() => window.open(whatsappLink, '_blank')}
+            >
               Falar com Especialista
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button className="md:hidden text-[#1A1A1A]" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -90,25 +73,14 @@ export function Header() {
             className="md:hidden mt-4 pb-4"
           >
             <nav className="flex flex-col gap-4">
-              <a
-                href="#metodo"
-                className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors"
+              <a href="#metodo" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Método</a>
+              <a href="#cases" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Cases</a>
+              <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Planos</a>
+              {/* Botão Mobile com Link */}
+              <Button 
+                className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)]"
+                onClick={() => window.open(whatsappLink, '_blank')}
               >
-                Método
-              </a>
-              <a
-                href="#cases"
-                className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors"
-              >
-                Cases
-              </a>
-              <a
-                href="#planos"
-                className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors"
-              >
-                Planos
-              </a>
-              <Button className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)]">
                 Falar com Especialista
               </Button>
             </nav>

@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Check, Crown, Star, ArrowRight } from "lucide-react"
 
 export function Pricing() {
+  // Links Específicos por Plano
+  const goldLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Escopo%20GOLD%20(Tr%C3%A1fego%20e%20Estrat%C3%A9gia)%20da%20WeEat.%20Gostaria%20de%20saber%20mais%20detalhes."
+  const diamondLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Escopo%20DIAMOND%20(Full%20Service)%20da%20WeEat.%20Quero%20dominar%20o%20mercado."
+
   return (
     <section id="planos" className="py-20 px-4 bg-white">
       <div className="container mx-auto max-w-6xl">
@@ -25,7 +29,7 @@ export function Pricing() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Gold Plan - Agora focado em "Growth Acelerado" */}
+          {/* Gold Plan */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +50,6 @@ export function Pricing() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col">
-                {/* Substituição do Preço por Texto de Valor */}
                 <div className="mb-8 p-4 bg-[#D4AF37]/10 rounded-xl border border-[#D4AF37]/20">
                   <p className="font-[family-name:var(--font-poppins)] text-sm font-semibold text-[#D4AF37] uppercase tracking-wide mb-1">
                     Indicado para
@@ -75,9 +78,11 @@ export function Pricing() {
                   </div>
                 </div>
 
+                {/* BOTÃO GOLD */}
                 <Button
                   variant="outline"
                   className="w-full rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white font-[family-name:var(--font-poppins)] font-medium transition-all bg-transparent group"
+                  onClick={() => window.open(goldLink, '_blank')}
                 >
                   Solicitar Proposta Gold
                   <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -86,7 +91,7 @@ export function Pricing() {
             </Card>
           </motion.div>
 
-          {/* Diamond Plan - Agora focado em "Full Service" */}
+          {/* Diamond Plan */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +107,6 @@ export function Pricing() {
               </div>
               
               <Card className="flex flex-col w-full bg-[#1A1A1A] border-2 border-[#f78608] shadow-2xl relative overflow-hidden">
-                {/* Efeito de brilho no fundo */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#f78608]/10 blur-3xl rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2" />
 
                 <CardHeader>
@@ -118,7 +122,6 @@ export function Pricing() {
                 </CardHeader>
                 
                 <CardContent className="flex-1 flex flex-col">
-                  {/* Substituição do Preço por Texto de Valor */}
                   <div className="mb-8 p-4 bg-[#f78608]/10 rounded-xl border border-[#f78608]/30">
                      <p className="font-[family-name:var(--font-poppins)] text-sm font-semibold text-[#f78608] uppercase tracking-wide mb-1">
                       Indicado para
@@ -149,7 +152,11 @@ export function Pricing() {
                     </div>
                   </div>
 
-                  <Button className="w-full rounded-full bg-[#f78608] hover:bg-[#da7607] text-white font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg group">
+                  {/* BOTÃO DIAMOND */}
+                  <Button 
+                    className="w-full rounded-full bg-[#f78608] hover:bg-[#da7607] text-white font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg group"
+                    onClick={() => window.open(diamondLink, '_blank')}
+                  >
                     Falar com Consultor
                     <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -159,7 +166,6 @@ export function Pricing() {
           </motion.div>
         </div>
         
-        {/* Rodapé da seção para reforçar a personalização */}
         <div className="mt-12 text-center">
              <p className="font-[family-name:var(--font-poppins)] text-sm text-[#1A1A1A]/50">
                 * Os valores de investimento variam conforme a complexidade e abrangência geográfica da operação.
