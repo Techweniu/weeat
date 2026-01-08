@@ -10,8 +10,8 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  // Link do WhatsApp codificado para o Header
-  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Vi%20o%20site%20da%20WeEat%20e%20gostaria%20de%20falar%20com%20um%20especialista%20sobre%20o%20crescimento%20do%20meu%20delivery."
+  // ATUALIZADO: "weeat" minúsculo na mensagem
+  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Vi%20o%20site%20da%20weeat%20e%20gostaria%20de%20falar%20com%20um%20especialista%20sobre%20o%20crescimento%20do%20meu%20delivery."
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +36,7 @@ export function Header() {
             <div className="relative w-32 h-10 bg-[#f78608] rounded overflow-hidden flex items-center justify-center p-1">
               <Image 
                 src="/logoweeat.webp" 
-                alt="WeEat Logo"
+                alt="weeat Logo" // Alt text atualizado
                 fill
                 className="object-contain" 
                 priority
@@ -51,7 +51,6 @@ export function Header() {
           </nav>
 
           <div className="hidden md:block">
-            {/* Botão Desktop com Link */}
             <Button 
               className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-6 font-[family-name:var(--font-poppins)] transition-transform hover:scale-105"
               onClick={() => window.open(whatsappLink, '_blank')}
@@ -76,7 +75,6 @@ export function Header() {
               <a href="#metodo" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Método</a>
               <a href="#cases" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Cases</a>
               <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Planos</a>
-              {/* Botão Mobile com Link */}
               <Button 
                 className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)]"
                 onClick={() => window.open(whatsappLink, '_blank')}

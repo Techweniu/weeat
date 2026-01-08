@@ -33,7 +33,8 @@ export function FinalCTA() {
           viewport={{ once: true }}
           className="font-[family-name:var(--font-poppins)] text-xl text-white/90 mb-10 max-w-2xl mx-auto"
         >
-          Não deixe mais dinheiro na mesa. Junte-se aos parceiros da WeEat e transforme sua operação em uma máquina de vendas.
+          {/* ATUALIZADO: Texto visual para "weeat" minúsculo */}
+          Não deixe mais dinheiro na mesa. Junte-se aos parceiros da weeat e transforme sua operação em uma máquina de vendas.
         </motion.p>
 
         <motion.div
