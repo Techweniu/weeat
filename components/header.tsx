@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -28,43 +29,35 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo placeholder */}
+          {/* Logo Container */}
           <div className="flex items-center">
-            <div className="w-32 h-10 bg-[#F27A23] rounded flex items-center justify-center">
-              <span className="font-[family-name:var(--font-gate)] text-white text-xl font-bold">weeat</span>
+            {/* Ajuste: Adicionado p-1 para o logo não encostar nas bordas 
+               e object-contain para garantir visibilidade total.
+            */}
+            <div className="relative w-32 h-10 bg-[#f78608] rounded overflow-hidden flex items-center justify-center p-1">
+              <Image 
+                src="/logoweeat.webp" 
+                alt="WeEat Logo"
+                fill
+                className="object-contain" 
+                priority
+              />
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a
-              href="#metodo"
-              className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#F27A23] transition-colors"
-            >
-              Método
-            </a>
-            <a
-              href="#cases"
-              className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#F27A23] transition-colors"
-            >
-              Cases
-            </a>
-            <a
-              href="#planos"
-              className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#F27A23] transition-colors"
-            >
-              Planos
-            </a>
+            <a href="#metodo" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Método</a>
+            <a href="#cases" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Cases</a>
+            <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Planos</a>
           </nav>
 
-          {/* CTA Button */}
           <div className="hidden md:block">
-            <Button className="bg-[#F27A23] hover:bg-[#D66A1D] text-white rounded-full px-6 font-[family-name:var(--font-poppins)] transition-transform hover:scale-105">
+            <Button className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-6 font-[family-name:var(--font-poppins)] transition-transform hover:scale-105">
               Falar com Especialista
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button className="md:hidden text-[#1A1A1A]" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -72,34 +65,12 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mt-4 pb-4"
-          >
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="md:hidden mt-4 pb-4">
             <nav className="flex flex-col gap-4">
-              <a
-                href="#metodo"
-                className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#F27A23] transition-colors"
-              >
-                Método
-              </a>
-              <a
-                href="#cases"
-                className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#F27A23] transition-colors"
-              >
-                Cases
-              </a>
-              <a
-                href="#planos"
-                className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#F27A23] transition-colors"
-              >
-                Planos
-              </a>
-              <Button className="bg-[#F27A23] hover:bg-[#D66A1D] text-white rounded-full font-[family-name:var(--font-poppins)]">
-                Falar com Especialista
-              </Button>
+              <a href="#metodo" className="text-[#1A1A1A] hover:text-[#f78608]">Método</a>
+              <a href="#cases" className="text-[#1A1A1A] hover:text-[#f78608]">Cases</a>
+              <a href="#planos" className="text-[#1A1A1A] hover:text-[#f78608]">Planos</a>
+              <Button className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full">Falar com Especialista</Button>
             </nav>
           </motion.div>
         )}
