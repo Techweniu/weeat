@@ -10,18 +10,16 @@ export function SocialProof() {
   // --- LÓGICA DA ANIMAÇÃO DE EXPLOSÃO ---
   const [showExplosion, setShowExplosion] = useState(false)
   const sectionRef = useRef(null)
-  // Detecta quando a seção entra na tela (once: true faz rodar apenas uma vez)
-  // margin "-300px" significa que dispara quando o elemento está 300px dentro da tela
-  const isInView = useInView(sectionRef, { margin: "-300px", once: true })
+  // Detecta quando a seção entra na tela. Ajustei a margem para disparar um pouco antes.
+  const isInView = useInView(sectionRef, { margin: "-200px", once: true })
 
   useEffect(() => {
     if (isInView) {
       setShowExplosion(true)
-      
-      // Tempo total da animação antes de sumir (2.5 segundos)
+      // Duração total da experiência (overlay + explosão)
       const timer = setTimeout(() => {
         setShowExplosion(false)
-      }, 2500)
+      }, 2800)
       
       return () => clearTimeout(timer)
     }
@@ -43,41 +41,48 @@ export function SocialProof() {
       <AnimatePresence>
         {showExplosion && (
           <motion.div
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 pointer-events-none"
+            // Usei 'fixed' para garantir que cubra a tela toda, independente do scroll
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/70 pointer-events-none"
             initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(10px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            transition={{ duration: 0.5 }}
+            animate={{ opacity: 1, backdropFilter: "blur(15px)" }} // Mais blur para focar na explosão
+            exit={{ opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.5 } }}
+            transition={{ duration: 0.8 }}
           >
-            {/* V OLTA DO CORAÇÃO GIGANTE
-               Um único emoji que cresce drasticamente.
+            {/* 🔥 O FOGO GIGANTE E FLUÍDO 🔥
+               O TRUQUE: Usamos uma fonte base GIGANTE (text-[15rem] mobile, text-[30rem] desktop).
+               A animação varia a escala de 0 a 1.5. É muito mais leve para a GPU animar
+               um objeto grande já renderizado do que escalar um vetor pequeno 20x.
             */}
             <motion.div
-              initial={{ scale: 0, opacity: 0 }}
+              initial={{ scale: 0, opacity: 0, rotate: -10 }}
               animate={{ 
-                scale: [0, 3, 20], // Cresce de 0 para 3x, depois "explode" para 20x
-                opacity: [0, 1, 0]  // Aparece totalmente e depois some no final da explosão
+                scale: [0, 0.8, 1.5], // Cresce até 80%, segura um pouco, e explode para 150%
+                opacity: [0, 1, 0],   // Aparece, fica visível, some na explosão
+                rotate: [-10, 0, 10]  // Uma leve rotação para dar dinamismo
               }}
               transition={{ 
-                duration: 2.5, // Duração total
-                times: [0, 0.3, 1], // O coração fica visível na escala 3x em 30% do tempo, depois explode
-                ease: "easeOut" 
+                duration: 2.5,
+                times: [0, 0.4, 1], // Define o ritmo da animação
+                // Usamos uma curva de Bezier personalizada para uma sensação de "carregar e explodir" bem fluida
+                ease: [0.22, 1, 0.36, 1] 
               }}
-              className="text-9xl absolute"
-              // Mantive uma sombra laranja para brilhar, mesmo sendo um coração vermelho
-              style={{ filter: "drop-shadow(0 0 30px rgba(247, 134, 8, 0.9))" }}
+              // Classe com tamanho de fonte MASSIVO
+              className="text-[15rem] md:text-[30rem] absolute leading-none select-none will-change-transform"
+              // Sombra laranja intensa para o brilho do fogo
+              style={{ filter: "drop-shadow(0 0 50px rgba(247, 134, 8, 1))" }}
             >
-              ❤️
+              🔥
             </motion.div>
 
             {/* Texto "Veja seu negócio explodir" */}
             <motion.h2
-              initial={{ opacity: 0, y: 50, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1.2 }}
-              exit={{ opacity: 0, scale: 1.5, transition: { duration: 0.3 } }}
-              transition={{ delay: 0.3, duration: 0.8, type: "spring", bounce: 0.5 }}
-              // Cor do texto: BRANCO
-              className="font-[family-name:var(--font-gate)] text-5xl md:text-7xl text-white text-center relative z-10 mt-20 drop-shadow-2xl"
+              initial={{ opacity: 0, y: 100, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.1, transition: { duration: 0.3 } }}
+              // Transição tipo mola (spring) para o texto entrar de forma elástica
+              transition={{ delay: 0.2, type: "spring", stiffness: 100, damping: 15 }}
+              // Cor BRANCA, com sombra para leitura
+              className="font-[family-name:var(--font-gate)] text-4xl md:text-6xl text-white text-center relative z-10 mt-40 md:mt-60 drop-shadow-2xl px-4"
             >
               Veja seu negócio explodir
             </motion.h2>
@@ -92,8 +97,8 @@ export function SocialProof() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          // Delay ajustado para esperar a explosão terminar
-          transition={{ duration: 0.6, delay: showExplosion ? 2.5 : 0 }}
+          // Delay sincronizado para aparecer logo após a explosão sumir
+          transition={{ duration: 0.8, delay: showExplosion ? 2.6 : 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
@@ -104,10 +109,10 @@ export function SocialProof() {
 
         <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            // Delay ajustado para esperar a explosão terminar
-            transition={{ duration: 0.6, delay: showExplosion ? 2.7 : 0.2 }}
+            // Delay sincronizado e uma mola suave para o card aparecer
+            transition={{ type: "spring", stiffness: 100, delay: showExplosion ? 2.8 : 0.2 }}
             viewport={{ once: true }}
             className="bg-gradient-to-br from-[#f78608] to-[#da7607] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden"
           >
