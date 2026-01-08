@@ -7,14 +7,18 @@ import Image from "next/image"
 
 export function HeroSection() {
   return (
-    // overflow-hidden crucial aqui para não criar barra de rolagem horizontal
     <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative">
+      {/* ELEMENTOS DECORATIVOS DE FUNDO */}
+      <div className="absolute top-20 -left-20 w-96 h-96 bg-[#f78608]/10 rounded-full blur-3xl pointer-events-none -z-10 mix-blend-multiply"></div>
+      
+      {/* Ícone sutil de "calor/fogo" */}
+      <svg className="absolute top-40 right-[40%] text-[#f78608]/20 w-24 h-24 -z-10 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.1.24-2.15.7-3.144.28.86.6 1.63 1.8 2.644Z"/>
+      </svg>
+
       <div className="container mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/*
-             Coluna da Esquerda - Texto
-             Z-INDEX 20: Garante que o texto fique SOBRE a imagem que vai invadir o espaço
-          */}
+          {/* Coluna da Esquerda - Texto */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -36,54 +40,44 @@ export function HeroSection() {
               Quero Escalar Meu Faturamento
             </Button>
 
+            {/* Trust Badges */}
             <div className="mt-10 flex flex-wrap gap-6">
               <div className="flex items-center gap-2">
                 <Rocket className="text-[#f78608]" size={20} />
-                <span className="text-sm font-medium text-[#1A1A1A]">ROAS Médio 25x</span>
+                <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
+                  ROAS Médio 25x
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="text-[#22C55E]" size={20} />
-                <span className="text-sm font-medium text-[#1A1A1A]">ROI Mínimo 1.5</span>
+                <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
+                  ROI Mínimo 1.5
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <TrendingUp className="text-[#f78608]" size={20} />
-                <span className="text-sm font-medium text-[#1A1A1A]">Foco em Resultado</span>
+                <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">
+                  Foco 100% em Resultado
+                </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Coluna da Direita - Área da Imagem */}
+          {/* Coluna da Direita - Imagem do Chef 16:9 */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="relative h-full" // Removido flex center para permitir posicionamento livre
+            className="relative h-full"
           >
-            {/*
-               --- AQUI ESTÁ A MÁGICA DO "QUADRADO AZUL" ---
-            */}
             <motion.div
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              /*
-                 1. POSICIONAMENTO EM TELAS GRANDES (lg:):
-                 - lg:w-[170%]: Aumenta a largura do container para 170% da coluna original.
-                 - lg:-ml-[70%]: Puxa o container 70% para a esquerda (margin-left negativa), fazendo invadir a área de texto.
-                 - aspect-video: Mantém a proporção 16:9.
-              */
               className="relative w-full aspect-video lg:w-[170%] lg:-ml-[70%]"
-
-              /*
-                 2. TRANSPARÊNCIA (Fade perto do texto):
-                 - maskImage: Cria um degradê da esquerda para a direita.
-                 - transparent 5%: O início (esquerda, perto do texto) é transparente.
-                 - black 60%: A partir de 60% da largura, a imagem fica totalmente visível.
-                 (Ajuste esses % se quiser mais ou menos fade)
-              */
               style={{
-                  maskImage: 'linear-gradient(to right, transparent 5%, black 60%)',
-                  WebkitMaskImage: 'linear-gradient(to right, transparent 5%, black 60%)'
+                maskImage: 'linear-gradient(to right, transparent 5%, black 60%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 5%, black 60%)'
               }}
             >
               <Image
@@ -91,8 +85,6 @@ export function HeroSection() {
                 alt="Chef WeEat Ilustração"
                 fill
                 priority
-                // Usamos object-cover para garantir que a imagem preencha o novo container gigante
-                // e object-right para garantir que o chefe (que está na direita da imagem) seja o foco.
                 className="object-cover lg:object-right"
               />
             </motion.div>
