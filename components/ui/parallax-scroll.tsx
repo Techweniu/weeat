@@ -13,9 +13,11 @@ export const ParallaxScrollSecond = ({
   className?: string
 }) => {
   const gridRef = useRef<any>(null)
+  
+  // ATUALIZADO: Configuração para rolagem da página inteira
   const { scrollYProgress } = useScroll({
-    container: gridRef,
-    offset: ["start start", "end start"],
+    target: gridRef, // Rastreia este elemento específico
+    offset: ["start end", "end start"], // Começa a animar quando entra na tela e termina quando sai
   })
 
   const translateYFirst = useTransform(scrollYProgress, [0, 1], [0, -200])
@@ -34,11 +36,13 @@ export const ParallaxScrollSecond = ({
 
   return (
     <div
-      className={cn("h-[40rem] items-start overflow-y-auto w-full", className)}
+      // ATUALIZADO: Removido 'h-[40rem]' e 'overflow-y-auto'
+      // Agora o componente cresce conforme o conteúdo e usa o scroll da página
+      className={cn("items-start w-full", className)}
       ref={gridRef}
     >
       <div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start max-w-5xl mx-auto gap-10 py-40 px-10"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start max-w-5xl mx-auto gap-10 py-20 px-10"
         ref={gridRef}
       >
         <div className="grid gap-10">
