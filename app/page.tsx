@@ -2,6 +2,7 @@
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
 import { LogoCarousel } from "@/components/logo-carousel"
+import { Gallery } from "@/components/gallery" // Importação
 import { MarketStats } from "@/components/market-stats"
 import { ProblemSolution } from "@/components/problem-solution"
 import { Ecosystem } from "@/components/ecosystem"
@@ -15,6 +16,7 @@ export default function Home() {
       <Header />
       <HeroSection />
       <LogoCarousel />
+      <Gallery /> {/* Galeria aqui */}
       <MarketStats />
       <ProblemSolution />
       <Ecosystem />
