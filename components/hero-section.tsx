@@ -81,7 +81,6 @@ const CardRotator = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.9 }}
           transition={{ duration: 0.5 }}
-          // ATUALIZADO: 'border-2' deixa a borda mais grossa
           className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-2 border-[#f78608]/40 flex items-center gap-3 min-w-[180px]"
         >
           <div className={`${currentItem.bg} p-2 rounded-xl text-2xl flex items-center justify-center w-10 h-10`}>
@@ -104,7 +103,9 @@ const CardRotator = ({
 // --- COMPONENTE PRINCIPAL ---
 
 export function HeroSection() {
-  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Quero%20escalar%20meu%20faturamento%20com%20a%20metodologia%20da%20weeat.%20Podem%20me%20ajudar%3F"
+  const scrollToContact = () => {
+    document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
     <section className="pt-32 pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative">
@@ -135,7 +136,7 @@ export function HeroSection() {
             <Button
               size="lg"
               className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-8 py-6 text-lg font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg"
-              onClick={() => window.open(whatsappLink, '_blank')}
+              onClick={scrollToContact}
             >
               Quero Escalar Meu Faturamento
             </Button>

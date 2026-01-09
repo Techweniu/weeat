@@ -10,8 +10,11 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  // ATUALIZADO: "weeat" minúsculo na mensagem
-  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Vi%20o%20site%20da%20weeat%20e%20gostaria%20de%20falar%20com%20um%20especialista%20sobre%20o%20crescimento%20do%20meu%20delivery."
+  // Função para rolar até o formulário
+  const scrollToContact = () => {
+    document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })
+    setIsMobileMenuOpen(false) // Fecha o menu mobile se estiver aberto
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +39,7 @@ export function Header() {
             <div className="relative w-32 h-10 bg-[#f78608] rounded overflow-hidden flex items-center justify-center p-1">
               <Image 
                 src="/logoweeat.webp" 
-                alt="weeat Logo" // Alt text atualizado
+                alt="weeat Logo" 
                 fill
                 className="object-contain" 
                 priority
@@ -53,7 +56,7 @@ export function Header() {
           <div className="hidden md:block">
             <Button 
               className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-6 font-[family-name:var(--font-poppins)] transition-transform hover:scale-105"
-              onClick={() => window.open(whatsappLink, '_blank')}
+              onClick={scrollToContact}
             >
               Falar com Especialista
             </Button>
@@ -77,7 +80,7 @@ export function Header() {
               <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors">Planos</a>
               <Button 
                 className="bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)]"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                onClick={scrollToContact}
               >
                 Falar com Especialista
               </Button>

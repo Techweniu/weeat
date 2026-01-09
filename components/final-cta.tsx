@@ -5,7 +5,9 @@ import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 
 export function FinalCTA() {
-  const whatsappLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Estou%20pronto%20para%20investir%20no%20crescimento%20do%20meu%20restaurante.%20Vamos%20conversar%3F"
+  const scrollToContact = () => {
+    document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
     <section className="py-24 px-4 bg-[#f78608] relative overflow-hidden">
@@ -33,7 +35,6 @@ export function FinalCTA() {
           viewport={{ once: true }}
           className="font-[family-name:var(--font-poppins)] text-xl text-white/90 mb-10 max-w-2xl mx-auto"
         >
-          {/* ATUALIZADO: Texto visual para "weeat" minúsculo */}
           Não deixe mais dinheiro na mesa. Junte-se aos parceiros da weeat e transforme sua operação em uma máquina de vendas.
         </motion.p>
 
@@ -46,7 +47,7 @@ export function FinalCTA() {
           <Button 
             size="lg"
             className="bg-white text-[#f78608] hover:bg-gray-100 rounded-full px-10 py-8 text-xl font-[family-name:var(--font-poppins)] font-semibold shadow-2xl transition-transform hover:scale-105 group"
-            onClick={() => window.open(whatsappLink, '_blank')}
+            onClick={scrollToContact}
           >
             Começar Agora
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />

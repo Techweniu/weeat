@@ -107,7 +107,8 @@ export function ContactForm() {
   }
 
   return (
-    <section className="py-24 px-4 bg-[#FFFBF5] relative overflow-hidden">
+    // ADICIONADO: id="contato" para ancoragem do scroll
+    <section id="contato" className="py-24 px-4 bg-[#FFFBF5] relative overflow-hidden">
       {/* Background Elements mantidos para compor o visual */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#f78608]/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#22C55E]/5 rounded-full blur-3xl" />

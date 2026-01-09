@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Check, Crown, Star, ArrowRight } from "lucide-react"
 
 export function Pricing() {
-  // ATUALIZADO: "weeat" minúsculo nas mensagens
-  const goldLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Escopo%20GOLD%20(Tr%C3%A1fego%20e%20Estrat%C3%A9gia)%20da%20weeat.%20Gostaria%20de%20saber%20mais%20detalhes."
-  const diamondLink = "https://wa.me/553497304302?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Escopo%20DIAMOND%20(Full%20Service)%20da%20weeat.%20Quero%20dominar%20o%20mercado."
+  const scrollToContact = () => {
+    document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
     <section id="planos" className="py-20 px-4 bg-white">
@@ -81,7 +81,7 @@ export function Pricing() {
                 <Button
                   variant="outline"
                   className="w-full rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white font-[family-name:var(--font-poppins)] font-medium transition-all bg-transparent group"
-                  onClick={() => window.open(goldLink, '_blank')}
+                  onClick={scrollToContact}
                 >
                   Solicitar Proposta Gold
                   <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -115,7 +115,6 @@ export function Pricing() {
                       Escopo DIAMOND
                     </CardTitle>
                   </div>
-                  {/* ATUALIZADO: Texto visual para "weeat" minúsculo */}
                   <CardDescription className="font-[family-name:var(--font-poppins)] text-white/70 text-base">
                     A experiência Full Service da weeat. Marketing 360º para dominar a região.
                   </CardDescription>
@@ -154,7 +153,7 @@ export function Pricing() {
 
                   <Button 
                     className="w-full rounded-full bg-[#f78608] hover:bg-[#da7607] text-white font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg group"
-                    onClick={() => window.open(diamondLink, '_blank')}
+                    onClick={scrollToContact}
                   >
                     Falar com Consultor
                     <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
