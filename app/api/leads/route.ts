@@ -1,20 +1,42 @@
 import { neon } from "@neondatabase/serverless"
 import { NextResponse } from "next/server"
+import { z } from "zod"
 
 const sql = neon(process.env.DATABASE_URL!)
+
+// 1. Definimos o Schema de validação (igual ou mais rigoroso que o frontend)
+const leadSchema = z.object({
+  name: z.string().min(2, "Nome muito curto"),
+  email: z.string().email("Email inválido"),
+  phone: z.string().min(10, "Telefone inválido"),
+  companyName: z.string().min(2, "Nome da empresa inválido"),
+  segment: z.string().min(1, "Segmento obrigatório"),
+  revenue: z.string().min(1, "Faturamento obrigatório"),
+  plan: z.string().optional().nullable(),
+})
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    
-    // Mantemos a leitura em inglês porque o frontend (contact-form.tsx) envia assim
-    const { name, email, phone, companyName, segment, revenue, plan } = body
 
-    if (!name || !email || !phone || !companyName || !segment || !revenue) {
-      return NextResponse.json({ error: "Todos os campos obrigatórios devem ser preenchidos." }, { status: 400 })
+    // 2. Validamos os dados recebidos ANTES de qualquer coisa
+    const validation = leadSchema.safeParse(body)
+
+    if (!validation.success) {
+      // Se falhar, retornamos os erros exatos para quem tentou enviar
+      return NextResponse.json(
+        { 
+          error: "Dados inválidos", 
+          details: validation.error.flatten().fieldErrors 
+        }, 
+        { status: 400 }
+      )
     }
 
-    // AQUI ESTÁ A MUDANÇA: Mapeamos as variáveis para as colunas em PORTUGUÊS
+    // Se passou, usamos os dados validados (validation.data)
+    const { name, email, phone, companyName, segment, revenue, plan } = validation.data
+
+    // 3. Inserção Segura no Banco (Colunas em Português)
     const result = await sql`
       INSERT INTO leads (
         nome, 
@@ -47,6 +69,6 @@ export async function POST(request: Request) {
     )
   } catch (error) {
     console.error("Erro ao salvar lead:", error)
-    return NextResponse.json({ error: "Erro ao processar sua solicitação. Tente novamente." }, { status: 500 })
+    return NextResponse.json({ error: "Erro interno ao processar solicitação." }, { status: 500 })
   }
 }
