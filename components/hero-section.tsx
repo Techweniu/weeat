@@ -128,8 +128,8 @@ export function HeroSection() {
               Inteligência e Crescimento Real para o seu Food Service
             </h1>
             <p className="font-[family-name:var(--font-poppins)] text-lg md:text-xl text-[#1A1A1A]/80 mb-8 leading-relaxed text-pretty">
-              Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha
-              previsibilidade de vendas e lucro saudável.
+              Chega de vaidade! A weeat é o seu braço de de crescimento focado em dinheiro no bolso! Tenha
+              previsibilidade de vendas e lucro saudável!
             </p>
             
             <Button
