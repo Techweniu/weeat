@@ -140,9 +140,7 @@ export function ProblemSolution() {
             </AnimatePresence>
           </div>
           
-          <p className="text-center text-xs text-gray-400 mt-4 font-[family-name:var(--font-poppins)] italic">
-            Toque nos botões acima para comparar.
-          </p>
+          
         </div>
 
         {/* --- VERSÃO DESKTOP (Grid Original) --- */}

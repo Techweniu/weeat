@@ -238,7 +238,7 @@ export function ContactForm({ preSelectedPlan }: ContactFormProps) {
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className={inputClasses}>
-                                <Store className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
+                                
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
                             </FormControl>
@@ -264,7 +264,7 @@ export function ContactForm({ preSelectedPlan }: ContactFormProps) {
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className={inputClasses}>
-                                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
+                                
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
                             </FormControl>
