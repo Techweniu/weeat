@@ -79,7 +79,6 @@ export function ProblemSolution() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          // ALTERAÇÃO AQUI: Reduzido de "mb-10 md:mb-16" para "mb-6 md:mb-8"
           className="text-center mb-6 md:mb-8"
         >
           <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#1A1A1A] mb-4">
@@ -94,9 +93,8 @@ export function ProblemSolution() {
         <div className="block lg:hidden max-w-md mx-auto">
           
           {/* Toggle Switch */}
-          {/* Opcional: Reduzi também o mb-8 para mb-6 se quiser colar ainda mais */}
+          {/* ALTERAÇÃO: Margem inferior reduzida para mb-6 */}
           <div className="bg-white p-1.5 rounded-full shadow-sm border border-gray-100 flex relative mb-6">
-            {/* Background deslizante */}
             <motion.div 
               className={`absolute top-1.5 bottom-1.5 rounded-full shadow-sm z-0 transition-colors duration-300 ${
                 activeTab === 'problem' ? 'bg-red-50' : 'bg-[#f78608]/10'
@@ -104,7 +102,7 @@ export function ProblemSolution() {
               initial={false}
               animate={{ 
                 x: activeTab === "problem" ? 0 : "100%", 
-                width: "50%" // Ocupa metade do container
+                width: "50%" 
               }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             />
@@ -128,7 +126,8 @@ export function ProblemSolution() {
           </div>
 
           {/* Card Dinâmico Mobile */}
-          <div className="min-h-[420px]">
+          {/* ALTERAÇÃO: Removido 'min-h-[420px]' para tirar o buraco */}
+          <div className="w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -142,9 +141,7 @@ export function ProblemSolution() {
             </AnimatePresence>
           </div>
           
-          <p className="text-center text-xs text-gray-400 mt-4 font-[family-name:var(--font-poppins)] italic">
-            Toque nos botões acima para comparar.
-          </p>
+          {/* ALTERAÇÃO: Removido o <p> com o texto "Toque nos botões..." */}
         </div>
 
         {/* --- VERSÃO DESKTOP (Grid Original) --- */}
