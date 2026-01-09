@@ -6,18 +6,35 @@ const sql = neon(process.env.DATABASE_URL!)
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    // Adicionado: plan na desestruturação
+    
+    // Mantemos a leitura em inglês porque o frontend (contact-form.tsx) envia assim
     const { name, email, phone, companyName, segment, revenue, plan } = body
 
     if (!name || !email || !phone || !companyName || !segment || !revenue) {
       return NextResponse.json({ error: "Todos os campos obrigatórios devem ser preenchidos." }, { status: 400 })
     }
 
-    // Inserir lead no banco de dados com o plano
+    // AQUI ESTÁ A MUDANÇA: Mapeamos as variáveis para as colunas em PORTUGUÊS
     const result = await sql`
-      INSERT INTO leads (name, email, phone, company_name, segment, revenue, plan)
-      VALUES (${name}, ${email}, ${phone}, ${companyName}, ${segment}, ${revenue}, ${plan || null})
-      RETURNING id, created_at
+      INSERT INTO leads (
+        nome, 
+        email, 
+        telefone, 
+        nome_empresa, 
+        segmento, 
+        faturamento, 
+        plano
+      )
+      VALUES (
+        ${name}, 
+        ${email}, 
+        ${phone}, 
+        ${companyName}, 
+        ${segment}, 
+        ${revenue}, 
+        ${plan || null}
+      )
+      RETURNING id, data_criacao
     `
 
     return NextResponse.json(
