@@ -18,17 +18,15 @@ export const ParallaxScrollSecond = ({
     offset: ["start end", "end start"],
   })
 
-  // OTIMIZAÇÃO 1: useSpring para suavizar o movimento
-  // Isso cria aquele efeito "amanteigado" onde a imagem segue o scroll com um leve atraso suave
   const springConfig = { stiffness: 300, damping: 30, bounce: 100 }
   const scrollY = useSpring(scrollYProgress, springConfig)
 
-  // OTIMIZAÇÃO 2: Parallax apenas Vertical (Mais leve e elegante)
-  // Coluna 1 e 3 sobem mais rápido (-150px)
-  const translateFirst = useTransform(scrollY, [0, 1], [0, -150])
-  // Coluna 2 sobe mais devagar (cria o contraste de profundidade)
-  const translateSecond = useTransform(scrollY, [0, 1], [0, -50]) 
-  const translateThird = useTransform(scrollY, [0, 1], [0, -150])
+  // AJUSTE DE VELOCIDADE:
+  // Aumentei drasticamente os valores negativos (de -150 para -800/400).
+  // Isso faz com que as imagens se movam muito mais rápido que o scroll da página.
+  const translateFirst = useTransform(scrollY, [0, 1], [0, -800])
+  const translateSecond = useTransform(scrollY, [0, 1], [0, -400]) 
+  const translateThird = useTransform(scrollY, [0, 1], [0, -800])
 
   const third = Math.ceil(images.length / 3)
   const firstPart = images.slice(0, third)
@@ -41,32 +39,30 @@ export const ParallaxScrollSecond = ({
       ref={gridRef}
     >
       <div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start max-w-5xl mx-auto gap-10 py-20 px-10"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start max-w-7xl mx-auto gap-8 py-10 px-4"
       >
         {/* Coluna 1 */}
-        <div className="grid gap-10">
+        <div className="grid gap-8">
           {firstPart.map((el, idx) => (
             <motion.div
-              style={{ y: translateFirst }} // Apenas Y
+              style={{ y: translateFirst }}
               key={"grid-1" + idx}
-              // OTIMIZAÇÃO 3: will-change-transform força o uso da GPU
               className="will-change-transform"
             >
               <Image
                 src={el}
-                className="h-80 w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0 border-2 border-[#f78608]"
+                className="h-64 w-full object-cover object-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-[#f78608]/20 opacity-90 hover:opacity-100"
                 height="400"
                 width="400"
-                alt="thumbnail"
-                // Ajuda o navegador a carregar o tamanho certo
+                alt="Food result"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </motion.div>
           ))}
         </div>
         
-        {/* Coluna 2 (Meio) */}
-        <div className="grid gap-10">
+        {/* Coluna 2 */}
+        <div className="grid gap-8">
           {secondPart.map((el, idx) => (
             <motion.div 
                 key={"grid-2" + idx} 
@@ -75,10 +71,10 @@ export const ParallaxScrollSecond = ({
             >
               <Image
                 src={el}
-                className="h-80 w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0 border-2 border-[#f78608]"
+                className="h-64 w-full object-cover object-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-[#f78608]/20 opacity-90 hover:opacity-100"
                 height="400"
                 width="400"
-                alt="thumbnail"
+                alt="Food result"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </motion.div>
@@ -86,7 +82,7 @@ export const ParallaxScrollSecond = ({
         </div>
 
         {/* Coluna 3 */}
-        <div className="grid gap-10">
+        <div className="grid gap-8">
           {thirdPart.map((el, idx) => (
             <motion.div
               style={{ y: translateThird }}
@@ -95,10 +91,10 @@ export const ParallaxScrollSecond = ({
             >
               <Image
                 src={el}
-                className="h-80 w-full object-cover object-left-top rounded-lg gap-10 !m-0 !p-0 border-2 border-[#f78608]"
+                className="h-64 w-full object-cover object-center rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-[#f78608]/20 opacity-90 hover:opacity-100"
                 height="400"
                 width="400"
-                alt="thumbnail"
+                alt="Food result"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </motion.div>

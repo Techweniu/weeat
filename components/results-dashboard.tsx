@@ -2,297 +2,289 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, TrendingUp, DollarSign, Users, ShoppingBag, ArrowUpRight } from "lucide-react"
+import { 
+  ChevronLeft, ChevronRight, TrendingUp, DollarSign, Users, 
+  ShoppingBag, BadgeCheck, Zap, Percent, Repeat, Clock, Star 
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// --- DADOS FICTÍCIOS DOS CASES ---
-// Projetados para cobrir diferentes dores (Delivery, Ticket Médio, Lucro, Reservas)
+// --- DADOS DOS 6 CASES ---
 const cases = [
   {
     id: 1,
-    title: "Case Hamburgueria Artesanal",
-    category: "Delivery & Salão",
+    niche: "Hamburgueria Artesanal",
+    tags: ["Delivery", "Salão", "Tráfego"],
+    highlight: "+R$ 28k",
+    highlightLabel: "Faturamento Mensal Extra",
     metrics: [
-      { label: "ROAS (Retorno)", value: "18x", icon: TrendingUp },
-      { label: "Custo por Pedido", value: "R$ 2,10", icon: DollarSign },
+      { label: "ROAS (Ads)", value: "18.5x", icon: Zap },
+      { label: "Ticket Médio", value: "R$ 59,30", icon: DollarSign },
       { label: "Novos Clientes", value: "+450", icon: Users },
+      { label: "Taxa Conv.", value: "4.8%", icon: Percent },
+      { label: "Recompra", value: "32%", icon: Repeat },
+      { label: "Custo/Pedido", value: "R$ 2,10", icon: ShoppingBag },
     ],
-    // Dados fictícios para o gráfico (0 a 100)
-    chartData: [20, 35, 30, 45, 60, 55, 75], 
-    description: "Otimização de cardápio e tráfego focado em combos de alta margem.",
+    quote: "A otimização dos combos aumentou nossa margem em 30% já no primeiro mês."
   },
   {
     id: 2,
-    title: "Case Culinária Japonesa",
-    category: "Full Delivery",
+    niche: "Culinária Japonesa",
+    tags: ["Full Delivery", "LTV", "CRM"],
+    highlight: "1.200",
+    highlightLabel: "Pedidos no Mês (Recorde)",
     metrics: [
-      { label: "Ticket Médio", value: "+32%", icon: DollarSign },
       { label: "Faturamento", value: "R$ 180k", icon: TrendingUp },
-      { label: "Pedidos/Mês", value: "1.2k", icon: ShoppingBag },
+      { label: "Recompra", value: "42%", icon: Repeat },
+      { label: "Custo/Pedido", value: "R$ 1,80", icon: DollarSign },
+      { label: "LTV (6 meses)", value: "R$ 850", icon: Clock },
+      { label: "Avaliação", value: "4.9", icon: Star },
+      { label: "ROAS", value: "22x", icon: Zap },
     ],
-    chartData: [30, 40, 35, 50, 45, 70, 90],
-    description: "Estratégia de LTV (Lifetime Value) para aumentar a recompra mensal.",
+    quote: "Conseguimos prever nosso faturamento semanal com precisão cirúrgica."
   },
   {
     id: 3,
-    title: "Case Pizzaria Tradicional",
-    category: "Híbrido",
+    niche: "Steakhouse Premium",
+    tags: ["Reservas", "Ticket Alto", "Branding"],
+    highlight: "R$ 210",
+    highlightLabel: "Ticket Médio Consolidado",
     metrics: [
-      { label: "Lucro Líquido", value: "+22%", icon: DollarSign },
-      { label: "CAC (Custo/Cliente)", value: "-40%", icon: Users },
-      { label: "Conversão", value: "4.8%", icon: TrendingUp },
+      { label: "Reservas", value: "+150%", icon: ShoppingBag },
+      { label: "Faturamento", value: "R$ 350k", icon: TrendingUp },
+      { label: "ROI Total", value: "12x", icon: Zap },
+      { label: "CAC", value: "R$ 15,00", icon: Users },
+      { label: "Margem Liq.", value: "18%", icon: Percent },
+      { label: "No-Show", value: "-80%", icon: TrendingUp },
     ],
-    chartData: [15, 25, 40, 30, 50, 65, 80],
-    description: "Redução drástica do CAC através de criativos de alta conversão.",
+    quote: "Nosso salão nunca esteve tão cheio nas terças e quartas-feiras."
   },
   {
     id: 4,
-    title: "Case Steakhouse Premium",
-    category: "Salão & Reservas",
+    niche: "Pizzaria Delivery",
+    tags: ["Volume", "Ifood", "Cuponagem"],
+    highlight: "-40%",
+    highlightLabel: "Redução no CAC",
     metrics: [
-      { label: "Reservas Online", value: "+150%", icon: Users },
-      { label: "Ticket Médio", value: "R$ 210", icon: DollarSign },
-      { label: "Faturamento", value: "R$ 350k", icon: TrendingUp },
+      { label: "Pedidos/Mês", value: "2.5k", icon: ShoppingBag },
+      { label: "Faturamento", value: "R$ 145k", icon: DollarSign },
+      { label: "Novos Clientes", value: "+600", icon: Users },
+      { label: "Conversão", value: "6.2%", icon: Percent },
+      { label: "Ticket Médio", value: "R$ 72,00", icon: TrendingUp },
+      { label: "ROAS", value: "15x", icon: Zap },
     ],
-    chartData: [40, 35, 55, 60, 75, 80, 95],
-    description: "Implementação de sistema de reservas e tráfego para público de alta renda.",
+    quote: "Dominamos o delivery da região com campanhas agressivas e lucrativas."
+  },
+  {
+    id: 5,
+    niche: "Poke & Saudável",
+    tags: ["Tendência", "Almoço", "Recorrência"],
+    highlight: "+55%",
+    highlightLabel: "Crescimento Ano a Ano",
+    metrics: [
+      { label: "Faturamento", value: "R$ 95k", icon: TrendingUp },
+      { label: "Freqüência", value: "3.5x/mês", icon: Repeat },
+      { label: "Ticket Médio", value: "R$ 48,90", icon: DollarSign },
+      { label: "Avaliação", value: "5.0", icon: Star },
+      { label: "Custo/Lead", value: "R$ 1,50", icon: Users },
+      { label: "Margem", value: "22%", icon: Percent },
+    ],
+    quote: "Transformamos o movimento do almoço em nossa principal fonte de receita."
+  },
+  {
+    id: 6,
+    niche: "Cafeteria & Doceria",
+    tags: ["Salão", "Takeaway", "Venda Cruzada"],
+    highlight: "R$ 38",
+    highlightLabel: "Ticket Médio (Antes R$ 22)",
+    metrics: [
+      { label: "Venda Cruzada", value: "+45%", icon: Repeat },
+      { label: "Faturamento", value: "R$ 68k", icon: DollarSign },
+      { label: "Clientes/Dia", value: "180", icon: Users },
+      { label: "ROAS", value: "10x", icon: Zap },
+      { label: "Takeaway", value: "+30%", icon: ShoppingBag },
+      { label: "Lucro", value: "+25%", icon: TrendingUp },
+    ],
+    quote: "A estratégia de upsell no balcão mudou o jogo do nosso faturamento."
   },
 ]
 
-// --- SUB-COMPONENTE: Gráfico SVG Simples e Leve ---
-const SimpleChart = ({ data }: { data: number[] }) => {
-  const max = Math.max(...data)
-  // Gera os pontos do SVG baseados nos dados
-  const points = data
-    .map((val, i) => {
-      const x = (i / (data.length - 1)) * 100
-      const y = 100 - (val / max) * 100
-      return `${x},${y}`
-    })
-    .join(" ")
-
-  return (
-    <div className="w-full h-32 mt-4 relative group">
-      <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="white" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="white" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        
-        {/* Área preenchida (Area Chart) */}
-        <path
-          d={`M0,100 ${points.split(" ").map((p) => `L${p}`).join(" ")} L100,100 Z`}
-          fill="url(#chartGradient)"
-          className="transition-all duration-500 ease-out"
-        />
-        
-        {/* Linha do gráfico (Line Chart) */}
-        <path
-          d={`M0,${100 - (data[0] / max) * 100} L ${points}`}
-          fill="none"
-          stroke="white"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="drop-shadow-md"
-        />
-        
-        {/* Pontos Interativos */}
-        {data.map((val, i) => (
-          <circle
-            key={i}
-            cx={(i / (data.length - 1)) * 100}
-            cy={100 - (val / max) * 100}
-            r="4"
-            fill="white"
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          />
-        ))}
-      </svg>
-    </div>
-  )
-}
-
 export function ResultsDashboard() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(0) // Controla a direção da animação
 
-  const nextSlide = () => {
-    setDirection(1)
+  const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % cases.length)
   }
 
-  const prevSlide = () => {
-    setDirection(-1)
+  const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + cases.length) % cases.length)
   }
 
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 100 : -100,
-      opacity: 0,
-      scale: 0.9,
-      rotateY: direction > 0 ? 15 : -15
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-      scale: 1,
-      rotateY: 0
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 100 : -100,
-      opacity: 0,
-      scale: 0.9,
-      rotateY: direction < 0 ? 15 : -15
-    })
+  // Índices para o efeito "Baralho" (Deck)
+  const getIndex = (shift: number) => {
+    return (currentIndex + shift + cases.length) % cases.length
   }
 
   return (
     <section className="py-24 bg-[#FFFBF5] relative overflow-hidden">
+      
+      {/* Background Decorativo */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#f78608]/5 via-transparent to-transparent pointer-events-none" />
+      
       <div className="container mx-auto px-4 relative z-10">
         
-        {/* Cabeçalho da Seção */}
         <div className="text-center mb-16">
            <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-5xl text-[#1A1A1A] mb-4">
-            Resultados que falam por si
+            Resultados Comprovados
           </h2>
           <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/60 max-w-2xl mx-auto text-lg">
-            Acompanhe o impacto real da metodologia weeat em diferentes operações de Food Service.
+            Veja os números reais de quem já escalou com a weeat.
           </p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto min-h-[600px] flex items-center justify-center">
+        {/* CONTAINER DO CARROSEL 3D */}
+        <div className="relative max-w-7xl mx-auto min-h-[550px] flex items-center justify-center perspective-[1000px]">
           
-          {/* Botão Anterior */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={prevSlide}
-            className="absolute left-0 lg:-left-12 z-20 hidden md:flex bg-white/80 hover:bg-white rounded-full shadow-lg backdrop-blur-sm h-12 w-12 text-[#f78608] hover:text-[#da7607] transition-all hover:scale-110"
+          {/* Botões de Navegação (Flutuantes e Centralizados Verticalmente) */}
+          <button 
+            onClick={handlePrev}
+            className="absolute left-2 md:left-8 z-40 bg-white/80 backdrop-blur-md p-3 rounded-full text-[#f78608] shadow-lg hover:bg-white hover:scale-110 transition-all border border-white/20"
           >
-            <ChevronLeft className="h-8 w-8" />
-          </Button>
+            <ChevronLeft size={32} />
+          </button>
+          
+          <button 
+            onClick={handleNext}
+            className="absolute right-2 md:right-8 z-40 bg-white/80 backdrop-blur-md p-3 rounded-full text-[#f78608] shadow-lg hover:bg-white hover:scale-110 transition-all border border-white/20"
+          >
+            <ChevronRight size={32} />
+          </button>
 
-          {/* Área do Card (3D Perspective) */}
-          <div className="w-full relative flex justify-center perspective-[1200px]">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 },
-                  rotateY: { duration: 0.4 }
-                }}
-                className="w-full max-w-md md:max-w-lg"
-              >
-                {/* --- O CARD LARANJA --- */}
-                <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#f78608] to-[#ff9933] shadow-[0_30px_60px_-12px_rgba(247,134,8,0.5)] text-white p-8 md:p-10 border border-white/20 select-none">
-                  
-                  {/* Elementos de Fundo (Glass Effect) */}
-                  <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none mix-blend-overlay" />
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none mix-blend-soft-light" />
-                  
-                  {/* Topo do Card */}
-                  <div className="relative z-10 mb-8 flex justify-between items-start">
-                    <div>
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold tracking-wider uppercase border border-white/10 shadow-sm mb-3">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"/>
-                            {cases[currentIndex].category}
-                        </span>
-                        <h3 className="font-[family-name:var(--font-gate)] text-3xl leading-tight mt-1">
-                        {cases[currentIndex].title}
-                        </h3>
-                    </div>
-                    <span className="font-[family-name:var(--font-gate)] text-6xl opacity-10 leading-none -mt-2">
-                        0{cases[currentIndex].id}
-                    </span>
-                  </div>
 
-                  {/* Área do Gráfico */}
-                  <div className="relative z-10 bg-gradient-to-b from-white/15 to-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 mb-8 shadow-inner">
-                    <div className="flex justify-between items-center mb-2">
-                        <p className="text-sm font-medium opacity-90 flex items-center gap-2">
-                            <ArrowUpRight size={16} /> Performance Mensal
-                        </p>
-                    </div>
-                    <SimpleChart data={cases[currentIndex].chartData} />
-                  </div>
-
-                  {/* Métricas (Grid) */}
-                  <div className="relative z-10 grid grid-cols-3 gap-4 mb-8">
-                    {cases[currentIndex].metrics.map((metric, idx) => (
-                      <div key={idx} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-center flex flex-col items-center justify-center hover:bg-white/20 transition-colors">
-                        <metric.icon size={20} className="mb-2 opacity-80" />
-                        <span className="font-[family-name:var(--font-gate)] text-xl md:text-2xl font-bold leading-none mb-1 shadow-black drop-shadow-sm">
-                          {metric.value}
-                        </span>
-                        <span className="text-[10px] md:text-xs uppercase tracking-wide opacity-80 leading-tight font-medium">
-                          {metric.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Descrição */}
-                  <div className="relative z-10 border-t border-white/20 pt-6">
-                    <p className="font-[family-name:var(--font-poppins)] text-sm md:text-base opacity-95 leading-relaxed text-center font-medium">
-                      "{cases[currentIndex].description}"
-                    </p>
-                  </div>
-
+          {/* --- CARDS (Esquerda, Centro, Direita) --- */}
+          <div className="relative w-full flex justify-center items-center h-[550px]">
+             
+             {/* CARD ANTERIOR (Lateral Esquerda, Fundo) */}
+             <motion.div
+                key={`prev-${getIndex(-1)}`}
+                className="absolute w-[85%] md:w-[60%] lg:w-[50%] h-[480px] bg-gradient-to-br from-[#f78608]/40 to-[#ff9933]/40 rounded-[2rem] border border-white/10 blur-[2px] opacity-40 pointer-events-none"
+                initial={{ x: "-50%", scale: 0.8, opacity: 0 }}
+                animate={{ x: "-55%", scale: 0.85, opacity: 0.4, zIndex: 10 }}
+                transition={{ duration: 0.5 }}
+             >
+                {/* Visual simplificado apenas para "ambientação" */}
+                <div className="p-8 h-full flex flex-col justify-center items-center">
+                    <h3 className="text-4xl font-[family-name:var(--font-gate)] text-white/50">
+                        Case {cases[getIndex(-1)].id}
+                    </h3>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+             </motion.div>
+
+
+             {/* CARD SEGUINTE (Lateral Direita, Fundo) */}
+             <motion.div
+                key={`next-${getIndex(1)}`}
+                className="absolute w-[85%] md:w-[60%] lg:w-[50%] h-[480px] bg-gradient-to-br from-[#f78608]/40 to-[#ff9933]/40 rounded-[2rem] border border-white/10 blur-[2px] opacity-40 pointer-events-none"
+                initial={{ x: "50%", scale: 0.8, opacity: 0 }}
+                animate={{ x: "55%", scale: 0.85, opacity: 0.4, zIndex: 10 }}
+                transition={{ duration: 0.5 }}
+             >
+                <div className="p-8 h-full flex flex-col justify-center items-center">
+                    <h3 className="text-4xl font-[family-name:var(--font-gate)] text-white/50">
+                         Case {cases[getIndex(1)].id}
+                    </h3>
+                </div>
+             </motion.div>
+
+
+             {/* CARD CENTRAL (Foco Principal) */}
+             <AnimatePresence mode="popLayout">
+               <motion.div
+                  key={currentIndex}
+                  className="absolute z-30 w-full max-w-4xl px-4 md:px-0"
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                  transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 25 }}
+               >
+                  {/* O CARD PRINCIPAL */}
+                  <div className="bg-gradient-to-br from-[#f78608] to-[#ff9933] rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(247,134,8,0.5)] border border-white/20 overflow-hidden text-white relative min-h-[500px] flex flex-col md:flex-row">
+                     
+                     {/* Textura de ruído */}
+                     <div className="absolute inset-0 opacity-[0.06] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay pointer-events-none" />
+                     
+                     {/* COLUNA ESQUERDA: Info e Botão */}
+                     <div className="w-full md:w-[40%] p-8 md:p-10 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10 bg-white/5 backdrop-blur-sm relative z-10">
+                        <div>
+                            {/* Tags do topo */}
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                {cases[currentIndex].tags.map((tag, i) => (
+                                    <span key={i} className="text-[10px] uppercase tracking-wider font-bold text-white/90 bg-white/20 border border-white/20 px-2.5 py-1 rounded-full shadow-sm">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            
+                            {/* TÍTULO HIERÁRQUICO (Case X em destaque) */}
+                            <h3 className="font-[family-name:var(--font-gate)] text-5xl md:text-6xl text-white mb-2 leading-none drop-shadow-md">
+                                Case {cases[currentIndex].id}
+                            </h3>
+                            <p className="font-[family-name:var(--font-poppins)] text-lg md:text-xl text-white/90 font-medium mb-6">
+                                {cases[currentIndex].niche}
+                            </p>
+
+                            <div className="w-12 h-1 bg-white/30 rounded-full mb-6" />
+
+                            <div className="relative pl-4 border-l-2 border-white/40 italic text-white/90 text-sm md:text-base leading-relaxed mb-6">
+                                "{cases[currentIndex].quote}"
+                            </div>
+                        </div>
+
+                        <div>
+                            <Button 
+                                className="w-full rounded-full bg-white text-[#f78608] hover:bg-white/90 font-bold shadow-lg transition-transform hover:scale-[1.02] h-12 text-base"
+                                onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })}
+                            >
+                                Quero este resultado
+                            </Button>
+                        </div>
+                     </div>
+
+                     {/* COLUNA DIREITA: Métricas Grid e Destaque */}
+                     <div className="w-full md:w-[60%] p-8 md:p-10 relative flex flex-col justify-center z-10">
+                         
+                         {/* Highlight (Destaque Principal) */}
+                         <div className="mb-8 text-center md:text-left">
+                             <div className="flex items-center justify-center md:justify-start gap-2 mb-2 opacity-90">
+                                <BadgeCheck className="w-5 h-5" />
+                                <span className="text-xs font-bold uppercase tracking-widest">Resultado Principal</span>
+                             </div>
+                             <h4 className="text-5xl md:text-7xl font-bold font-[family-name:var(--font-gate)] tracking-tight drop-shadow-sm mb-1">
+                                {cases[currentIndex].highlight}
+                             </h4>
+                             <p className="text-white/80 text-sm font-medium">{cases[currentIndex].highlightLabel}</p>
+                         </div>
+
+                         {/* GRID DE 6 MÉTRICAS */}
+                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                             {cases[currentIndex].metrics.map((m, i) => (
+                                 <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10 flex flex-col justify-center items-center text-center hover:bg-white/20 transition-all hover:-translate-y-1">
+                                     <m.icon className="w-5 h-5 mb-2 opacity-80" />
+                                     <span className="text-lg md:text-xl font-bold leading-none mb-1">{m.value}</span>
+                                     <span className="text-[10px] text-white/70 font-medium uppercase tracking-wide">{m.label}</span>
+                                 </div>
+                             ))}
+                         </div>
+
+                     </div>
+
+                  </div>
+               </motion.div>
+             </AnimatePresence>
           </div>
-
-          {/* Botão Próximo */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={nextSlide}
-            className="absolute right-0 lg:-right-12 z-20 hidden md:flex bg-white/80 hover:bg-white rounded-full shadow-lg backdrop-blur-sm h-12 w-12 text-[#f78608] hover:text-[#da7607] transition-all hover:scale-110"
-          >
-            <ChevronRight className="h-8 w-8" />
-          </Button>
-
+          
+          {/* SEM MENU GUIA (DOTS) AQUI */}
+        
         </div>
-
-        {/* Paginação Mobile / Indicadores */}
-        <div className="flex justify-center items-center gap-3 mt-12">
-            <Button variant="ghost" size="icon" onClick={prevSlide} className="md:hidden text-[#f78608]">
-                <ChevronLeft />
-            </Button>
-            
-            <div className="flex gap-2">
-                {cases.map((_, idx) => (
-                    <button
-                        key={idx}
-                        onClick={() => {
-                            setDirection(idx > currentIndex ? 1 : -1)
-                            setCurrentIndex(idx)
-                        }}
-                        className={`h-2.5 rounded-full transition-all duration-500 ease-out ${
-                            idx === currentIndex ? "w-10 bg-[#f78608]" : "w-2.5 bg-gray-300 hover:bg-[#f78608]/50"
-                        }`}
-                    />
-                ))}
-            </div>
-
-            <Button variant="ghost" size="icon" onClick={nextSlide} className="md:hidden text-[#f78608]">
-                <ChevronRight />
-            </Button>
-        </div>
-
       </div>
     </section>
   )

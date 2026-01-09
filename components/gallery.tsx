@@ -17,15 +17,8 @@ const images = [
 
 export function Gallery() {
   return (
-    <section className="bg-[#FFFBF5] border-b border-[#E5E0D8]">
-      <div className="container mx-auto pt-10 px-4">
-        <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-4xl text-[#1A1A1A] text-center mb-2">
-          Galeria de Resultados
-        </h2>
-        <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-center mb-8">
-          Veja o que estamos construindo com nossos parceiros
-        </p>
-      </div>
+    // Adicionei overflow-hidden para garantir que as imagens rápidas não vazem para outras seções
+    <section className="bg-[#FFFBF5] border-b border-[#E5E0D8] overflow-hidden">
       <ParallaxScrollSecond images={images} />
     </section>
   )
