@@ -48,22 +48,17 @@ export function SocialProof() {
             exit={{ opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.5 } }}
             transition={{ duration: 0.8 }}
           >
-            {/* 🔥 O FOGO GIGANTE E FLUÍDO 🔥
-               O TRUQUE: Usamos uma fonte base GIGANTE (text-[15rem] mobile, text-[30rem] desktop).
-               A animação varia a escala de 0 a 1.5. É muito mais leve para a GPU animar
-               um objeto grande já renderizado do que escalar um vetor pequeno 20x.
-            */}
+            {/* 🔥 O FOGO GIGANTE E FLUÍDO 🔥 */}
             <motion.div
               initial={{ scale: 0, opacity: 0, rotate: -10 }}
               animate={{ 
-                scale: [0, 0.8, 1.5], // Cresce até 80%, segura um pouco, e explode para 150%
-                opacity: [0, 1, 0],   // Aparece, fica visível, some na explosão
-                rotate: [-10, 0, 10]  // Uma leve rotação para dar dinamismo
+                scale: [0, 0.8, 1.5], 
+                opacity: [0, 1, 0],   
+                rotate: [-10, 0, 10]  
               }}
               transition={{ 
                 duration: 2.5,
-                times: [0, 0.4, 1], // Define o ritmo da animação
-                // Usamos uma curva de Bezier personalizada para uma sensação de "carregar e explodir" bem fluida
+                times: [0, 0.4, 1], 
                 ease: [0.22, 1, 0.36, 1] 
               }}
               // Classe com tamanho de fonte MASSIVO
@@ -79,9 +74,7 @@ export function SocialProof() {
               initial={{ opacity: 0, y: 100, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 1.1, transition: { duration: 0.3 } }}
-              // Transição tipo mola (spring) para o texto entrar de forma elástica
               transition={{ delay: 0.2, type: "spring", stiffness: 100, damping: 15 }}
-              // Cor BRANCA, com sombra para leitura
               className="font-[family-name:var(--font-gate)] text-4xl md:text-6xl text-white text-center relative z-10 mt-40 md:mt-60 drop-shadow-2xl px-4"
             >
               Veja seu negócio explodir
@@ -97,7 +90,6 @@ export function SocialProof() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          // Delay sincronizado para aparecer logo após a explosão sumir
           transition={{ duration: 0.8, delay: showExplosion ? 2.6 : 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
@@ -111,7 +103,6 @@ export function SocialProof() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            // Delay sincronizado e uma mola suave para o card aparecer
             transition={{ type: "spring", stiffness: 100, delay: showExplosion ? 2.8 : 0.2 }}
             viewport={{ once: true }}
             className="bg-gradient-to-br from-[#f78608] to-[#da7607] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden"
@@ -134,7 +125,7 @@ export function SocialProof() {
                     onChange={(e) => setInvestimento(Number(e.target.value))}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                   />
-                  <div className="font-[family-name:var(--font-gate)] text-5xl md:text-7xl border-b-4 border-white/30 group-hover:border-white transition-colors pb-2 px-4">
+                  <div className="font-[family-name:var(--font-gate)] text-5xl md:text-7xl border-b-4 border-white/30 group-hover:border-white transition-colors pb-2 px-4 break-words text-wrap max-w-full">
                     {formatMoney(investimento)}
                   </div>
                   <p className="text-sm mt-2 opacity-70 font-[family-name:var(--font-poppins)]">
@@ -157,11 +148,12 @@ export function SocialProof() {
                 o retorno estimado em pedidos é:
               </p>
 
+              {/* ALTERAÇÃO AQUI: Ajuste responsivo de fonte */}
               <motion.div
                 key={retorno}
                 initial={{ scale: 0.9, opacity: 0.8 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="font-[family-name:var(--font-gate)] text-6xl md:text-8xl mb-6 text-[#FFFBF5] drop-shadow-md"
+                className="font-[family-name:var(--font-gate)] text-4xl sm:text-5xl md:text-8xl mb-6 text-[#FFFBF5] drop-shadow-md break-words text-wrap leading-tight"
               >
                 {formatMoney(retorno)}
               </motion.div>
