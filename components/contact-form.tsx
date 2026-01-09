@@ -108,261 +108,236 @@ export function ContactForm() {
 
   return (
     <section className="py-24 px-4 bg-[#FFFBF5] relative overflow-hidden">
+      {/* Background Elements mantidos para compor o visual */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#f78608]/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#22C55E]/5 rounded-full blur-3xl" />
 
-      <div className="container mx-auto max-w-5xl relative z-10">
-        <div className="grid lg:grid-cols-[1fr_1.5fr] gap-12 items-start">
-          <div className="space-y-6 lg:sticky lg:top-24">
-            <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-5xl text-[#1A1A1A] leading-tight">
-              Pronto para escalar <br />
-              seus resultados?
-            </h2>
-            <p className="font-[family-name:var(--font-poppins)] text-lg text-[#1A1A1A]/80 leading-relaxed">
-              Preencha os dados ao lado e receba uma análise personalizada do potencial de crescimento do seu delivery.
-            </p>
-
-            <div className="hidden lg:block p-6 bg-white rounded-2xl border-2 border-[#f78608]/10 shadow-sm mt-8">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="bg-green-100 p-3 rounded-full text-green-600">
-                  <DollarSign size={24} />
+      {/* Alterado: max-w-2xl para centralizar e não ficar muito largo */}
+      <div className="container mx-auto max-w-2xl relative z-10">
+        
+        <Card className="bg-white/80 backdrop-blur-md border-2 border-[#f78608]/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl overflow-hidden">
+          <CardHeader className="bg-[#f78608]/5 px-8 py-8 border-b border-[#f78608]/10 text-center">
+            <CardTitle className="flex items-center justify-center gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#1A1A1A]">
+              <Send className="size-6 text-[#f78608]" />
+              Fale com um especialista
+            </CardTitle>
+            <CardDescription className="font-[family-name:var(--font-poppins)] text-base mt-2">
+              Entenderemos sua operação para oferecer a melhor proposta.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-8">
+            {submitStatus.type === "success" ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="bg-green-100 p-4 rounded-full mb-6">
+                  <CheckCircle2 className="size-12 text-green-600" />
                 </div>
-                <div>
-                  <p className="font-[family-name:var(--font-gate)] text-lg text-[#1A1A1A]">Faturamento</p>
-                  <p className="text-sm text-gray-500 font-[family-name:var(--font-poppins)]">
-                    Média dos nossos parceiros
-                  </p>
-                </div>
+                <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] mb-2">Dados enviados!</h3>
+                <p className="font-[family-name:var(--font-poppins)] text-gray-600 mb-6">{submitStatus.message}</p>
+                <Button
+                  variant="outline"
+                  onClick={() => setSubmitStatus({ type: null, message: "" })}
+                  className="rounded-full font-[family-name:var(--font-poppins)]"
+                >
+                  Enviar outro contato
+                </Button>
               </div>
-              <p className="text-3xl font-bold text-[#1A1A1A] font-[family-name:var(--font-poppins)]">+35%</p>
-              <p className="text-sm text-green-600 font-medium mt-1">nos primeiros 3 meses</p>
-            </div>
-          </div>
+            ) : (
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {submitStatus.type === "error" && (
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-[family-name:var(--font-poppins)]">
+                      {submitStatus.message}
+                    </div>
+                  )}
 
-          <Card className="bg-white/80 backdrop-blur-md border-2 border-[#f78608]/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl overflow-hidden">
-            <CardHeader className="bg-[#f78608]/5 px-8 py-8 border-b border-[#f78608]/10">
-              <CardTitle className="flex items-center gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#1A1A1A]">
-                <Send className="size-6 text-[#f78608]" />
-                Fale com um especialista
-              </CardTitle>
-              <CardDescription className="font-[family-name:var(--font-poppins)] text-base">
-                Entenderemos sua operação para oferecer a melhor proposta.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-8">
-              {submitStatus.type === "success" ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="bg-green-100 p-4 rounded-full mb-6">
-                    <CheckCircle2 className="size-12 text-green-600" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
+                            Seu nome
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative group">
+                              <User className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
+                              <Input
+                                placeholder="Nome completo"
+                                className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
+                            Melhor e-mail
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative group">
+                              <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
+                              <Input
+                                placeholder="exemplo@email.com"
+                                className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] mb-2">Dados enviados!</h3>
-                  <p className="font-[family-name:var(--font-poppins)] text-gray-600 mb-6">{submitStatus.message}</p>
-                  <Button
-                    variant="outline"
-                    onClick={() => setSubmitStatus({ type: null, message: "" })}
-                    className="rounded-full font-[family-name:var(--font-poppins)]"
-                  >
-                    Enviar outro contato
-                  </Button>
-                </div>
-              ) : (
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    {submitStatus.type === "error" && (
-                      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-[family-name:var(--font-poppins)]">
-                        {submitStatus.message}
-                      </div>
-                    )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
-                              Seu nome
-                            </FormLabel>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field: { onChange, ...field } }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
+                            Telefone / WhatsApp
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative group">
+                              <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
+                              <Input
+                                placeholder="(00) 00000-0000"
+                                className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
+                                maxLength={15}
+                                onChange={(e) => handlePhoneChange(e, onChange)}
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="companyName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
+                            Nome da Empresa
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative group">
+                              <Building2 className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
+                              <Input
+                                placeholder="Nome do Restaurante"
+                                className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="segment"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
+                            Segmento
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <div className="relative group">
-                                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                                <Input
-                                  placeholder="Nome completo"
-                                  className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
-                                  {...field}
-                                />
-                              </div>
+                              <SelectTrigger className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl relative">
+                                <Store className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
+                                <SelectValue placeholder="Selecione" />
+                              </SelectTrigger>
                             </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                            <SelectContent>
+                              {segments.map((item) => (
+                                <SelectItem
+                                  key={item}
+                                  value={item}
+                                  className="font-[family-name:var(--font-poppins)]"
+                                >
+                                  {item}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
-                              Melhor e-mail
-                            </FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="revenue"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
+                            Faturamento Mensal
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <div className="relative group">
-                                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                                <Input
-                                  placeholder="exemplo@email.com"
-                                  className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
-                                  {...field}
-                                />
-                              </div>
+                              <SelectTrigger className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl relative">
+                                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
+                                <SelectValue placeholder="Selecione" />
+                              </SelectTrigger>
                             </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                            <SelectContent>
+                              {revenueRanges.map((range) => (
+                                <SelectItem
+                                  key={range}
+                                  value={range}
+                                  className="font-[family-name:var(--font-poppins)]"
+                                >
+                                  {range}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field: { onChange, ...field } }) => (
-                          <FormItem>
-                            <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
-                              Telefone / WhatsApp
-                            </FormLabel>
-                            <FormControl>
-                              <div className="relative group">
-                                <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                                <Input
-                                  placeholder="(00) 00000-0000"
-                                  className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
-                                  maxLength={15}
-                                  onChange={(e) => handlePhoneChange(e, onChange)}
-                                  {...field}
-                                />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="companyName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
-                              Nome da Empresa
-                            </FormLabel>
-                            <FormControl>
-                              <div className="relative group">
-                                <Building2 className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                                <Input
-                                  placeholder="Nome do Restaurante"
-                                  className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl"
-                                  {...field}
-                                />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="segment"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
-                              Segmento
-                            </FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl relative">
-                                  <Store className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
-                                  <SelectValue placeholder="Selecione" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {segments.map((item) => (
-                                  <SelectItem
-                                    key={item}
-                                    value={item}
-                                    className="font-[family-name:var(--font-poppins)]"
-                                  >
-                                    {item}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="revenue"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">
-                              Faturamento Mensal
-                            </FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl relative">
-                                  <DollarSign className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
-                                  <SelectValue placeholder="Selecione" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {revenueRanges.map((range) => (
-                                  <SelectItem
-                                    key={range}
-                                    value={range}
-                                    className="font-[family-name:var(--font-poppins)]"
-                                  >
-                                    {range}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <div className="pt-4">
-                      <Button
-                        type="submit"
-                        className="w-full text-lg h-14 bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)] font-medium shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                            Enviando...
-                          </>
-                        ) : (
-                          "Receber Proposta"
-                        )}
-                      </Button>
-                      <p className="text-xs text-center text-gray-400 mt-4 font-[family-name:var(--font-poppins)]">
-                        Seus dados estão protegidos. Não enviamos spam.
-                      </p>
-                    </div>
-                  </form>
-                </Form>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                  <div className="pt-4">
+                    <Button
+                      type="submit"
+                      className="w-full text-lg h-14 bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)] font-medium shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          Enviando...
+                        </>
+                      ) : (
+                        "Receber Proposta"
+                      )}
+                    </Button>
+                    <p className="text-xs text-center text-gray-400 mt-4 font-[family-name:var(--font-poppins)]">
+                      Seus dados estão protegidos. Não enviamos spam.
+                    </p>
+                  </div>
+                </form>
+              </Form>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </section>
   )
