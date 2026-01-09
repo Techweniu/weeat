@@ -6,17 +6,17 @@ const sql = neon(process.env.DATABASE_URL!)
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, phone, companyName, segment, revenue } = body
+    // Adicionado: plan na desestruturação
+    const { name, email, phone, companyName, segment, revenue, plan } = body
 
-    // Validação básica
     if (!name || !email || !phone || !companyName || !segment || !revenue) {
-      return NextResponse.json({ error: "Todos os campos são obrigatórios." }, { status: 400 })
+      return NextResponse.json({ error: "Todos os campos obrigatórios devem ser preenchidos." }, { status: 400 })
     }
 
-    // Inserir lead no banco de dados
+    // Inserir lead no banco de dados com o plano
     const result = await sql`
-      INSERT INTO leads (name, email, phone, company_name, segment, revenue)
-      VALUES (${name}, ${email}, ${phone}, ${companyName}, ${segment}, ${revenue})
+      INSERT INTO leads (name, email, phone, company_name, segment, revenue, plan)
+      VALUES (${name}, ${email}, ${phone}, ${companyName}, ${segment}, ${revenue}, ${plan || null})
       RETURNING id, created_at
     `
 

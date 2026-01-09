@@ -5,8 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { Check, Crown, Star, ArrowRight } from "lucide-react"
 
-export function Pricing() {
-  const scrollToContact = () => {
+// Interface para receber a função do pai
+interface PricingProps {
+  onSelectPlan: (plan: string) => void
+}
+
+export function Pricing({ onSelectPlan }: PricingProps) {
+  
+  const handleSelectPlan = (plan: string) => {
+    // 1. Define o plano no estado global
+    onSelectPlan(plan)
+    // 2. Rola até o formulário
     document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })
   }
 
@@ -81,7 +90,7 @@ export function Pricing() {
                 <Button
                   variant="outline"
                   className="w-full rounded-full border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white font-[family-name:var(--font-poppins)] font-medium transition-all bg-transparent group"
-                  onClick={scrollToContact}
+                  onClick={() => handleSelectPlan("Gold")}
                 >
                   Solicitar Proposta Gold
                   <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -153,7 +162,7 @@ export function Pricing() {
 
                   <Button 
                     className="w-full rounded-full bg-[#f78608] hover:bg-[#da7607] text-white font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg group"
-                    onClick={scrollToContact}
+                    onClick={() => handleSelectPlan("Diamond")}
                   >
                     Falar com Consultor
                     <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -162,12 +171,6 @@ export function Pricing() {
               </Card>
             </div>
           </motion.div>
-        </div>
-        
-        <div className="mt-12 text-center">
-             <p className="font-[family-name:var(--font-poppins)] text-sm text-[#1A1A1A]/50">
-                * Os valores de investimento variam conforme a complexidade e abrangência geográfica da operação.
-             </p>
         </div>
       </div>
     </section>

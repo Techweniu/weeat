@@ -4,7 +4,7 @@ import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Loader2, Send, Building2, User, Mail, Phone, Store, DollarSign, CheckCircle2 } from "lucide-react"
+import { Loader2, Send, Building2, User, Mail, Phone, Store, DollarSign, CheckCircle2, Crown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
+// Schema atualizado com o campo PLAN
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
   email: z.string().email({ message: "Insira um e-mail válido." }),
@@ -19,6 +20,7 @@ const formSchema = z.object({
   companyName: z.string().min(2, { message: "Nome da empresa é obrigatório." }),
   segment: z.string({ required_error: "Selecione um segmento." }),
   revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
+  plan: z.string().optional(), // Novo campo (opcional, pois o usuário pode não ter escolhido)
 })
 
 const segments = [
@@ -45,7 +47,14 @@ const revenueRanges = [
   "Mais de R$ 1.000.000",
 ]
 
-export function ContactForm() {
+// Planos disponíveis
+const plans = ["Gold", "Diamond", "Ainda não sei"]
+
+interface ContactFormProps {
+  preSelectedPlan?: string
+}
+
+export function ContactForm({ preSelectedPlan }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [submitStatus, setSubmitStatus] = React.useState<{
     type: "success" | "error" | null
@@ -61,8 +70,16 @@ export function ContactForm() {
       companyName: "",
       segment: "",
       revenue: "",
+      plan: "",
     },
   })
+
+  // Efeito para atualizar o formulário quando o usuário clica num plano lá em cima
+  React.useEffect(() => {
+    if (preSelectedPlan) {
+      form.setValue("plan", preSelectedPlan)
+    }
+  }, [preSelectedPlan, form])
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     let value = e.target.value.replace(/\D/g, "")
@@ -107,13 +124,10 @@ export function ContactForm() {
   }
 
   return (
-    // ADICIONADO: id="contato" para ancoragem do scroll
     <section id="contato" className="py-24 px-4 bg-[#FFFBF5] relative overflow-hidden">
-      {/* Background Elements mantidos para compor o visual */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#f78608]/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#22C55E]/5 rounded-full blur-3xl" />
 
-      {/* Alterado: max-w-2xl para centralizar e não ficar muito largo */}
       <div className="container mx-auto max-w-2xl relative z-10">
         
         <Card className="bg-white/80 backdrop-blur-md border-2 border-[#f78608]/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl overflow-hidden">
@@ -123,7 +137,7 @@ export function ContactForm() {
               Fale com um especialista
             </CardTitle>
             <CardDescription className="font-[family-name:var(--font-poppins)] text-base mt-2">
-              Entenderemos sua operação para oferecer a melhor proposta.
+              Preencha os dados abaixo para receber nossa proposta personalizada.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-8">
@@ -150,6 +164,39 @@ export function ContactForm() {
                       {submitStatus.message}
                     </div>
                   )}
+
+                  {/* Campo de PLANO (Novo) - Colocado no topo ou onde preferir */}
+                  <FormField
+                      control={form.control}
+                      name="plan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#f78608]">
+                            Interesse no Plano
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="pl-10 h-12 bg-orange-50/50 border-orange-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl relative">
+                                <Crown className="absolute left-3 top-3 h-4 w-4 text-[#f78608] z-10" />
+                                <SelectValue placeholder="Selecione o plano desejado" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {plans.map((item) => (
+                                <SelectItem
+                                  key={item}
+                                  value={item}
+                                  className="font-[family-name:var(--font-poppins)]"
+                                >
+                                  {item}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
