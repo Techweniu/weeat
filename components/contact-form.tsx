@@ -36,7 +36,8 @@ const revenueRanges = [
   "R$ 600.000 - R$ 1.000.000", "Mais de R$ 1.000.000",
 ]
 
-const plans = ["Gold", "Diamond", "Ainda não sei"]
+// ATUALIZADO AQUI: Inclusão do Silver
+const plans = ["Silver", "Gold", "Diamond", "Ainda não sei"]
 
 interface ContactFormProps {
   preSelectedPlan?: string

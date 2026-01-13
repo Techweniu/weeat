@@ -52,25 +52,12 @@ const poppins = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "weeat - Inteligência e Crescimento Real para o seu Food Service",
+  title: "weeat", // Alterado de "weeat - Inteligência..." para "weeat"
   description:
     "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
   generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
+    icon: "/favicon.webp", // Alterado para usar o favicon.webp
     apple: "/apple-icon.png",
   },
 }
