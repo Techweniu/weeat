@@ -23,10 +23,7 @@ export function LogoCarousel() {
         <div className="flex items-center justify-center gap-3 font-[family-name:var(--font-poppins)] text-sm text-[#8C8C8C] uppercase tracking-[0.2em]">
           <span>Parceiros que confiam na</span>
           
-          {/* Logo WeEat no título
-              - h-10 w-32: Tamanho ajustado para destaque
-              - object-cover + scale-105: Garante que preencha tudo sem bordas brancas
-          */}
+          {/* Logo WeEat no título */}
           <div className="relative h-10 w-32 rounded-lg overflow-hidden">
             <Image 
               src="/logoweeat.webp" 
@@ -53,8 +50,9 @@ export function LogoCarousel() {
           whileHover={{ animationPlayState: "paused" }}
         >
           {duplicatedLogos.map((logo, index) => {
-            // Lógica específica para aumentar o logo da Casa Tali
+            // Verifica as logos específicas
             const isCasaTali = logo.src.includes("casatali")
+            const isCasarao = logo.src.includes("casarao")
 
             return (
               <div
@@ -67,9 +65,13 @@ export function LogoCarousel() {
                     alt={logo.alt}
                     width={180}
                     height={80}
-                    className={`object-contain w-full h-full ${
-                      isCasaTali ? "scale-150 origin-center" : ""
-                    }`}
+                    // APLICAÇÃO DA ESCALA:
+                    // Casarão recebe scale-[1.8] (quase o dobro do tamanho)
+                    // Casa Tali recebe scale-150 (50% maior)
+                    className={`object-contain w-full h-full 
+                      ${isCasaTali ? "scale-150 origin-center" : ""}
+                      ${isCasarao ? "scale-[1.8] origin-center" : ""}
+                    `}
                   />
                 </div>
               </div>

@@ -32,23 +32,6 @@ const cases = [
   },
   {
     id: 2,
-    name: "Casarão",
-    logo: "/casarao.webp",
-    niche: "Gastronomia Tradicional",
-    tags: ["Ticket Médio", "Margem"],
-    highlight: "R$ 5.180",
-    highlightLabel: "Faturamento em Anúncios",
-    metrics: [
-      { label: "ROAS", value: "23,11x", icon: Zap },
-      { label: "Pedidos", value: "57", icon: ShoppingBag },
-      { label: "Ticket Médio", value: "R$ 90,87", icon: DollarSign },
-      { label: "Conversão", value: "47%", icon: Percent },
-    ],
-    quote: "Atingimos uma taxa de conversão de quase 50% com público qualificado.",
-    logoScale: "scale-125" // Aumento forçado para Casarão
-  },
-  {
-    id: 3,
     name: "Kiwi Foods",
     logo: "/kiwi-purple.webp",
     niche: "Saudável & Fresh",
@@ -65,7 +48,7 @@ const cases = [
     logoScale: "scale-125" // Aumento forçado para Kiwi
   },
   {
-    id: 4,
+    id: 3,
     name: "Casa Tali",
     logo: "/logocasatali.webp",
     niche: "Alta Gastronomia",
@@ -80,6 +63,23 @@ const cases = [
     ],
     quote: "Ticket médio de R$ 123 com quase 20x de retorno.",
     logoScale: "scale-125" // Aumento forçado para Casa Tali
+  },
+  {
+    id: 4,
+    name: "Casarão",
+    logo: "/casarao.webp",
+    niche: "Gastronomia Tradicional",
+    tags: ["Ticket Médio", "Margem"],
+    highlight: "R$ 5.180",
+    highlightLabel: "Faturamento em Anúncios",
+    metrics: [
+      { label: "ROAS", value: "23,11x", icon: Zap },
+      { label: "Pedidos", value: "57", icon: ShoppingBag },
+      { label: "Ticket Médio", value: "R$ 90,87", icon: DollarSign },
+      { label: "Conversão", value: "47%", icon: Percent },
+    ],
+    quote: "Atingimos uma taxa de conversão de quase 50% com público qualificado.",
+    logoScale: "scale-125" // Aumento forçado para Casarão
   },
 ]
 
