@@ -124,7 +124,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="pt-28 pb-12 md:pt-32 md:pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative">
+    <section className="pt-28 pb-12 md:pt-32 md:pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
       
       {/* Background Sutil */}
       <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl animate-pulse duration-[10s]" />
@@ -182,45 +182,59 @@ export function HeroSection() {
 
           </motion.div>
 
-          {/* DIREITA: VISUAL (APENAS DESKTOP) */}
-          <div className="hidden lg:block relative h-full min-h-[500px]">
-             {/* Imagem + CardRotators mantidos do código anterior, visíveis apenas em LG+ */}
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                viewport={{ once: true }}
-                className="relative w-full h-full flex items-center justify-end"
-              >
-                <motion.div
-                    animate={{ y: [0, -15, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    className="relative w-[160%] -ml-[60%]"
-                    style={{
-                        maskImage: 'linear-gradient(to right, transparent 5%, black 60%)',
-                        WebkitMaskImage: 'linear-gradient(to right, transparent 5%, black 60%)'
-                    }}
-                >
-                    <Image
-                        src="/heroweeat.webp"
-                        alt="Chef weeat Ilustração"
-                        width={1000}
-                        height={1000}
-                        priority
-                        className="object-contain"
-                    />
-                </motion.div>
+          {/* COLUNA DIREITA VAZIA NO GRID (O visual agora é absoluto fora do container) */}
+          <div className="hidden lg:block"></div>
 
-                {/* Slots de Cards Rotativos */}
-                <CardRotator items={groupTopRight} positionClass="top-0 right-0 -mr-4" intervalTime={6000} />
-                <CardRotator items={groupMiddleLeft} positionClass="top-1/2 -translate-y-1/2 -left-12" intervalTime={5500} />
-                <CardRotator items={groupBottomRight} positionClass="bottom-12 right-0" intervalTime={7000} />
-                <CardRotator items={groupBottomLeft} positionClass="bottom-24 -left-4" intervalTime={6500} />
-                <CardRotator items={groupTopLeft} positionClass="top-8 left-0" intervalTime={8000} />
-              </motion.div>
-          </div>
         </div>
       </div>
+
+      {/* DIREITA: VISUAL (ABSOLUTO - FULL FUSION) */}
+      <div className="hidden lg:block absolute top-0 right-0 w-[55%] h-full z-0 overflow-hidden pointer-events-none">
+          
+          {/* FOTO COM MÁSCARA DE DEGRADÊ */}
+          <div 
+            className="absolute inset-0 w-full h-full"
+            style={{
+                // Ajuste para fusão suave na esquerda (40%) até opacidade total na direita
+                maskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)'
+            }}
+          >
+              <Image
+                  src="/hero-weat.webp"
+                  alt="Chef weeat em ação"
+                  fill
+                  className="object-cover object-left-top" // Foca no topo/esquerda (onde está o chef e o fogo)
+                  priority
+              />
+          </div>
+
+          {/* CARDS FLUTUANTES (Reposicionados nas Bordas) */}
+          <div className="absolute inset-0 z-10">
+             
+             {/* 1. Topo Direito (Canto Superior Extremo) */}
+             <CardRotator 
+                items={groupTopRight} 
+                positionClass="top-28 right-8" 
+                intervalTime={6000} 
+             />
+
+             {/* 2. Meio Esquerdo (Na zona de transição do degradê) */}
+             <CardRotator 
+                items={groupMiddleLeft} 
+                positionClass="top-1/2 -translate-y-1/2 left-20" 
+                intervalTime={5500} 
+             />
+
+             {/* 3. Base Direita (Canto Inferior Extremo) */}
+             <CardRotator 
+                items={groupBottomRight} 
+                positionClass="bottom-24 right-8" 
+                intervalTime={7000} 
+             />
+          </div>
+      </div>
+
     </section>
   )
 }

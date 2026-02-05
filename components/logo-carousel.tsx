@@ -10,6 +10,7 @@ const logos = [
   { src: "/logodinatin.webp", alt: "Logo Dinatin" },
   { src: "/logofratteli.webp", alt: "Logo Fratteli" },
   { src: "/logonabrasa.webp", alt: "Logo Na Brasa" },
+  { src: "/casarao.webp", alt: "Logo Casarão" },
 ]
 
 // Duplicamos a lista 4x para garantir que o loop seja contínuo em telas grandes
