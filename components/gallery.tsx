@@ -1,66 +1,137 @@
 "use client"
 
-import { ParallaxScrollSecond } from "@/components/ui/parallax-scroll"
+import { useState } from "react"
 import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import { X, ZoomIn } from "lucide-react"
 
-// Caminhos das imagens na pasta public
+// Nomes exatos conforme seu diretório
 const images = [
-  "/foto1.webp",
-  "/foto2.webp",
-  "/foto3.webp",
-  "/foto4.webp",
-  "/foto5.webp",
-  "/foto6.webp",
-  "/foto7.webp",
-  "/foto8.webp",
-  "/foto9.webp",
+  "/caio1.webp",
+  "/caio2.webp",
+  "/caio3.webp",
+  "/sushi1.webp",
+  "/sushi2.webp",
+  "/sushi3.webp",
+  "/sushi4.webp",
+  "/tali1.webp",
+  "/tali2.webp",
 ]
 
 export function Gallery() {
-  return (
-    <section className="bg-[#FFFBF5] border-b border-[#E5E0D8] overflow-hidden">
-      
-      {/* DESKTOP VIEW (Parallax Original) */}
-      <div className="hidden md:block">
-         <ParallaxScrollSecond images={images} />
-      </div>
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
-      {/* MOBILE VIEW (Carousel 'Baralho') */}
-      <div className="md:hidden py-12">
-        <div className="text-center mb-6 px-4">
-             <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] mb-2">
-                Bastidores weeat
+  return (
+    <section className="bg-[#FFFBF5] py-16 md:py-24 border-b border-[#E5E0D8] overflow-hidden">
+      
+      <div className="container mx-auto px-4">
+        {/* Título da Seção */}
+        <div className="text-center mb-12">
+             <h3 className="font-[family-name:var(--font-gate)] text-3xl md:text-4xl text-[#1A1A1A] mb-3">
+                Bastidores da Operação
              </h3>
-             <p className="text-sm text-gray-500 font-[family-name:var(--font-poppins)]">
-                Deslize para ver mais
+             <p className="text-gray-500 font-[family-name:var(--font-poppins)] max-w-xl mx-auto">
+                Clique nas fotos para expandir e ver os detalhes.
              </p>
         </div>
 
-        {/* Lógica do Carousel: 
-            - snap-x snap-mandatory: Obriga o scroll a parar no centro da imagem.
-            - px-[15%]: Adiciona preenchimento lateral para que a imagem ativa fique no centro,
-              mas deixa espaço para as imagens laterais "espreitarem".
-            - w-[70vw]: A imagem ocupa 70% da largura da tela.
-        */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory px-[15%] gap-4 pb-8 scrollbar-hide">
-            {images.slice(0, 5).map((img, idx) => ( // Mostrando apenas 5 fotos no mobile para não pesar
-                <div 
-                    key={idx} 
-                    className="snap-center shrink-0 w-[70vw] relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg border-2 border-white"
+        {/* ========================================================
+            DESKTOP VIEW (Grid Interativo)
+           ======================================================== */}
+        <div className="hidden md:grid grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+           {images.map((img, idx) => (
+             <div 
+               key={idx}
+               onClick={() => setSelectedImage(img)}
+               className="relative aspect-square rounded-[2rem] overflow-hidden shadow-xl border-[8px] border-white bg-[#f8f4ef] group hover:scale-[1.02] transition-all duration-300 cursor-zoom-in"
+             >
+                <Image 
+                  src={img} 
+                  alt={`Bastidores weeat ${idx + 1}`} 
+                  fill 
+                  className="object-contain p-4 group-hover:p-3 transition-all duration-300"
+                  sizes="(max-width: 1200px) 33vw, 25vw"
+                />
+                
+                {/* Ícone de Zoom que aparece no Hover */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center">
+                    <ZoomIn className="text-[#f78608] opacity-0 group-hover:opacity-100 transition-opacity w-10 h-10 drop-shadow-md" />
+                </div>
+             </div>
+           ))}
+        </div>
+
+        {/* ========================================================
+            MOBILE VIEW (Carousel Interativo)
+           ======================================================== */}
+        <div className="md:hidden">
+            <p className="text-center text-sm text-gray-400 mb-6 font-[family-name:var(--font-poppins)]">
+            (Toque para ampliar)
+            </p>
+            
+            <div className="flex overflow-x-auto snap-x snap-mandatory pl-6 pr-12 gap-4 pb-8 scrollbar-hide">
+                {images.map((img, idx) => ( 
+                    <div 
+                        key={idx} 
+                        onClick={() => setSelectedImage(img)}
+                        className="snap-center shrink-0 w-[85vw] h-[55vh] relative rounded-[2.5rem] overflow-hidden shadow-xl border-[6px] border-white bg-[#f8f4ef] active:scale-95 transition-transform"
+                    >
+                        <Image 
+                            src={img} 
+                            alt={`Bastidores weeat ${idx + 1}`} 
+                            fill 
+                            className="object-contain p-4"
+                            sizes="85vw"
+                        />
+                         <div className="absolute bottom-4 right-4 bg-white/80 p-2 rounded-full shadow-sm">
+                            <ZoomIn className="text-[#f78608] w-5 h-5" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+      </div>
+
+      {/* ========================================================
+          LIGHTBOX (Modal de Zoom)
+         ======================================================== */}
+      <AnimatePresence>
+        {selectedImage && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
+                onClick={() => setSelectedImage(null)} // Fecha ao clicar no fundo
+            >
+                {/* Botão Fechar */}
+                <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-50">
+                    <X size={40} />
+                </button>
+
+                {/* Container da Imagem Expandida */}
+                <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    className="relative w-full h-full max-w-7xl max-h-[90vh]"
+                    onClick={(e) => e.stopPropagation()} // Impede que o clique na imagem feche o modal
                 >
                     <Image 
-                        src={img} 
-                        alt={`Bastidores weeat ${idx + 1}`} 
-                        fill 
-                        className="object-cover"
-                        sizes="(max-width: 768px) 70vw, 33vw"
+                        src={selectedImage}
+                        alt="Zoom Imagem"
+                        fill
+                        className="object-contain"
+                        priority
+                        quality={100}
                     />
-                </div>
-            ))}
-            {/* Espaçador final para garantir centralização do último item */}
-            <div className="snap-center shrink-0 w-[5vw]" />
-        </div>
-      </div>
+                </motion.div>
+            </motion.div>
+        )}
+      </AnimatePresence>
       
     </section>
   )
