@@ -5,18 +5,18 @@ import { motion, AnimatePresence, useInView } from "framer-motion"
 
 export function SocialProof() {
   const [investimento, setInvestimento] = useState(1000)
-  const retorno = investimento * 25
+  
+  // AJUSTE: Multiplicador alterado de 25 para 16
+  const retorno = investimento * 16
 
   // --- LÓGICA DA ANIMAÇÃO DE EXPLOSÃO ---
   const [showExplosion, setShowExplosion] = useState(false)
   const sectionRef = useRef(null)
-  // Detecta quando a seção entra na tela. Ajustei a margem para disparar um pouco antes.
   const isInView = useInView(sectionRef, { margin: "-200px", once: true })
 
   useEffect(() => {
     if (isInView) {
       setShowExplosion(true)
-      // Duração total da experiência (overlay + explosão)
       const timer = setTimeout(() => {
         setShowExplosion(false)
       }, 2800)
@@ -35,20 +35,18 @@ export function SocialProof() {
   }
 
   return (
-    <section ref={sectionRef} id="cases" className="py-20 px-4 bg-[#FFFBF5] relative overflow-hidden">
+    <section ref={sectionRef} id="calculadora" className="py-20 px-4 bg-[#FFFBF5] relative overflow-hidden">
       
-      {/* --- OVERLAY DE EXPLOSÃO (Fica por cima de tudo) --- */}
+      {/* --- OVERLAY DE EXPLOSÃO (Mantido) --- */}
       <AnimatePresence>
         {showExplosion && (
           <motion.div
-            // Usei 'fixed' para garantir que cubra a tela toda, independente do scroll
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/70 pointer-events-none"
             initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(15px)" }} // Mais blur para focar na explosão
+            animate={{ opacity: 1, backdropFilter: "blur(15px)" }}
             exit={{ opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.5 } }}
             transition={{ duration: 0.8 }}
           >
-            {/* 🔥 O FOGO GIGANTE E FLUÍDO 🔥 */}
             <motion.div
               initial={{ scale: 0, opacity: 0, rotate: -10 }}
               animate={{ 
@@ -61,15 +59,12 @@ export function SocialProof() {
                 times: [0, 0.4, 1], 
                 ease: [0.22, 1, 0.36, 1] 
               }}
-              // Classe com tamanho de fonte MASSIVO
               className="text-[15rem] md:text-[30rem] absolute leading-none select-none will-change-transform"
-              // Sombra laranja intensa para o brilho do fogo
               style={{ filter: "drop-shadow(0 0 50px rgba(247, 134, 8, 1))" }}
             >
               🔥
             </motion.div>
 
-            {/* Texto "Veja seu negócio explodir" */}
             <motion.h2
               initial={{ opacity: 0, y: 100, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -82,10 +77,8 @@ export function SocialProof() {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* -------------------------------------------------- */}
 
-
-      {/* CONTEÚDO NORMAL DA SEÇÃO (CALCULADORA) */}
+      {/* CONTEÚDO DA CALCULADORA */}
       <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -107,7 +100,7 @@ export function SocialProof() {
             viewport={{ once: true }}
             className="bg-gradient-to-br from-[#f78608] to-[#da7607] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden"
           >
-            {/* Brilho interno do card */}
+            {/* Brilho interno */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white rounded-full blur-3xl" />
             </div>
@@ -148,7 +141,6 @@ export function SocialProof() {
                 o retorno estimado em pedidos é:
               </p>
 
-              {/* ALTERAÇÃO AQUI: Ajuste responsivo de fonte */}
               <motion.div
                 key={retorno}
                 initial={{ scale: 0.9, opacity: 0.8 }}
@@ -159,7 +151,7 @@ export function SocialProof() {
               </motion.div>
 
               <p className="font-[family-name:var(--font-poppins)] text-lg md:text-xl leading-relaxed opacity-80 max-w-2xl mx-auto">
-                Baseado no ROAS médio de 25x dos nossos parceiros ativos.
+                Baseado no ROAS médio de 16x dos nossos parceiros ativos.
               </p>
             </div>
           </motion.div>
