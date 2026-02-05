@@ -25,7 +25,7 @@ export default function Home() {
       <LogoCarousel />
       <ResultsDashboard />
       <Gallery />
-      <MarketStats />
+      
       <ProblemSolution />
       <Ecosystem />
       <SocialProof />
