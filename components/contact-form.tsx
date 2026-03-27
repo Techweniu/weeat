@@ -4,7 +4,7 @@ import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Loader2, Send, Building2, User, Mail, Phone, Store, DollarSign, CheckCircle2, Crown } from "lucide-react"
+import { Loader2, Send, Building2, User, Mail, Phone, CheckCircle2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-// Schema (Mantido)
+// Schema Atualizado (Sem o campo plan)
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
   email: z.string().email({ message: "Insira um e-mail válido." }),
@@ -20,7 +20,6 @@ const formSchema = z.object({
   companyName: z.string().min(2, { message: "Nome da empresa é obrigatório." }),
   segment: z.string({ required_error: "Selecione um segmento." }),
   revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
-  plan: z.string().optional(),
 })
 
 const segments = [
@@ -36,14 +35,7 @@ const revenueRanges = [
   "R$ 600.000 - R$ 1.000.000", "Mais de R$ 1.000.000",
 ]
 
-// ATUALIZADO AQUI: Inclusão do Silver
-const plans = ["Silver", "Gold", "Diamond", "Ainda não sei"]
-
-interface ContactFormProps {
-  preSelectedPlan?: string
-}
-
-export function ContactForm({ preSelectedPlan }: ContactFormProps) {
+export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [submitStatus, setSubmitStatus] = React.useState<{
     type: "success" | "error" | null
@@ -53,15 +45,9 @@ export function ContactForm({ preSelectedPlan }: ContactFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "", email: "", phone: "", companyName: "", segment: "", revenue: "", plan: "",
+      name: "", email: "", phone: "", companyName: "", segment: "", revenue: "",
     },
   })
-
-  React.useEffect(() => {
-    if (preSelectedPlan) {
-      form.setValue("plan", preSelectedPlan)
-    }
-  }, [preSelectedPlan, form])
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     let value = e.target.value.replace(/\D/g, "")
@@ -129,33 +115,6 @@ export function ContactForm({ preSelectedPlan }: ContactFormProps) {
             ) : (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 md:space-y-6">
-                  
-                  {/* Plano de Interesse */}
-                  <FormField
-                      control={form.control}
-                      name="plan"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#f78608]">Interesse no Plano</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className={`pl-10 h-12 bg-orange-50/50 border-orange-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl relative text-base md:text-sm`}>
-                                <Crown className="absolute left-3 top-3 h-4 w-4 text-[#f78608] z-10" />
-                                <SelectValue placeholder="Selecione o plano desejado" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {plans.map((item) => (
-                                <SelectItem key={item} value={item} className="font-[family-name:var(--font-poppins)]">
-                                  {item}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                     <FormField

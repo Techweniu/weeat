@@ -23,6 +23,8 @@ export default function Home() {
       <Header />
       <HeroSection />
       <LogoCarousel />
+            {/* Passamos o plano selecionado para o Formulário preencher */}
+      <ContactForm />
       <ResultsDashboard />
       <Gallery />
       
@@ -33,8 +35,7 @@ export default function Home() {
       {/* Passamos a função de setar o plano para o Pricing */}
       <Pricing onSelectPlan={setSelectedPlan} />
       
-      {/* Passamos o plano selecionado para o Formulário preencher */}
-      <ContactForm preSelectedPlan={selectedPlan} />
+
       
       <FinalCTA />
     </div>

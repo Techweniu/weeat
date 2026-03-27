@@ -41,7 +41,7 @@ const SilverPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
         {[
             "Tráfego Pago (Apenas Meta Ads)",
             "Estratégia de Growth",
-            "Edição de Criativos"
+            "Edição e Roteirização dos Criativos"
         ].map((item, i) => (
             <div key={i} className="flex items-start gap-3">
                 <Check className="text-[#A1A1AA] mt-1 shrink-0" size={20} />
@@ -90,11 +90,12 @@ const GoldPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
          <div className="flex items-start gap-3">
             <Check className="text-[#D4AF37] mt-1 shrink-0" size={20} />
             <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm md:text-base">
-              <strong>Tudo do Plano Silver +</strong>
+              <strong>Tudo do Plano Silver</strong>
             </p>
          </div>
         {[
-            "Audiovisual Completo (Roteiro, Gravação, Edição)",
+            "Gestão do iFood ads",
+            "1 mês de Forki grátis",
             "Otimização de Cardápio"
         ].map((item, i) => (
             <div key={i} className="flex items-start gap-3">
@@ -154,12 +155,13 @@ const DiamondPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
           <div className="flex items-start gap-3">
             <Check className="text-[#f78608] mt-1 shrink-0" size={20} />
             <p className="font-[family-name:var(--font-poppins)] text-white text-sm md:text-base">
-              <strong>Tudo do Gold +</strong>
+              <strong>Tudo do Plano Gold</strong>
             </p>
           </div>
           {[
               "Tráfego Completo (Meta Ads, Google Ads e iFood)",
-              "Elaboração e Gestão de Promoções Inteligentes"
+              "Elaboração e Gestão de Promoções Inteligentes",
+              "Audiovisual completo"
           ].map((item, i) => (
              <div key={i} className="flex items-start gap-3">
                 <Check className="text-[#f78608] mt-1 shrink-0" size={20} />

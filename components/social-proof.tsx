@@ -1,30 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence, useInView } from "framer-motion"
+import { useState } from "react"
+import { motion } from "framer-motion"
 
 export function SocialProof() {
   const [investimento, setInvestimento] = useState(1000)
   
   // AJUSTE: Multiplicador alterado de 25 para 16
   const retorno = investimento * 16
-
-  // --- LÓGICA DA ANIMAÇÃO DE EXPLOSÃO ---
-  const [showExplosion, setShowExplosion] = useState(false)
-  const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { margin: "-200px", once: true })
-
-  useEffect(() => {
-    if (isInView) {
-      setShowExplosion(true)
-      const timer = setTimeout(() => {
-        setShowExplosion(false)
-      }, 2800)
-      
-      return () => clearTimeout(timer)
-    }
-  }, [isInView])
-  // -------------------------------------------
 
   const formatMoney = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -35,55 +18,14 @@ export function SocialProof() {
   }
 
   return (
-    <section ref={sectionRef} id="calculadora" className="py-20 px-4 bg-[#FFFBF5] relative overflow-hidden">
+    <section id="calculadora" className="py-20 px-4 bg-[#FFFBF5] relative overflow-hidden">
       
-      {/* --- OVERLAY DE EXPLOSÃO (Mantido) --- */}
-      <AnimatePresence>
-        {showExplosion && (
-          <motion.div
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/70 pointer-events-none"
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(15px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.5 } }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div
-              initial={{ scale: 0, opacity: 0, rotate: -10 }}
-              animate={{ 
-                scale: [0, 0.8, 1.5], 
-                opacity: [0, 1, 0],   
-                rotate: [-10, 0, 10]  
-              }}
-              transition={{ 
-                duration: 2.5,
-                times: [0, 0.4, 1], 
-                ease: [0.22, 1, 0.36, 1] 
-              }}
-              className="text-[15rem] md:text-[30rem] absolute leading-none select-none will-change-transform"
-              style={{ filter: "drop-shadow(0 0 50px rgba(247, 134, 8, 1))" }}
-            >
-              🔥
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 100, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1, transition: { duration: 0.3 } }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 100, damping: 15 }}
-              className="font-[family-name:var(--font-gate)] text-4xl md:text-6xl text-white text-center relative z-10 mt-40 md:mt-60 drop-shadow-2xl px-4"
-            >
-              Veja seu negócio explodir
-            </motion.h2>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* CONTEÚDO DA CALCULADORA */}
       <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: showExplosion ? 2.6 : 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
@@ -96,7 +38,7 @@ export function SocialProof() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 100, delay: showExplosion ? 2.8 : 0.2 }}
+            transition={{ type: "spring", stiffness: 100, delay: 0.2 }}
             viewport={{ once: true }}
             className="bg-gradient-to-br from-[#f78608] to-[#da7607] rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden"
           >
@@ -129,7 +71,7 @@ export function SocialProof() {
                 <input
                   type="range"
                   min="100"
-                  max="50000"
+                  max="15000"
                   step="100"
                   value={investimento}
                   onChange={(e) => setInvestimento(Number(e.target.value))}

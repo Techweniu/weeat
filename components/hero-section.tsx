@@ -162,7 +162,7 @@ export function HeroSection() {
               <div className="hidden sm:flex flex-wrap justify-center lg:justify-start gap-4 md:gap-6">
                 <div className="flex items-center gap-2">
                   <Rocket className="text-[#f78608]" size={20} />
-                  <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">ROAS Médio 25x</span>
+                  <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">ROAS Médio 16x</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="text-[#22C55E]" size={20} />
