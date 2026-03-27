@@ -26,7 +26,7 @@ export function LogoCarousel() {
           {/* Logo WeEat no título */}
           <div className="relative h-10 w-32 rounded-lg overflow-hidden">
             <Image 
-              src="/logoweeat.webp" 
+              src="/logo.webp" 
               alt="WeEat" 
               fill 
               className="object-cover scale-105" 

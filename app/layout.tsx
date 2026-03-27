@@ -56,9 +56,19 @@ export const metadata: Metadata = {
   description:
     "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
   generator: "v0.app",
-  icons: {
-    icon: "/favicon.webp", // Alterado para usar o favicon.webp
-    apple: "/apple-icon.png",
+icons: {
+    icon: [
+      {
+        url: "/icon.webp",
+        href: "/icon.webp",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-icon.png",
+        href: "/apple-icon.png",
+      },
+    ],
   },
 }
 
