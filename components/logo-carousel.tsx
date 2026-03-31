@@ -11,7 +11,7 @@ const logos = [
   { src: "/logofratteli.webp", alt: "Logo Fratteli" },
   { src: "/logonabrasa.webp", alt: "Logo Na Brasa" },
   { src: "/casarao.webp", alt: "Logo Casarão" },
-  { src: "/Logo-bona-ventura.webp", alt: "Logo Bona Ventura" },
+  { src: "/bona-ventura.png", alt: "Logo Bona Ventura" },
   { src: "/Logo-sollo-pizzas.webp", alt: "Logo Sollo Pizzas" },
 ]
 
