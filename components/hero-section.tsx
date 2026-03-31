@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Rocket, CheckCircle, TrendingUp } from "lucide-react"
 import Image from "next/image"
 
-// --- DADOS (Mantidos) ---
+// --- DADOS (Todos os grupos restaurados) ---
 type CardData = {
   emoji: string
   title: string
@@ -41,7 +41,6 @@ const groupTopLeft: CardData[] = [
   { emoji: "🍰", title: "Sobremesa", subtitle: "Acabou de sair", bg: "bg-pink-100", color: "text-pink-500" },
 ]
 
-// --- CARDS MOBILE ---
 const mobileHighlights: CardData[] = [
   { emoji: "💸", title: "Faturamento +35%", subtitle: "Crescimento Real", bg: "bg-green-100", color: "text-green-700" },
   { emoji: "⭐", title: "Avaliação 5.0", subtitle: "Fidelização", bg: "bg-yellow-100", color: "text-yellow-600" },
@@ -49,7 +48,7 @@ const mobileHighlights: CardData[] = [
   { emoji: "📈", title: "Ticket Médio R$ 85", subtitle: "Lucro Saudável", bg: "bg-blue-100", color: "text-blue-600" },
 ]
 
-// --- COMPONENTE DESKTOP: CardRotator ---
+// --- COMPONENTES AUXILIARES ---
 const CardRotator = ({ items, positionClass, intervalTime }: { items: CardData[], positionClass: string, intervalTime: number }) => {
   const [index, setIndex] = useState(0)
   useEffect(() => {
@@ -82,7 +81,6 @@ const CardRotator = ({ items, positionClass, intervalTime }: { items: CardData[]
   )
 }
 
-// --- COMPONENTE MOBILE: MobileHeroCarousel ---
 const MobileHeroCarousel = () => {
   const [index, setIndex] = useState(0)
   useEffect(() => {
@@ -96,7 +94,7 @@ const MobileHeroCarousel = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
-          initial={{ opacity: 0, y: 10 }} // Animação vindo de baixo para ser mais sutil
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
@@ -124,29 +122,15 @@ export function HeroSection() {
   }
 
   return (
-    <section className="pt-28 pb-12 md:pt-32 md:pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
+    <section className="pt-24 pb-12 md:pt-32 md:pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
       
-      {/* Background Sutil */}
+      {/* Background Decorativo (Círculos) */}
       <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl animate-pulse duration-[10s]" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#22C55E]/5 rounded-full blur-3xl animate-pulse duration-[10s] delay-1000" />
       
-{/* IMAGEM DO COZINHEIRO PARA MOBILE (BACKGROUND MAIS FORTE) */}
-      <div className="block lg:hidden absolute inset-0 z-0 opacity-45 pointer-events-none">
-          <Image
-              src="/hero-weat.webp"
-              alt="Chef background mobile"
-              fill
-              className="object-cover object-top"
-              priority
-          />
-          {/* Degradê ajustado: mais transparente no topo e sólido na base */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FFFBF5]/10 via-[#FFFBF5]/60 to-[#FFFBF5]" />
-      </div>
-
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
-          {/* ESQUERDA: TEXTO */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -154,6 +138,18 @@ export function HeroSection() {
             viewport={{ once: true }}
             className="z-20 relative text-center lg:text-left flex flex-col items-center lg:items-start"
           >
+            {/* NOVO: IMAGEM EMPILHADA NO TOQUE (MOBILE ONLY) */}
+            <div className="block lg:hidden w-full relative h-[320px] rounded-3xl overflow-hidden mb-8 shadow-2xl border-2 border-[#f78608]/10">
+                <Image
+                    src="/hero-weat.webp"
+                    alt="Chef weeat em ação"
+                    fill
+                    className="object-cover object-top" 
+                    priority
+                />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FFFBF5] to-transparent" />
+            </div>
+
             <h1 className="font-[family-name:var(--font-gate)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#1A1A1A] mb-6 leading-[1.1] text-balance">
               Inteligência e Crescimento Real para o seu Food Service
             </h1>
@@ -171,7 +167,6 @@ export function HeroSection() {
                 Quero Escalar Meu Faturamento
               </Button>
 
-              {/* Badges - Apenas Desktop */}
               <div className="hidden sm:flex flex-wrap justify-center lg:justify-start gap-4 md:gap-6">
                 <div className="flex items-center gap-2">
                   <Rocket className="text-[#f78608]" size={20} />
@@ -188,27 +183,19 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* CARROSSEL MOBILE (Posicionado logo abaixo do botão/texto, sem imagem) */}
             <div className="block lg:hidden w-full">
                 <MobileHeroCarousel />
             </div>
-
           </motion.div>
 
-          {/* COLUNA DIREITA VAZIA NO GRID (O visual agora é absoluto fora do container) */}
           <div className="hidden lg:block"></div>
-
         </div>
       </div>
 
-      {/* DIREITA: VISUAL (ABSOLUTO - FULL FUSION) */}
       <div className="hidden lg:block absolute top-0 right-0 w-[55%] h-full z-0 overflow-hidden pointer-events-none">
-          
-          {/* FOTO COM MÁSCARA DE DEGRADÊ */}
           <div 
             className="absolute inset-0 w-full h-full"
             style={{
-                // Ajuste para fusão suave na esquerda (40%) até opacidade total na direita
                 maskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)',
                 WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)'
             }}
@@ -217,34 +204,15 @@ export function HeroSection() {
                   src="/hero-weat.webp"
                   alt="Chef weeat em ação"
                   fill
-                  className="object-cover object-left-top" // Foca no topo/esquerda (onde está o chef e o fogo)
+                  className="object-cover object-left-top" 
                   priority
               />
           </div>
 
-          {/* CARDS FLUTUANTES (Reposicionados nas Bordas) */}
           <div className="absolute inset-0 z-10">
-             
-             {/* 1. Topo Direito (Canto Superior Extremo) */}
-             <CardRotator 
-                items={groupTopRight} 
-                positionClass="top-28 right-8" 
-                intervalTime={6000} 
-             />
-
-             {/* 2. Meio Esquerdo (Na zona de transição do degradê) */}
-             <CardRotator 
-                items={groupMiddleLeft} 
-                positionClass="top-1/2 -translate-y-1/2 left-20" 
-                intervalTime={5500} 
-             />
-
-             {/* 3. Base Direita (Canto Inferior Extremo) */}
-             <CardRotator 
-                items={groupBottomRight} 
-                positionClass="bottom-24 right-8" 
-                intervalTime={7000} 
-             />
+             <CardRotator items={groupTopRight} positionClass="top-28 right-8" intervalTime={6000} />
+             <CardRotator items={groupMiddleLeft} positionClass="top-1/2 -translate-y-1/2 left-20" intervalTime={5500} />
+             <CardRotator items={groupBottomRight} positionClass="bottom-24 right-8" intervalTime={7000} />
           </div>
       </div>
 
