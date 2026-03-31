@@ -20,15 +20,17 @@ const duplicatedLogos = [...logos, ...logos, ...logos, ...logos]
 export function LogoCarousel() {
   return (
     <section className="py-10 bg-[#FFFBF5] overflow-hidden border-y-2 border-[#f78608]/30">
-      <div className="container mx-auto px-4 mb-8">
+            <div className="container mx-auto px-4 mb-8">
         <div className="flex items-center justify-center gap-3 font-[family-name:var(--font-poppins)] text-sm text-[#8C8C8C] uppercase tracking-[0.2em]">
           <span>Parceiros que confiam na</span>
+          
+          {/* Logo WeEat no título */}
           <div className="relative h-10 w-32 rounded-lg overflow-hidden">
             <Image 
-              src="/logoweeat.webp" // Mantendo o caminho correto do arquivo
+              src="/logo.webp" 
               alt="WeEat" 
               fill 
-              className="object-contain" 
+              className="object-cover scale-105" 
             />
           </div>
         </div>
