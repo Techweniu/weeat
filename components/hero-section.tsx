@@ -130,6 +130,19 @@ export function HeroSection() {
       <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl animate-pulse duration-[10s]" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#22C55E]/5 rounded-full blur-3xl animate-pulse duration-[10s] delay-1000" />
       
+{/* IMAGEM DO COZINHEIRO PARA MOBILE (BACKGROUND MAIS FORTE) */}
+      <div className="block lg:hidden absolute inset-0 z-0 opacity-45 pointer-events-none">
+          <Image
+              src="/hero-weat.webp"
+              alt="Chef background mobile"
+              fill
+              className="object-cover object-top"
+              priority
+          />
+          {/* Degradê ajustado: mais transparente no topo e sólido na base */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FFFBF5]/10 via-[#FFFBF5]/60 to-[#FFFBF5]" />
+      </div>
+
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           

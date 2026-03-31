@@ -131,25 +131,28 @@ export function ResultsDashboard() {
                         transition={{ duration: 0.3 }}
                         className="p-6"
                     >
-                        {/* Header do Card Mobile */}
-                        <div className="flex justify-between items-start mb-6">
-                            <div>
-                                <span className="inline-block px-3 py-1 bg-orange-100 text-[#f78608] text-[10px] font-bold uppercase tracking-wider rounded-full mb-3">
-                                    {currentCase.tags[0]}
-                                </span>
-                                {/* Logo Mobile - Container Flexível */}
-                                <div className="relative w-40 h-16 mb-1 flex items-center justify-start">
-                                    <Image 
-                                        src={currentCase.logo} 
-                                        alt={currentCase.name} 
-                                        fill 
-                                        // scale adicionado aqui também para garantir visibilidade no mobile
-                                        className={`object-contain object-left ${currentCase.logoScale}`}
-                                    />
-                                </div>
-                            </div>
-                            <BadgeCheck className="text-[#f78608] w-6 h-6 shrink-0 mt-2" />
-                        </div>
+{/* Header do Card Mobile - CENTRALIZADO */}
+<div className="flex flex-col items-center mb-6 text-center w-full">
+    
+    {/* Tag e Selo alinhados horizontalmente no centro */}
+    <div className="flex items-center gap-2 mb-3">
+        <span className="inline-block px-3 py-1 bg-orange-100 text-[#f78608] text-[10px] font-bold uppercase tracking-wider rounded-full">
+            {currentCase.tags[0]}
+        </span>
+        <BadgeCheck className="text-[#f78608] w-5 h-5 shrink-0" />
+    </div>
+
+    {/* Logo Mobile - Container Centralizado */}
+    <div className="relative w-48 h-20 mb-1 flex items-center justify-center">
+        <Image 
+            src={currentCase.logo} 
+            alt={currentCase.name} 
+            fill 
+            // Mudança crucial: object-center centraliza a imagem dentro do espaço
+            className={`object-contain object-center ${currentCase.logoScale}`}
+        />
+    </div>
+</div>
 
                         {/* Resultado Principal (Gigante) */}
                         <div className="text-center mb-6 py-4 bg-[#FFFBF5] rounded-2xl border border-orange-100">
