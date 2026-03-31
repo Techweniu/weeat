@@ -35,18 +35,18 @@ export function Header() {
       >
         <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
-            {/* Logo Wrapper */}
-            <div className="flex items-center">
-              <div className="relative w-28 h-9 md:w-32 md:h-10 bg-[#f78608] rounded overflow-hidden flex items-center justify-center p-1 shadow-sm">
-                <Image 
-                  src="/logoweeat.webp" 
-                  alt="weeat Logo" 
-                  fill
-                  className="object-contain" 
-                  priority
-                />
-              </div>
+          {/* Logo Wrapper */}
+          <div className="flex items-center">
+            <div className="relative w-40 h-12 md:w-52 md:h-16">
+              <Image 
+                src="/logo.webp" 
+                alt="weeat Logo" 
+                fill
+                className="object-contain object-left" 
+                priority
+              />
             </div>
+          </div>
 
             {/* Desktop Nav (Mantido) */}
             <nav className="hidden md:flex items-center gap-8">

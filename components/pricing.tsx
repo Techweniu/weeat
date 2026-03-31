@@ -20,7 +20,7 @@ const SilverPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
       <div className="flex items-center gap-2 mb-4">
         <ShieldCheck className="text-[#A1A1AA]" size={28} />
         <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-[#1A1A1A]">
-          Escopo SILVER
+          Plano SILVER
         </CardTitle>
       </div>
       <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-base">
@@ -69,7 +69,7 @@ const GoldPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
       <div className="flex items-center gap-2 mb-4">
         <Crown className="text-[#D4AF37]" size={28} />
         <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-[#1A1A1A]">
-          Escopo GOLD
+          Plano GOLD
         </CardTitle>
       </div>
       <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-base">
@@ -133,7 +133,7 @@ const DiamondPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
         <div className="flex items-center gap-2 mb-4">
           <Star className="text-[#f78608]" size={28} fill="#f78608" />
           <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-white">
-            Escopo DIAMOND
+            Plano DIAMOND
           </CardTitle>
         </div>
         <CardDescription className="font-[family-name:var(--font-poppins)] text-white/70 text-base">
