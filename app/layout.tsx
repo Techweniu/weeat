@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
+import Script from "next/script" // Importado para gerenciar o Pixel
 import "./globals.css"
 
 const gate = localFont({
@@ -52,11 +53,11 @@ const poppins = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "weeat", // Alterado de "weeat - Inteligência..." para "weeat"
+  title: "weeat", 
   description:
     "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
   generator: "v0.app",
-icons: {
+  icons: {
     icon: [
       {
         url: "/icon.webp",
@@ -80,6 +81,35 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${gate.variable} ${poppins.variable}`}>
       <body className={`font-sans antialiased`}>
+        {/* Meta Pixel Code - Inserido no body para carregar após a interatividade */}
+        <Script
+          id="fb-pixel"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '1260964142240541');
+              fbq('track', 'PageView');
+            `,
+          }}
+        />
+        {/* Fallback para quando o JavaScript está desativado */}
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=1260964142240541&ev=PageView&noscript=1"
+          />
+        </noscript>
+
         {children}
         <Analytics />
       </body>
