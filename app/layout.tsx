@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
-import Script from "next/script" // Importado para gerenciar o Pixel
+import Script from "next/script" // Mantemos o import do Script
 import "./globals.css"
 
 const gate = localFont({
@@ -53,7 +53,7 @@ const poppins = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "weeat", 
+  title: "weeat",
   description:
     "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
   generator: "v0.app",
@@ -81,7 +81,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${gate.variable} ${poppins.variable}`}>
       <body className={`font-sans antialiased`}>
-        {/* Meta Pixel Code - Inserido no body para carregar após a interatividade */}
+        {/* Meta Pixel - Apenas Inicialização */}
         <Script
           id="fb-pixel"
           strategy="afterInteractive"
@@ -96,17 +96,17 @@ export default function RootLayout({
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
               fbq('init', '1260964142240541');
-              fbq('track', 'PageView');
+              // fbq('track', 'PageView'); <--- LINHA REMOVIDA PARA NÃO RASTREAR ENTRADA
             `,
           }}
         />
-        {/* Fallback para quando o JavaScript está desativado */}
+        {/* Noscript alterado para NÃO disparar PageView */}
         <noscript>
           <img
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=1260964142240541&ev=PageView&noscript=1"
+            src="https://www.facebook.com/tr?id=1260964142240541&noscript=1" 
           />
         </noscript>
 

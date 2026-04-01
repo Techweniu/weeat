@@ -69,6 +69,16 @@ export function ContactForm() {
       })
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || "Erro ao enviar formulário")
+      
+      // --- INCLUSÃO DO META PIXEL (EVENTO LEAD) ---
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Formulário de Contato LP',
+          status: 'Sucesso'
+        });
+      }
+      // --------------------------------------------
+
       setSubmitStatus({ type: "success", message: "Sucesso! Entraremos em contato em breve." })
       form.reset()
     } catch (error) {
@@ -78,7 +88,6 @@ export function ContactForm() {
     }
   }
 
-  // Classe utilitária para inputs: text-base no mobile (16px) evita zoom, md:text-sm no desktop
   const inputClasses = "pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm"
 
   return (
@@ -198,7 +207,6 @@ export function ContactForm() {
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className={inputClasses}>
-                                
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
                             </FormControl>
@@ -224,7 +232,6 @@ export function ContactForm() {
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className={inputClasses}>
-                                
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
                             </FormControl>
