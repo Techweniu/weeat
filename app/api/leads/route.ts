@@ -1,10 +1,7 @@
-import { neon } from "@neondatabase/serverless"
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
-const sql = neon(process.env.DATABASE_URL!)
-
-// 1. Definimos o Schema de validação (igual ou mais rigoroso que o frontend)
+// 1. Schema de validação
 const leadSchema = z.object({
   name: z.string().min(2, "Nome muito curto"),
   email: z.string().email("Email inválido"),
@@ -19,56 +16,42 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
 
-    // 2. Validamos os dados recebidos ANTES de qualquer coisa
+    // 2. Valida os dados
     const validation = leadSchema.safeParse(body)
 
     if (!validation.success) {
-      // Se falhar, retornamos os erros exatos para quem tentou enviar
       return NextResponse.json(
-        { 
-          error: "Dados inválidos", 
-          details: validation.error.flatten().fieldErrors 
-        }, 
+        { error: "Dados inválidos", details: validation.error.flatten().fieldErrors }, 
         { status: 400 }
       )
     }
 
-    // Se passou, usamos os dados validados (validation.data)
-    const { name, email, phone, companyName, segment, revenue, plan } = validation.data
+    // --- 3. ENVIO DIRETO PARA O N8N ---
+    // Coloque aqui o seu link certinho
+    const WEBHOOK_URL = "https://n8n.srv966092.hstgr.cloud/webhook-test/weeat-leads" 
+    
+    console.log("Enviando para o n8n...")
+    
+    const response = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(validation.data), 
+    })
 
-    // 3. Inserção Segura no Banco (Colunas em Português)
-    const result = await sql`
-      INSERT INTO leads (
-        nome, 
-        email, 
-        telefone, 
-        nome_empresa, 
-        segmento, 
-        faturamento, 
-        plano
-      )
-      VALUES (
-        ${name}, 
-        ${email}, 
-        ${phone}, 
-        ${companyName}, 
-        ${segment}, 
-        ${revenue}, 
-        ${plan || null}
-      )
-      RETURNING id, data_criacao
-    `
+    if (!response.ok) {
+      console.error("Erro no n8n:", await response.text())
+      throw new Error("Falha ao enviar para o n8n")
+    }
+
+    console.log("Sucesso no n8n!")
 
     return NextResponse.json(
-      {
-        success: true,
-        message: "Lead cadastrado com sucesso!",
-        data: result[0],
-      },
-      { status: 201 },
+      { success: true, message: "Lead enviado para o n8n com sucesso!" },
+      { status: 201 }
     )
+    
   } catch (error) {
-    console.error("Erro ao salvar lead:", error)
-    return NextResponse.json({ error: "Erro interno ao processar solicitação." }, { status: 500 })
+    console.error("Erro ao processar:", error)
+    return NextResponse.json({ error: "Erro interno." }, { status: 500 })
   }
 }
