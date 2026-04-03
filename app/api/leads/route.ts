@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     // --- 3. ENVIO DIRETO PARA O N8N ---
     // Coloque aqui o seu link certinho
-    const WEBHOOK_URL = "https://n8n.srv966092.hstgr.cloud/webhook-test/weeat-leads" 
+    const WEBHOOK_URL = "https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads" 
     
     console.log("Enviando para o n8n...")
     
