@@ -81,7 +81,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${gate.variable} ${poppins.variable}`}>
       <body className={`font-sans antialiased`}>
-        {/* Meta Pixel - Apenas Inicialização */}
+{/* Meta Pixel - Apenas Inicialização */}
         <Script
           id="fb-pixel"
           strategy="afterInteractive"
@@ -96,7 +96,7 @@ export default function RootLayout({
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
               fbq('init', '1260964142240541');
-              // fbq('track', 'PageView'); <--- LINHA REMOVIDA PARA NÃO RASTREAR ENTRADA
+              fbq('track', 'PageView'); 
             `,
           }}
         />
@@ -106,7 +106,7 @@ export default function RootLayout({
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=1260964142240541&noscript=1" 
+            src="https://www.facebook.com/tr?id=1260964142240541&ev=PageView&noscript=1" 
           />
         </noscript>
 
