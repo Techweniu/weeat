@@ -55,7 +55,7 @@ export const ParallaxScrollSecond = ({
                 height="400"
                 width="400"
                 alt="Food result"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 33vw, 25vw"
               />
             </motion.div>
           ))}
@@ -75,7 +75,7 @@ export const ParallaxScrollSecond = ({
                 height="400"
                 width="400"
                 alt="Food result"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 33vw, 25vw"
               />
             </motion.div>
           ))}
@@ -95,7 +95,7 @@ export const ParallaxScrollSecond = ({
                 height="400"
                 width="400"
                 alt="Food result"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 33vw, 25vw"
               />
             </motion.div>
           ))}

@@ -84,7 +84,7 @@ export default function RootLayout({
 {/* Meta Pixel - Apenas Inicialização */}
         <Script
           id="fb-pixel"
-          strategy="afterInteractive"
+          strategy="lazyOnload" // <-- A MÁGICA ACONTECE AQUI
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)

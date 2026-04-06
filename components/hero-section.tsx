@@ -140,10 +140,11 @@ export function HeroSection() {
           >
             {/* NOVO: IMAGEM EMPILHADA NO TOQUE (MOBILE ONLY) */}
             <div className="block lg:hidden w-full relative h-[320px] rounded-3xl overflow-hidden mb-8 shadow-2xl border-2 border-[#f78608]/10">
-                <Image
+                  <Image
                     src="/hero-weat.webp"
                     alt="Chef weeat em ação"
                     fill
+                    sizes="(max-width: 1024px) 100vw, 0vw" // <-- Otimização de tamanho
                     className="object-cover object-top" 
                     priority
                 />
@@ -200,10 +201,11 @@ export function HeroSection() {
                 WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)'
             }}
           >
-              <Image
+                <Image
                   src="/hero-weat.webp"
                   alt="Chef weeat em ação"
                   fill
+                  sizes="(min-width: 1024px) 60vw, 0vw" 
                   className="object-cover object-left-top" 
                   priority
               />

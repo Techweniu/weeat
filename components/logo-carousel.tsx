@@ -65,6 +65,7 @@ export function LogoCarousel() {
                     alt={logo.alt}
                     width={180}
                     height={80}
+                    sizes="(max-width: 768px) 120px, 180px"
                     // AJUSTES DE ESCALA:
                     // Sollo reduzida para 1.8 (mesmo tamanho do casarão) para não cortar.
                     // Bona Ventura aumentada levemente para 1.25 (25% maior).
