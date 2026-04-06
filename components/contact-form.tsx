@@ -101,7 +101,7 @@ export function ContactForm() {
           <CardHeader className="bg-[#f78608]/5 px-6 py-6 md:px-8 md:py-8 border-b border-[#f78608]/10 text-center">
             <CardTitle className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#1A1A1A]">
               <div className="p-2 bg-white rounded-full shadow-sm">
-                 <Send className="size-5 md:size-6 text-[#f78608]" />
+                 <Send className="size-5 md:size-6 text-[#f78608]" aria-hidden="true" />
               </div>
               Fale com um especialista
             </CardTitle>
@@ -113,7 +113,7 @@ export function ContactForm() {
             {submitStatus.type === "success" ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="bg-green-100 p-4 rounded-full mb-6 animate-bounce">
-                  <CheckCircle2 className="size-12 text-green-600" />
+                  <CheckCircle2 className="size-12 text-green-600" aria-hidden="true" />
                 </div>
                 <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] mb-2">Dados enviados!</h3>
                 <p className="font-[family-name:var(--font-poppins)] text-gray-600 mb-6">{submitStatus.message}</p>
@@ -131,11 +131,11 @@ export function ContactForm() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">Seu nome</FormLabel>
+                          <FormLabel htmlFor="input-name" className="font-[family-name:var(--font-poppins)] font-medium">Seu nome</FormLabel>
                           <FormControl>
                             <div className="relative group">
-                              <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                              <Input placeholder="Nome completo" className={inputClasses} {...field} />
+                              <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
+                              <Input id="input-name" placeholder="Nome completo" className={inputClasses} {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -148,11 +148,11 @@ export function ContactForm() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">Melhor e-mail</FormLabel>
+                          <FormLabel htmlFor="input-email" className="font-[family-name:var(--font-poppins)] font-medium">Melhor e-mail</FormLabel>
                           <FormControl>
                             <div className="relative group">
-                              <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                              <Input placeholder="exemplo@email.com" className={inputClasses} {...field} />
+                              <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
+                              <Input id="input-email" placeholder="exemplo@email.com" className={inputClasses} {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -167,11 +167,11 @@ export function ContactForm() {
                       name="phone"
                       render={({ field: { onChange, ...field } }) => (
                         <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">WhatsApp</FormLabel>
+                          <FormLabel htmlFor="input-phone" className="font-[family-name:var(--font-poppins)] font-medium">WhatsApp</FormLabel>
                           <FormControl>
                             <div className="relative group">
-                              <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                              <Input placeholder="(00) 00000-0000" className={inputClasses} maxLength={15} onChange={(e) => handlePhoneChange(e, onChange)} {...field} />
+                              <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
+                              <Input id="input-phone" placeholder="(00) 00000-0000" className={inputClasses} maxLength={15} onChange={(e) => handlePhoneChange(e, onChange)} {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -184,11 +184,11 @@ export function ContactForm() {
                       name="companyName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">Nome da Empresa</FormLabel>
+                          <FormLabel htmlFor="input-company" className="font-[family-name:var(--font-poppins)] font-medium">Nome da Empresa</FormLabel>
                           <FormControl>
                             <div className="relative group">
-                              <Building2 className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
-                              <Input placeholder="Nome do Restaurante" className={inputClasses} {...field} />
+                              <Building2 className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
+                              <Input id="input-company" placeholder="Nome do Restaurante" className={inputClasses} {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -203,10 +203,10 @@ export function ContactForm() {
                       name="segment"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">Segmento</FormLabel>
+                          <FormLabel htmlFor="select-segment" className="font-[family-name:var(--font-poppins)] font-medium">Segmento</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className={inputClasses}>
+                              <SelectTrigger id="select-segment" aria-label="Selecione um segmento" className={inputClasses}>
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
                             </FormControl>
@@ -228,10 +228,10 @@ export function ContactForm() {
                       name="revenue"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-[family-name:var(--font-poppins)] font-medium">Faturamento Mensal</FormLabel>
+                          <FormLabel htmlFor="select-revenue" className="font-[family-name:var(--font-poppins)] font-medium">Faturamento Mensal</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className={inputClasses}>
+                              <SelectTrigger id="select-revenue" aria-label="Selecione uma faixa de faturamento" className={inputClasses}>
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
                             </FormControl>
@@ -257,7 +257,7 @@ export function ContactForm() {
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
                           Enviando...
                         </>
                       ) : (
