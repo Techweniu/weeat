@@ -143,27 +143,27 @@ export function HeroSection() {
   return (
     <section className="pt-24 pb-12 md:pt-32 md:pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
       
-      {/* Background Decorativo */}
-      <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl animate-pulse duration-[10s]" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#22C55E]/5 rounded-full blur-3xl animate-pulse duration-[10s] delay-1000" />
+      {/* Background Decorativo - Removida a sobrecarga gráfica da animação blur */}
+      <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#22C55E]/5 rounded-full blur-3xl pointer-events-none" />
       
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
           <div className="z-20 relative text-center lg:text-left flex flex-col items-center lg:items-start">
             
-            {/* OTIMIZAÇÃO CRÍTICA LCP: Imagem mobile fora do framer-motion */}
+            {/* OTIMIZAÇÃO CRÍTICA LCP: Imagem mobile fora do framer-motion, com unoptimized e sem conflito de sizes */}
             <div className="block lg:hidden w-full relative h-[320px] rounded-3xl overflow-hidden mb-8 shadow-2xl border-2 border-[#f78608]/10">
                   <Image
                     src="/hero-weat.webp"
                     alt="Chef weeat em ação"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 0vw"
                     className="object-cover object-top" 
                     priority={true}
-                    fetchPriority="high" // <-- Força o download antes de tudo
+                    fetchPriority="high" 
+                    unoptimized={true} 
                 />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FFFBF5] to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FFFBF5] to-transparent pointer-events-none" />
             </div>
 
             {/* Mantemos apenas os textos com animação */}
@@ -232,7 +232,8 @@ export function HeroSection() {
                   sizes="(min-width: 1024px) 60vw, 0vw" 
                   className="object-cover object-left-top" 
                   priority={true}
-                  fetchPriority="high" // <-- Otimização para Desktop
+                  fetchPriority="high"
+                  unoptimized={true}
               />
           </div>
 
