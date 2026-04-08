@@ -8,13 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 // --- COMPONENTES INTERNOS (Mantidos iguais) ---
 
 const ProblemCard = () => (
-  <Card className="h-full bg-white border-2 border-[#EF4444]/20 shadow-sm">
+  <Card className="h-full bg-[#242014] border-2 border-[#EF4444]/20 shadow-sm">
     <CardHeader>
       <div className="flex items-center gap-3 mb-4">
         <div className="w-12 h-12 bg-[#EF4444]/10 rounded-full flex items-center justify-center shrink-0">
           <span className="text-2xl">😰</span>
         </div>
-        <CardTitle className="font-[family-name:var(--font-gate)] text-xl md:text-2xl text-[#1A1A1A] leading-tight">
+        <CardTitle className="font-[family-name:var(--font-gate)] text-xl md:text-2xl text-[#f5f0e8] leading-tight">
           O Ciclo de Sobrevivência
         </CardTitle>
       </div>
@@ -28,7 +28,7 @@ const ProblemCard = () => (
       ].map((item, i) => (
         <div key={i} className="flex items-start gap-3">
           <X className="text-[#EF4444] mt-1 shrink-0" size={20} />
-          <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm md:text-base">{item}</p>
+          <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] text-sm md:text-base">{item}</p>
         </div>
       ))}
     </CardContent>
@@ -45,7 +45,7 @@ const SolutionCard = () => (
         <div className="w-12 h-12 bg-[#F27A23]/20 rounded-full flex items-center justify-center shrink-0">
           <span className="text-2xl">🏆</span>
         </div>
-        <CardTitle className="font-[family-name:var(--font-gate)] text-xl md:text-2xl text-[#1A1A1A] leading-tight">
+        <CardTitle className="font-[family-name:var(--font-gate)] text-xl md:text-2xl text-[#f5f0e8] leading-tight">
           O Padrão de Escala weeat
         </CardTitle>
       </div>
@@ -59,7 +59,7 @@ const SolutionCard = () => (
       ].map((item, i) => (
         <div key={i} className="flex items-start gap-3">
           <Check className="text-[#22C55E] mt-1 shrink-0" size={20} />
-          <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] font-medium text-sm md:text-base">{item}</p>
+          <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] font-medium text-sm md:text-base">{item}</p>
         </div>
       ))}
     </CardContent>
@@ -72,7 +72,7 @@ export function ProblemSolution() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution">("problem")
 
   return (
-    <section className="py-16 md:py-20 px-4 bg-[#FFFBF5]">
+    <section className="py-16 md:py-20 px-4 bg-[#1a1710]">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -81,10 +81,10 @@ export function ProblemSolution() {
           viewport={{ once: true }}
           className="text-center mb-6 md:mb-8"
         >
-          <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#1A1A1A] mb-4">
+          <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#f5f0e8] mb-4">
             Qual é o Seu Cenário Hoje?
           </h2>
-          <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-sm md:text-lg hidden md:block">
+          <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70 text-sm md:text-lg hidden md:block">
             Identifique onde você está para saber onde pode chegar.
           </p>
         </motion.div>
@@ -94,7 +94,7 @@ export function ProblemSolution() {
           
           {/* Toggle Switch */}
           {/* ALTERAÇÃO: Margem inferior reduzida para mb-6 */}
-          <div className="bg-white p-1.5 rounded-full shadow-sm border border-gray-100 flex relative mb-6">
+          <div className="bg-[#242014] p-1.5 rounded-full shadow-sm border border-white/10 flex relative mb-6">
             <motion.div 
               className={`absolute top-1.5 bottom-1.5 rounded-full shadow-sm z-0 transition-colors duration-300 ${
                 activeTab === 'problem' ? 'bg-red-50' : 'bg-[#f78608]/10'
@@ -110,7 +110,7 @@ export function ProblemSolution() {
             <button
               onClick={() => setActiveTab("problem")}
               className={`relative z-10 w-1/2 py-3 text-sm font-[family-name:var(--font-poppins)] font-medium transition-colors duration-200 rounded-full ${
-                activeTab === "problem" ? "text-[#EF4444]" : "text-gray-500 hover:text-gray-700"
+                activeTab === "problem" ? "text-[#EF4444]" : "text-[#f5f0e8]/50 hover:text-gray-700"
               }`}
             >
               Cenário Atual 😰
@@ -118,7 +118,7 @@ export function ProblemSolution() {
             <button
               onClick={() => setActiveTab("solution")}
               className={`relative z-10 w-1/2 py-3 text-sm font-[family-name:var(--font-poppins)] font-medium transition-colors duration-200 rounded-full ${
-                activeTab === "solution" ? "text-[#f78608]" : "text-gray-500 hover:text-gray-700"
+                activeTab === "solution" ? "text-[#f78608]" : "text-[#f5f0e8]/50 hover:text-gray-700"
               }`}
             >
               Cenário weeat 🏆

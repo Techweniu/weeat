@@ -75,13 +75,13 @@ const CardRotator = ({ items, positionClass, intervalTime }: { items: CardData[]
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.9 }}
           transition={{ duration: 0.5 }}
-          className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-2 border-[#f78608]/40 flex items-center gap-3 min-w-[180px]"
+          className="bg-[#242014]/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.4)] border-2 border-[#f78608]/40 flex items-center gap-3 min-w-[180px]"
         >
           <div className={`${currentItem.bg} p-2 rounded-xl text-2xl flex items-center justify-center w-10 h-10`}>
             {currentItem.emoji}
           </div>
           <div>
-            <p className="text-[10px] text-gray-500 font-[family-name:var(--font-poppins)] uppercase tracking-wide leading-none mb-1">{currentItem.subtitle}</p>
+            <p className="text-[10px] text-[#f5f0e8]/60 font-[family-name:var(--font-poppins)] uppercase tracking-wide leading-none mb-1">{currentItem.subtitle}</p>
             <p className={`text-sm font-bold font-[family-name:var(--font-gate)] leading-none ${currentItem.color}`}>{currentItem.title}</p>
           </div>
         </motion.div>
@@ -116,14 +116,14 @@ const MobileHeroCarousel = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
-          className="bg-white px-6 py-3 rounded-full border border-[#f78608]/20 shadow-md flex items-center gap-3 w-full max-w-xs justify-start"
+          className="bg-[#242014] px-6 py-3 rounded-full border border-[#f78608]/20 shadow-md flex items-center gap-3 w-full max-w-xs justify-start"
         >
           <span className="text-2xl shrink-0">{currentItem.emoji}</span>
           <div className="flex flex-col overflow-hidden">
             <span className={`text-sm font-bold font-[family-name:var(--font-gate)] truncate ${currentItem.color}`}>
               {currentItem.title}
             </span>
-             <span className="text-[10px] text-gray-400 font-[family-name:var(--font-poppins)] uppercase tracking-wide truncate">
+             <span className="text-[10px] text-[#f5f0e8]/50 font-[family-name:var(--font-poppins)] uppercase tracking-wide truncate">
               {currentItem.subtitle}
             </span>
           </div>
@@ -136,7 +136,7 @@ const MobileHeroCarousel = () => {
 // --- COMPONENTE PRINCIPAL ---
 export function HeroSection() {
   return (
-    <section className="pt-24 pb-12 md:pt-32 md:pb-20 px-4 bg-[#FFFBF5] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
+    <section className="pt-24 pb-12 md:pt-32 md:pb-20 px-4 bg-[#1a1710] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
       
       {/* Background Decorativo - Removida a sobrecarga gráfica da animação blur */}
       <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl pointer-events-none" />
@@ -158,15 +158,15 @@ export function HeroSection() {
                     fetchPriority="high" 
                     
                 />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FFFBF5] to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#1a1710] to-transparent pointer-events-none" />
             </div>
 
             {/* h1 e CTA sem opacity:0 para não penalizar o LCP */}
             <div className="flex flex-col items-center lg:items-start">
-              <h1 className="font-[family-name:var(--font-gate)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#1A1A1A] mb-6 leading-[1.1] text-balance">
+              <h1 className="font-[family-name:var(--font-gate)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#f5f0e8] mb-6 leading-[1.1] text-balance">
                 Inteligência e Crescimento Real para o seu Food Service
               </h1>
-              <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg md:text-xl text-[#1A1A1A]/80 mb-8 leading-relaxed text-pretty max-w-2xl mx-auto lg:mx-0">
+              <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg md:text-xl text-[#f5f0e8]/80 mb-8 leading-relaxed text-pretty max-w-2xl mx-auto lg:mx-0">
                 Chega de vaidade! A weeat é o seu braço de crescimento focado em dinheiro no bolso. Tenha
                 previsibilidade de vendas e lucro saudável!
               </p>
@@ -182,15 +182,15 @@ export function HeroSection() {
                 <div className="hidden sm:flex flex-wrap justify-center lg:justify-start gap-4 md:gap-6">
                   <div className="flex items-center gap-2">
                     <Rocket className="text-[#f78608]" size={20} />
-                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">ROAS Médio 16x</span>
+                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#f5f0e8]">ROAS Médio 16x</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="text-[#22C55E]" size={20} />
-                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">ROI Mínimo 1.5</span>
+                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#f5f0e8]">ROI Mínimo 1.5</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <TrendingUp className="text-[#f78608]" size={20} />
-                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#1A1A1A]">Foco 100% em Resultado</span>
+                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#f5f0e8]">Foco 100% em Resultado</span>
                   </div>
                 </div>
               </div>

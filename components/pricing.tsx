@@ -15,15 +15,15 @@ interface PricingProps {
 
 // 1. PLANO SILVER
 const SilverPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
-  <Card className="flex flex-col w-full h-full bg-[#FFFBF5] border-2 border-[#A1A1AA]/30 hover:border-[#A1A1AA] transition-colors duration-300">
+  <Card className="flex flex-col w-full h-full bg-[#242014] border-2 border-[#A1A1AA]/30 hover:border-[#A1A1AA] transition-colors duration-300">
     <CardHeader>
       <div className="flex items-center gap-2 mb-4">
         <ShieldCheck className="text-[#A1A1AA]" size={28} />
-        <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-[#1A1A1A]">
+        <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-[#f5f0e8]">
           Plano SILVER
         </CardTitle>
       </div>
-      <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-base">
+      <CardDescription className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70 text-base">
         Entrada estratégica para validar canais e gerar tração inicial.
       </CardDescription>
     </CardHeader>
@@ -32,7 +32,7 @@ const SilverPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
         <p className="font-[family-name:var(--font-poppins)] text-sm font-semibold text-[#71717a] uppercase tracking-wide mb-1">
           Indicado para
         </p>
-        <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm leading-relaxed">
+        <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] text-sm leading-relaxed">
           Quem busca crescimento acelerado focando no essencial do tráfego pago.
         </p>
       </div>
@@ -45,7 +45,7 @@ const SilverPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
         ].map((item, i) => (
             <div key={i} className="flex items-start gap-3">
                 <Check className="text-[#A1A1AA] mt-1 shrink-0" size={20} />
-                <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm md:text-base">{item}</p>
+                <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] text-sm md:text-base">{item}</p>
             </div>
         ))}
       </div>
@@ -64,15 +64,15 @@ const SilverPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
 
 // 2. PLANO GOLD
 const GoldPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
-  <Card className="flex flex-col w-full h-full bg-[#FFFBF5] border-2 border-[#D4AF37]/30 hover:border-[#D4AF37] transition-colors duration-300">
+  <Card className="flex flex-col w-full h-full bg-[#242014] border-2 border-[#D4AF37]/30 hover:border-[#D4AF37] transition-colors duration-300">
     <CardHeader>
       <div className="flex items-center gap-2 mb-4">
         <Crown className="text-[#D4AF37]" size={28} />
-        <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-[#1A1A1A]">
+        <CardTitle className="font-[family-name:var(--font-gate)] text-3xl text-[#f5f0e8]">
           Plano GOLD
         </CardTitle>
       </div>
-      <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-base">
+      <CardDescription className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70 text-base">
         O equilíbrio ideal entre performance de vendas e presença de marca.
       </CardDescription>
     </CardHeader>
@@ -81,7 +81,7 @@ const GoldPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
         <p className="font-[family-name:var(--font-poppins)] text-sm font-semibold text-[#D4AF37] uppercase tracking-wide mb-1">
           Indicado para
         </p>
-        <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm leading-relaxed">
+        <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] text-sm leading-relaxed">
           Operações que precisam profissionalizar o visual e otimizar o cardápio.
         </p>
       </div>
@@ -89,7 +89,7 @@ const GoldPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
       <div className="space-y-4 mb-8 flex-1">
          <div className="flex items-start gap-3">
             <Check className="text-[#D4AF37] mt-1 shrink-0" size={20} />
-            <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm md:text-base">
+            <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] text-sm md:text-base">
               <strong>Tudo do Plano Silver</strong>
             </p>
          </div>
@@ -100,7 +100,7 @@ const GoldPlan = ({ onSelect }: { onSelect: (p: string) => void }) => (
         ].map((item, i) => (
             <div key={i} className="flex items-start gap-3">
                 <Check className="text-[#D4AF37] mt-1 shrink-0" size={20} />
-                <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] text-sm md:text-base">{item}</p>
+                <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] text-sm md:text-base">{item}</p>
             </div>
         ))}
       </div>
@@ -203,7 +203,7 @@ export function Pricing({ onSelectPlan }: PricingProps) {
   }
 
   return (
-    <section id="planos" className="py-16 md:py-20 px-4 bg-white">
+    <section id="planos" className="py-16 md:py-20 px-4 bg-[#1a1710]">
       <div className="container mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -212,10 +212,10 @@ export function Pricing({ onSelectPlan }: PricingProps) {
           viewport={{ once: true }}
           className="text-center mb-10 md:mb-16"
         >
-          <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#1A1A1A] mb-4">
+          <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#f5f0e8] mb-4">
             Modelos de Atuação
           </h2>
-          <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg text-[#1A1A1A]/70 text-balance max-w-2xl mx-auto">
+          <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg text-[#f5f0e8]/70 text-balance max-w-2xl mx-auto">
             Não vendemos pacotes fechados. Entregamos a estratégia exata que o seu momento de negócio exige.
           </p>
         </motion.div>
@@ -224,11 +224,11 @@ export function Pricing({ onSelectPlan }: PricingProps) {
         <div className="block lg:hidden max-w-md mx-auto">
            
            {/* Toggle Switch (3 Opções) */}
-           <div className="bg-[#FFFBF5] p-1.5 rounded-full shadow-inner border border-gray-200 flex relative mb-8">
+           <div className="bg-[#242014] p-1.5 rounded-full shadow-inner border border-white/10 flex relative mb-8">
               {/* Slider de Fundo */}
               <motion.div 
                 className={`absolute top-1.5 bottom-1.5 rounded-full shadow-md z-0 transition-colors duration-300 ${
-                  activePlan === 'Diamond' ? 'bg-[#1A1A1A] border border-[#f78608]' : 'bg-white border border-gray-200'
+                  activePlan === 'Diamond' ? 'bg-[#1A1A1A] border border-[#f78608]' : 'bg-[#1a1710] border border-white/10'
                 }`}
                 initial={false}
                 animate={{ 
@@ -241,7 +241,7 @@ export function Pricing({ onSelectPlan }: PricingProps) {
               <button
                 onClick={() => setActivePlan("Silver")}
                 className={`relative z-10 w-1/3 py-3 text-xs sm:text-sm font-[family-name:var(--font-poppins)] font-bold transition-colors duration-200 rounded-full flex items-center justify-center gap-1 ${
-                  activePlan === "Silver" ? "text-[#71717a]" : "text-gray-400"
+                  activePlan === "Silver" ? "text-[#71717a]" : "text-[#f5f0e8]/50"
                 }`}
               >
                 SILVER
@@ -250,7 +250,7 @@ export function Pricing({ onSelectPlan }: PricingProps) {
               <button
                 onClick={() => setActivePlan("Gold")}
                 className={`relative z-10 w-1/3 py-3 text-xs sm:text-sm font-[family-name:var(--font-poppins)] font-bold transition-colors duration-200 rounded-full flex items-center justify-center gap-1 ${
-                  activePlan === "Gold" ? "text-[#D4AF37]" : "text-gray-400"
+                  activePlan === "Gold" ? "text-[#D4AF37]" : "text-[#f5f0e8]/50"
                 }`}
               >
                 GOLD
@@ -259,7 +259,7 @@ export function Pricing({ onSelectPlan }: PricingProps) {
               <button
                 onClick={() => setActivePlan("Diamond")}
                 className={`relative z-10 w-1/3 py-3 text-xs sm:text-sm font-[family-name:var(--font-poppins)] font-bold transition-colors duration-200 rounded-full flex items-center justify-center gap-1 ${
-                  activePlan === "Diamond" ? "text-[#f78608]" : "text-gray-400"
+                  activePlan === "Diamond" ? "text-[#f78608]" : "text-[#f5f0e8]/50"
                 }`}
               >
                 DIAMOND

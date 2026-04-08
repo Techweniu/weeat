@@ -45,7 +45,7 @@ const services = [
 
 export function Ecosystem() {
   return (
-    <section id="metodo" className="py-16 md:py-20 px-4 bg-white overflow-hidden">
+    <section id="metodo" className="py-16 md:py-20 px-4 bg-[#1a1710] overflow-hidden">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -54,10 +54,10 @@ export function Ecosystem() {
           viewport={{ once: true }}
           className="text-center mb-10 md:mb-16"
         >
-          <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#1A1A1A] mb-4">
+          <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#f5f0e8] mb-4">
             O Ecossistema weeat
           </h2>
-          <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg text-[#1A1A1A]/70 text-balance px-4">
+          <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg text-[#f5f0e8]/70 text-balance px-4">
             Tudo o que precisa para escalar, num único lugar.
           </p>
         </motion.div>
@@ -75,20 +75,20 @@ export function Ecosystem() {
                 viewport={{ once: true }}
                 whileHover={{ y: -5 }}
               >
-                <Card className="h-full bg-[#FFFBF5] border-none shadow-lg hover:shadow-xl transition-all cursor-pointer group">
+                <Card className="h-full bg-[#242014] border-none shadow-lg hover:shadow-xl transition-all cursor-pointer group">
                   <CardHeader>
                     <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-colors group-hover:bg-white"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-colors group-hover:bg-[#1a1710]"
                       style={{ backgroundColor: `${service.color}15` }}
                     >
                       <Icon size={28} style={{ color: service.color }} />
                     </div>
-                    <CardTitle className="font-[family-name:var(--font-gate)] text-xl text-[#1A1A1A]">
+                    <CardTitle className="font-[family-name:var(--font-gate)] text-xl text-[#f5f0e8]">
                       {service.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70">
+                    <CardDescription className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70">
                       {service.description}
                     </CardDescription>
                   </CardContent>
@@ -107,7 +107,7 @@ export function Ecosystem() {
                  key={index} 
                  className="min-w-[85%] snap-center flex" // 85% width para mostrar o próximo card
                >
-                 <Card className="w-full bg-[#FFFBF5] border border-gray-100 shadow-md h-full">
+                 <Card className="w-full bg-[#242014] border border-white/10 shadow-md h-full">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div
@@ -118,15 +118,15 @@ export function Ecosystem() {
                         </div>
                         {/* Indicador visual de swipe no primeiro card */}
                         {index === 0 && (
-                            <ArrowRight className="text-gray-300 animate-pulse" size={20} />
+                            <ArrowRight className="text-white/30 animate-pulse" size={20} />
                         )}
                       </div>
-                      <CardTitle className="font-[family-name:var(--font-gate)] text-lg text-[#1A1A1A] leading-tight">
+                      <CardTitle className="font-[family-name:var(--font-gate)] text-lg text-[#f5f0e8] leading-tight">
                         {service.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/70 text-sm">
+                      <CardDescription className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70 text-sm">
                         {service.description}
                       </CardDescription>
                     </CardContent>

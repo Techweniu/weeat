@@ -7,9 +7,6 @@ import { X, ZoomIn } from "lucide-react"
 
 // Nomes exatos conforme seu diretório
 const images = [
-  "/caio1.webp",
-  "/caio2.webp",
-  "/caio3.webp",
   "/sushi1.webp",
   "/sushi2.webp",
   "/sushi3.webp",
@@ -22,15 +19,15 @@ export function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   return (
-    <section className="bg-[#FFFBF5] py-16 md:py-24 border-b border-[#E5E0D8] overflow-hidden">
+    <section className="bg-[#1a1710] py-16 md:py-24 border-b border-[#1a1710]/10 overflow-hidden">
       
       <div className="container mx-auto px-4">
         {/* Título da Seção */}
         <div className="text-center mb-12">
-             <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-4xl text-[#1A1A1A] mb-3">
+             <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-4xl text-[#f5f0e8] mb-3">
                 Bastidores da Operação
              </h2>
-             <p className="text-gray-500 font-[family-name:var(--font-poppins)] max-w-xl mx-auto">
+             <p className="text-[#f5f0e8]/60 font-[family-name:var(--font-poppins)] max-w-xl mx-auto">
                 Clique nas fotos para expandir e ver os detalhes.
              </p>
         </div>
@@ -45,7 +42,7 @@ export function Gallery() {
                type="button"
                onClick={() => setSelectedImage(img)}
                aria-label={`Ampliar foto ${idx + 1} dos bastidores`}
-               className="relative aspect-square rounded-[2rem] overflow-hidden shadow-xl border-[8px] border-white bg-[#f8f4ef] group hover:scale-[1.02] transition-all duration-300 cursor-zoom-in w-full"
+               className="relative aspect-square rounded-[2rem] overflow-hidden shadow-xl border-[8px] border-[#1a1710] bg-[#242014] group hover:scale-[1.02] transition-all duration-300 cursor-zoom-in w-full"
              >
                 <Image
                   src={img}
@@ -68,7 +65,7 @@ export function Gallery() {
             MOBILE VIEW (Carousel Interativo)
            ======================================================== */}
         <div className="md:hidden">
-            <p className="text-center text-sm text-gray-400 mb-6 font-[family-name:var(--font-poppins)]">
+            <p className="text-center text-sm text-[#f5f0e8]/50 mb-6 font-[family-name:var(--font-poppins)]">
             (Toque para ampliar)
             </p>
             
@@ -79,7 +76,7 @@ export function Gallery() {
                         type="button"
                         onClick={() => setSelectedImage(img)}
                         aria-label={`Ampliar foto ${idx + 1} dos bastidores`}
-                        className="snap-center shrink-0 w-[85vw] h-[55vh] relative rounded-[2.5rem] overflow-hidden shadow-xl border-[6px] border-white bg-[#f8f4ef] active:scale-95 transition-transform"
+                        className="snap-center shrink-0 w-[85vw] h-[55vh] relative rounded-[2.5rem] overflow-hidden shadow-xl border-[6px] border-[#1a1710] bg-[#242014] active:scale-95 transition-transform"
                     >
                         <Image
                             src={img}
@@ -89,7 +86,7 @@ export function Gallery() {
                             className="object-contain p-4"
                             sizes="85vw"
                         />
-                        <div className="absolute bottom-4 right-4 bg-white/80 p-2 rounded-full shadow-sm">
+                        <div className="absolute bottom-4 right-4 bg-[#242014]/80 p-2 rounded-full shadow-sm">
                             <ZoomIn className="text-[#f78608] w-5 h-5" aria-hidden="true" />
                         </div>
                     </button>

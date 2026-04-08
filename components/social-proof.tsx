@@ -18,7 +18,7 @@ export function SocialProof() {
   }
 
   return (
-    <section id="calculadora" className="py-20 px-4 bg-[#FFFBF5] relative overflow-hidden">
+    <section id="calculadora" className="py-20 px-4 bg-[#1a1710] relative overflow-hidden">
       
       {/* CONTEÚDO DA CALCULADORA */}
       <div className="container mx-auto relative z-10">
@@ -29,7 +29,7 @@ export function SocialProof() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-5xl text-[#1A1A1A] mb-6">
+          <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-5xl text-[#f5f0e8] mb-6">
             Nosso Propósito é Gerar Faturamento
           </h2>
         </motion.div>

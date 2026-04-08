@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 export function MarketStats() {
   return (
-    <section className="py-24 px-4 bg-white relative overflow-hidden">
+    <section className="py-24 px-4 bg-[#1a1710] relative overflow-hidden">
       <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -13,10 +13,10 @@ export function MarketStats() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-5xl text-[#1A1A1A] mb-4">
+          <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-5xl text-[#f5f0e8] mb-4">
             O Oceano Azul do Food Service
           </h2>
-          <p className="font-[family-name:var(--font-poppins)] text-lg text-[#1A1A1A]/70 max-w-3xl mx-auto text-pretty">
+          <p className="font-[family-name:var(--font-poppins)] text-lg text-[#f5f0e8]/70 max-w-3xl mx-auto text-pretty">
             A maioria dos seus concorrentes não sabe o que está fazendo. A oportunidade é agora.
           </p>
         </motion.div>
@@ -27,10 +27,10 @@ export function MarketStats() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-center p-8 bg-[#FFFBF5] rounded-3xl border border-[#f78608]/10"
+            className="text-center p-8 bg-[#242014] rounded-3xl border border-[#f78608]/10"
           >
             <div className="font-[family-name:var(--font-gate)] text-5xl md:text-6xl text-[#f78608] mb-4">1,6Mi</div>
-            <p className="font-[family-name:var(--font-poppins)] text-base text-[#1A1A1A]/80">
+            <p className="font-[family-name:var(--font-poppins)] text-base text-[#f5f0e8]/80">
               Restaurantes ativos no Brasil
             </p>
           </motion.div>
@@ -40,10 +40,10 @@ export function MarketStats() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-center p-8 bg-[#FFFBF5] rounded-3xl border border-[#f78608]/10"
+            className="text-center p-8 bg-[#242014] rounded-3xl border border-[#f78608]/10"
           >
             <div className="font-[family-name:var(--font-gate)] text-5xl md:text-6xl text-[#f78608] mb-4">500 Mil</div>
-            <p className="font-[family-name:var(--font-poppins)] text-base text-[#1A1A1A]/80">
+            <p className="font-[family-name:var(--font-poppins)] text-base text-[#f5f0e8]/80">
               Já no digital (Apps/Zap)
             </p>
           </motion.div>
@@ -53,12 +53,12 @@ export function MarketStats() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
-            className="text-center p-8 bg-[#FFFBF5] rounded-3xl border-2 border-[#EF4444]"
+            className="text-center p-8 bg-[#242014] rounded-3xl border-2 border-[#EF4444]"
           >
             <div className="font-[family-name:var(--font-gate)] text-5xl md:text-6xl text-[#EF4444] mb-4">
               {"<"}1,5%
             </div>
-            <p className="font-[family-name:var(--font-poppins)] text-base text-[#1A1A1A]/80 font-medium">
+            <p className="font-[family-name:var(--font-poppins)] text-base text-[#f5f0e8]/80 font-medium">
               Utilizam marketing profissional
             </p>
           </motion.div>

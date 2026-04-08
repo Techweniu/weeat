@@ -24,7 +24,7 @@ export function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled || isMobileMenuOpen ? "bg-white shadow-sm" : "bg-transparent"
+          isScrolled || isMobileMenuOpen ? "bg-[#1a1710] shadow-sm" : "bg-transparent"
         }`}
       >
         <div className="container mx-auto px-4 py-3 md:py-4">
@@ -44,9 +44,9 @@ export function Header() {
 
             {/* Desktop Nav (Mantido) */}
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#metodo" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors text-sm font-medium">Método</a>
-              <a href="#cases" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors text-sm font-medium">Resultados</a>
-              <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#1A1A1A] hover:text-[#f78608] transition-colors text-sm font-medium">Planos</a>
+              <a href="#metodo" className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] hover:text-[#f78608] transition-colors text-sm font-medium">Método</a>
+              <a href="#cases" className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] hover:text-[#f78608] transition-colors text-sm font-medium">Resultados</a>
+              <a href="#planos" className="font-[family-name:var(--font-poppins)] text-[#f5f0e8] hover:text-[#f78608] transition-colors text-sm font-medium">Planos</a>
             </nav>
 
             <div className="hidden md:block">
@@ -60,7 +60,7 @@ export function Header() {
 
             {/* Mobile Toggle (Otimizado para Toque) */}
             <button
-              className="md:hidden w-12 h-12 flex items-center justify-center text-[#1A1A1A] hover:bg-gray-50 rounded-full transition-colors active:scale-95"
+              className="md:hidden w-12 h-12 flex items-center justify-center text-[#f5f0e8] hover:bg-[#242014] rounded-full transition-colors active:scale-95"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={isMobileMenuOpen}
@@ -80,7 +80,7 @@ export function Header() {
             animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-[60px] z-40 bg-white md:hidden overflow-hidden"
+            className="fixed inset-0 top-[60px] z-40 bg-[#1a1710] md:hidden overflow-hidden"
             id="mobile-menu"
           >
             <nav className="flex flex-col gap-4 p-6 pt-8" aria-label="Menu mobile">
@@ -88,7 +88,7 @@ export function Header() {
               <a 
                 href="#metodo" 
                 onClick={() => setIsMobileMenuOpen(false)} 
-                className="p-4 font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] border-b border-gray-100 flex justify-between items-center active:bg-gray-50"
+                className="p-4 font-[family-name:var(--font-gate)] text-2xl text-[#f5f0e8] border-b border-white/10 flex justify-between items-center active:bg-[#242014]"
               >
                 Método
                 <span className="text-[#f78608] text-lg">→</span>
@@ -96,7 +96,7 @@ export function Header() {
               <a 
                 href="#cases" 
                 onClick={() => setIsMobileMenuOpen(false)} 
-                className="p-4 font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] border-b border-gray-100 flex justify-between items-center active:bg-gray-50"
+                className="p-4 font-[family-name:var(--font-gate)] text-2xl text-[#f5f0e8] border-b border-white/10 flex justify-between items-center active:bg-[#242014]"
               >
                 Resultados
                 <span className="text-[#f78608] text-lg">→</span>
@@ -104,7 +104,7 @@ export function Header() {
               <a 
                 href="#planos" 
                 onClick={() => setIsMobileMenuOpen(false)} 
-                className="p-4 font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] border-b border-gray-100 flex justify-between items-center active:bg-gray-50"
+                className="p-4 font-[family-name:var(--font-gate)] text-2xl text-[#f5f0e8] border-b border-white/10 flex justify-between items-center active:bg-[#242014]"
               >
                 Planos
                 <span className="text-[#f78608] text-lg">→</span>
@@ -118,7 +118,7 @@ export function Header() {
                 >
                   Falar com Especialista
                 </a>
-                <p className="text-center text-xs text-gray-400 mt-4 font-[family-name:var(--font-poppins)]">
+                <p className="text-center text-xs text-[#f5f0e8]/50 mt-4 font-[family-name:var(--font-poppins)]">
                   Vamos escalar o seu negócio hoje.
                 </p>
               </div>
