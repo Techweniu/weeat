@@ -111,6 +111,8 @@ export function Gallery() {
             >
                 {/* Botão Fechar */}
                 <button
+                  type="button"
+                  onClick={() => setSelectedImage(null)}
                   className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-50"
                   aria-label="Fechar galeria"
                 >
@@ -126,13 +128,14 @@ export function Gallery() {
                     className="relative w-full h-full max-w-7xl max-h-[90vh]"
                     onClick={(e) => e.stopPropagation()} // Impede que o clique na imagem feche o modal
                 >
-                    <Image 
+                    <Image
                         src={selectedImage}
-                        alt="Zoom Imagem"
+                        alt="Imagem ampliada dos bastidores weeat"
                         fill
                         className="object-contain"
                         priority
                         quality={100}
+                        sizes="100vw"
                     />
                 </motion.div>
             </motion.div>

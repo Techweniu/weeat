@@ -124,11 +124,12 @@ export function ResultsDashboard() {
 
     {/* Logo Mobile - Container Centralizado */}
     <div className="relative w-48 h-20 mb-1 flex items-center justify-center">
-        <Image 
-            src={currentCase.logo} 
-            alt={currentCase.name} 
-            fill 
-            // Mudança crucial: object-center centraliza a imagem dentro do espaço
+        <Image
+            src={currentCase.logo}
+            alt={`Logo ${currentCase.name}`}
+            fill
+            loading="lazy"
+            sizes="192px"
             className={`object-contain object-center ${currentCase.logoScale}`}
         />
     </div>
@@ -219,10 +220,12 @@ export function ResultsDashboard() {
              >
                 <div className="p-8 h-full flex flex-col justify-center items-center opacity-50">
                      <div className="relative w-40 h-20 grayscale brightness-200">
-                        <Image 
-                            src={cases[getIndex(-1)].logo} 
-                            alt="Logo" 
-                            fill 
+                        <Image
+                            src={cases[getIndex(-1)].logo}
+                            alt={`Logo ${cases[getIndex(-1)].name}`}
+                            fill
+                            loading="lazy"
+                            sizes="160px"
                             className="object-contain"
                         />
                      </div>
@@ -239,10 +242,12 @@ export function ResultsDashboard() {
              >
                 <div className="p-8 h-full flex flex-col justify-center items-center opacity-50">
                      <div className="relative w-40 h-20 grayscale brightness-200">
-                        <Image 
-                            src={cases[getIndex(1)].logo} 
-                            alt="Logo" 
-                            fill 
+                        <Image
+                            src={cases[getIndex(1)].logo}
+                            alt={`Logo ${cases[getIndex(1)].name}`}
+                            fill
+                            loading="lazy"
+                            sizes="160px"
                             className="object-contain"
                         />
                      </div>
@@ -279,11 +284,13 @@ export function ResultsDashboard() {
                             {/* 2. Removi padding da Imagem */}
                             {/* 3. Apliquei scale-110/125 específico */}
                             <div className="relative w-full h-32 mb-4 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 overflow-hidden">
-                                <Image 
-                                    src={currentCase.logo} 
-                                    alt={currentCase.name} 
-                                    fill 
-                                    className={`object-contain ${currentCase.logoScale}`} 
+                                <Image
+                                    src={currentCase.logo}
+                                    alt={`Logo ${currentCase.name}`}
+                                    fill
+                                    loading="lazy"
+                                    sizes="(max-width: 1024px) 50vw, 400px"
+                                    className={`object-contain ${currentCase.logoScale}`}
                                 />
                             </div>
 

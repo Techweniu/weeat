@@ -24,9 +24,10 @@ export function LogoCarousel() {
           <span>Parceiros que confiam na</span>
           <Image
             src="/logo.webp"
-            alt="WeEat"
+            alt="weeat - Crescimento Real para Food Service"
             width={128}
             height={40}
+            priority
             className="object-contain rounded-lg"
           />
         </p>
@@ -60,17 +61,15 @@ export function LogoCarousel() {
                 <div className="h-12 md:h-16 w-auto relative aspect-[3/1] flex items-center justify-center filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
                   <Image
                     src={logo.src}
-                    alt={logo.alt}
+                    alt={isDuplicate ? "" : logo.alt}
                     width={180}
                     height={80}
+                    loading="lazy"
                     sizes="(max-width: 768px) 120px, 180px"
-                    // AJUSTES DE ESCALA:
-                    // Sollo reduzida para 1.8 (mesmo tamanho do casarão) para não cortar.
-                    // Bona Ventura aumentada levemente para 1.25 (25% maior).
                     className={`object-contain w-full h-full origin-center
                       ${isCasaTali ? "scale-[2.2]" : ""}
                       ${isCasarao ? "scale-[1.8]" : ""}
-                      ${isSollo ? "scale-[1.8]" : ""} 
+                      ${isSollo ? "scale-[1.8]" : ""}
                       ${isBonaVentura ? "scale-125" : ""}
                     `}
                   />

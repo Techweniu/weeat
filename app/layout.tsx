@@ -37,14 +37,34 @@ const poppins = localFont({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#f78608",
 }
 
 export const metadata: Metadata = {
   title: "weeat | Crescimento Real para Food Service",
   description: "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
+  metadataBase: new URL("https://weeat.com.br"),
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [{ url: "/icon.webp", href: "/icon.webp" }],
     apple: [{ url: "/apple-icon.png", href: "/apple-icon.png" }],
+  },
+  openGraph: {
+    title: "weeat | Crescimento Real para Food Service",
+    description: "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
+    url: "https://weeat.com.br",
+    siteName: "weeat",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "/logo.webp", width: 1200, height: 630, alt: "weeat - Crescimento Real para Food Service" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "weeat | Crescimento Real para Food Service",
+    description: "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
+    images: ["/logo.webp"],
   },
 }
 
