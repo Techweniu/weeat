@@ -101,7 +101,7 @@ export function ResultsDashboard() {
             VERSÃO MOBILE (Layout Limpo + Logo Ajustada)
            ========================================================= */}
         <div className="block lg:hidden max-w-md mx-auto relative">
-            <div className="bg-[#242014] rounded-[2rem] shadow-xl border border-white/10 overflow-hidden relative">
+            <div className="bg-gradient-to-br from-[#f78608] to-[#ff9933] rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(247,134,8,0.4)] border border-white/20 overflow-hidden relative">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentIndex}
@@ -116,7 +116,7 @@ export function ResultsDashboard() {
     
     {/* Tag e Selo alinhados horizontalmente no centro */}
     <div className="flex items-center gap-2 mb-3">
-        <span className="inline-block px-3 py-1 bg-orange-100 text-[#f78608] text-[10px] font-bold uppercase tracking-wider rounded-full">
+        <span className="inline-block px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider rounded-full border border-white/20">
             {currentCase.tags[0]}
         </span>
         <BadgeCheck className="text-[#f78608] w-5 h-5 shrink-0" />
@@ -135,12 +135,12 @@ export function ResultsDashboard() {
 </div>
 
                         {/* Resultado Principal (Gigante) */}
-                        <div className="text-center mb-6 py-4 bg-[#242014] rounded-2xl border border-orange-100">
-                             <p className="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Resultado Principal</p>
-                             <p className="text-4xl font-bold font-[family-name:var(--font-gate)] text-[#f78608] tracking-tighter">
+                        <div className="text-center mb-6 py-4 bg-white/10 rounded-2xl border border-white/20">
+                             <p className="text-xs text-white/80 font-medium uppercase tracking-wide mb-1">Resultado Principal</p>
+                             <p className="text-4xl font-bold font-[family-name:var(--font-gate)] text-white tracking-tighter">
                                 {currentCase.highlight}
                              </p>
-                             <p className="text-sm text-[#1A1A1A]/70 font-medium mt-1">
+                             <p className="text-sm text-white/80 font-medium mt-1">
                                 {currentCase.highlightLabel}
                              </p>
                         </div>
@@ -148,10 +148,10 @@ export function ResultsDashboard() {
                         {/* Grid Métricas (2x2 para os 4 itens) */}
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             {currentCase.metrics.map((m, i) => (
-                                <div key={i} className="bg-[#1a1710] p-3 rounded-xl flex flex-col items-center text-center">
-                                    <m.icon className="w-4 h-4 text-[#f78608] mb-1" />
-                                    <span className="font-bold text-[#1A1A1A] text-sm">{m.value}</span>
-                                    <span className="text-[9px] text-gray-500 uppercase">{m.label}</span>
+                                <div key={i} className="bg-white/10 backdrop-blur-md p-3 rounded-xl flex flex-col items-center text-center border border-white/10">
+                                    <m.icon className="w-4 h-4 text-white mb-1" />
+                                    <span className="font-bold text-white text-sm">{m.value}</span>
+                                    <span className="text-[9px] text-white/70 uppercase">{m.label}</span>
                                 </div>
                             ))}
                         </div>
@@ -165,7 +165,7 @@ export function ResultsDashboard() {
                         </a>
                         
                         <div className="text-center">
-                            <p className="text-xs text-gray-400 italic">"{currentCase.quote}"</p>
+                            <p className="text-xs text-white/70 italic">"{currentCase.quote}"</p>
                         </div>
                     </motion.div>
                 </AnimatePresence>
