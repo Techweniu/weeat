@@ -88,19 +88,19 @@ export function ContactForm() {
     }
   }
 
-  const inputClasses = "pl-10 h-12 bg-white border-gray-200 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm"
+  const inputClasses = "pl-10 h-12 bg-[#1a1710] border-white/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#f5f0e8]"
 
   return (
-    <section id="contato" className="py-16 md:py-24 px-4 bg-[#FFFBF5] relative overflow-hidden">
+    <section id="contato" className="py-16 md:py-24 px-4 bg-[#1a1710] relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#f78608]/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#22C55E]/5 rounded-full blur-3xl" />
 
       <div className="container mx-auto max-w-2xl relative z-10">
         
-        <Card className="bg-white/90 md:bg-white/80 backdrop-blur-md border-2 border-[#f78608]/20 shadow-xl md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl overflow-hidden">
+        <Card className="bg-[#242014]/90 md:bg-[#242014]/80 backdrop-blur-md border-2 border-[#f78608]/20 shadow-xl md:shadow-[0_8px_30px_rgb(0,0,0,0.4)] rounded-3xl overflow-hidden">
           <CardHeader className="bg-[#f78608]/5 px-6 py-6 md:px-8 md:py-8 border-b border-[#f78608]/10 text-center">
-            <CardTitle className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#1A1A1A]">
-              <div className="p-2 bg-white rounded-full shadow-sm">
+            <CardTitle className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#f5f0e8]">
+              <div className="p-2 bg-[#1a1710] rounded-full shadow-sm">
                  <Send className="size-5 md:size-6 text-[#f78608]" aria-hidden="true" />
               </div>
               Fale com um especialista
@@ -115,8 +115,8 @@ export function ContactForm() {
                 <div className="bg-green-100 p-4 rounded-full mb-6 animate-bounce">
                   <CheckCircle2 className="size-12 text-green-600" aria-hidden="true" />
                 </div>
-                <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#1A1A1A] mb-2">Dados enviados!</h3>
-                <p className="font-[family-name:var(--font-poppins)] text-gray-600 mb-6">{submitStatus.message}</p>
+                <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#f5f0e8] mb-2">Dados enviados!</h3>
+                <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70 mb-6">{submitStatus.message}</p>
                 <Button variant="outline" onClick={() => setSubmitStatus({ type: null, message: "" })} className="rounded-full font-[family-name:var(--font-poppins)]">
                   Enviar outro contato
                 </Button>
@@ -131,7 +131,7 @@ export function ContactForm() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="input-name" className="font-[family-name:var(--font-poppins)] font-medium">Seu nome</FormLabel>
+                          <FormLabel htmlFor="input-name" className="font-[family-name:var(--font-poppins)] font-medium text-white">Seu nome</FormLabel>
                           <FormControl>
                             <div className="relative group">
                               <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
@@ -148,7 +148,7 @@ export function ContactForm() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="input-email" className="font-[family-name:var(--font-poppins)] font-medium">Melhor e-mail</FormLabel>
+                          <FormLabel htmlFor="input-email" className="font-[family-name:var(--font-poppins)] font-medium text-white">Melhor e-mail</FormLabel>
                           <FormControl>
                             <div className="relative group">
                               <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
@@ -167,7 +167,7 @@ export function ContactForm() {
                       name="phone"
                       render={({ field: { onChange, ...field } }) => (
                         <FormItem>
-                          <FormLabel htmlFor="input-phone" className="font-[family-name:var(--font-poppins)] font-medium">WhatsApp</FormLabel>
+                          <FormLabel htmlFor="input-phone" className="font-[family-name:var(--font-poppins)] font-medium text-white">WhatsApp</FormLabel>
                           <FormControl>
                             <div className="relative group">
                               <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
@@ -184,7 +184,7 @@ export function ContactForm() {
                       name="companyName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="input-company" className="font-[family-name:var(--font-poppins)] font-medium">Nome da Empresa</FormLabel>
+                          <FormLabel htmlFor="input-company" className="font-[family-name:var(--font-poppins)] font-medium text-white">Nome da Empresa</FormLabel>
                           <FormControl>
                             <div className="relative group">
                               <Building2 className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
@@ -203,7 +203,7 @@ export function ContactForm() {
                       name="segment"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="select-segment" className="font-[family-name:var(--font-poppins)] font-medium">Segmento</FormLabel>
+                          <FormLabel htmlFor="select-segment" className="font-[family-name:var(--font-poppins)] font-medium text-white">Segmento</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger id="select-segment" aria-label="Selecione um segmento" className={inputClasses}>
@@ -228,7 +228,7 @@ export function ContactForm() {
                       name="revenue"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="select-revenue" className="font-[family-name:var(--font-poppins)] font-medium">Faturamento Mensal</FormLabel>
+                          <FormLabel htmlFor="select-revenue" className="font-[family-name:var(--font-poppins)] font-medium text-white">Faturamento Mensal</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger id="select-revenue" aria-label="Selecione uma faixa de faturamento" className={inputClasses}>
@@ -264,7 +264,7 @@ export function ContactForm() {
                         "Receber Proposta"
                       )}
                     </Button>
-                    <p className="text-xs text-center text-gray-400 mt-4 font-[family-name:var(--font-poppins)]">
+                    <p className="text-xs text-center text-[#f5f0e8]/50 mt-4 font-[family-name:var(--font-poppins)]">
                       Seus dados estão protegidos.
                     </p>
                   </div>

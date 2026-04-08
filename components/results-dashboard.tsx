@@ -11,25 +11,6 @@ import Image from "next/image"
 // --- DADOS REAIS DOS CLIENTES (Estritos) ---
 const cases = [
   {
-    id: 1,
-    name: "Caio Sabeh",
-    logo: "/logocaiosabeh.webp", 
-    niche: "Hamburgueria Artesanal", 
-    // Tags mantidas para contexto visual, mas baseadas nos dados
-    tags: ["Tráfego Pago", "Alta Conversão"], 
-    highlight: "R$ 25.576",
-    highlightLabel: "Faturamento em Anúncios",
-    // Apenas os 4 dados solicitados
-    metrics: [
-      { label: "ROAS", value: "21,80x", icon: Zap },
-      { label: "Pedidos", value: "386", icon: ShoppingBag },
-      { label: "Ticket Médio", value: "R$ 66,25", icon: DollarSign },
-      { label: "Conversão", value: "40%", icon: Percent },
-    ],
-    quote: "Escalamos o volume de pedidos mantendo a consistência de vendas.",
-    logoScale: "scale-100" // Logo normal
-  },
-  {
     id: 2,
     name: "Kiwi Foods",
     logo: "/kiwi-purple.webp",
@@ -100,7 +81,7 @@ export function ResultsDashboard() {
   const currentCase = cases[currentIndex]
 
   return (
-    <section id="cases" className="py-16 md:py-24 bg-[#FFFBF5] relative overflow-hidden">
+    <section id="cases" className="py-16 md:py-24 bg-[#1a1710] relative overflow-hidden">
       
       {/* Background Decorativo */}
       <div className="hidden lg:block absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#f78608]/5 via-transparent to-transparent pointer-events-none" />
@@ -108,10 +89,10 @@ export function ResultsDashboard() {
       <div className="container mx-auto px-4 relative z-10">
         
         <div className="text-center mb-8 md:mb-16">
-           <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-[#1A1A1A] mb-3 md:mb-4">
+           <h2 className="font-[family-name:var(--font-gate)] text-3xl md:text-5xl text-white mb-3 md:mb-4">
             Resultados Comprovados
           </h2>
-          <p className="font-[family-name:var(--font-poppins)] text-[#1A1A1A]/60 max-w-2xl mx-auto text-base md:text-lg">
+          <p className="font-[family-name:var(--font-poppins)] text-white/60 max-w-2xl mx-auto text-base md:text-lg">
             Números reais, extraídos diretamente do gerenciador de anúncios dos nossos parceiros.
           </p>
         </div>
@@ -120,7 +101,7 @@ export function ResultsDashboard() {
             VERSÃO MOBILE (Layout Limpo + Logo Ajustada)
            ========================================================= */}
         <div className="block lg:hidden max-w-md mx-auto relative">
-            <div className="bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden relative">
+            <div className="bg-[#242014] rounded-[2rem] shadow-xl border border-white/10 overflow-hidden relative">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentIndex}
@@ -154,7 +135,7 @@ export function ResultsDashboard() {
 </div>
 
                         {/* Resultado Principal (Gigante) */}
-                        <div className="text-center mb-6 py-4 bg-[#FFFBF5] rounded-2xl border border-orange-100">
+                        <div className="text-center mb-6 py-4 bg-[#242014] rounded-2xl border border-orange-100">
                              <p className="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Resultado Principal</p>
                              <p className="text-4xl font-bold font-[family-name:var(--font-gate)] text-[#f78608] tracking-tighter">
                                 {currentCase.highlight}
@@ -167,7 +148,7 @@ export function ResultsDashboard() {
                         {/* Grid Métricas (2x2 para os 4 itens) */}
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             {currentCase.metrics.map((m, i) => (
-                                <div key={i} className="bg-gray-50 p-3 rounded-xl flex flex-col items-center text-center">
+                                <div key={i} className="bg-[#1a1710] p-3 rounded-xl flex flex-col items-center text-center">
                                     <m.icon className="w-4 h-4 text-[#f78608] mb-1" />
                                     <span className="font-bold text-[#1A1A1A] text-sm">{m.value}</span>
                                     <span className="text-[9px] text-gray-500 uppercase">{m.label}</span>
@@ -192,13 +173,13 @@ export function ResultsDashboard() {
 
             {/* Navegação Mobile */}
             <div className="flex justify-center items-center gap-6 mt-6">
-                <button onClick={handlePrev} aria-label="Ver case anterior" className="p-3 bg-white rounded-full text-[#f78608] shadow-sm border border-gray-100 active:scale-95 transition-transform">
+                <button onClick={handlePrev} aria-label="Ver case anterior" className="p-3 bg-[#242014] rounded-full text-[#f78608] shadow-sm border border-white/10 active:scale-95 transition-transform">
                     <ChevronLeft size={24} aria-hidden="true" />
                 </button>
                 <span className="text-sm font-bold text-gray-400 font-[family-name:var(--font-poppins)]" aria-live="polite">
                     {currentIndex + 1} / {cases.length}
                 </span>
-                <button onClick={handleNext} aria-label="Ver próximo case" className="p-3 bg-white rounded-full text-[#f78608] shadow-sm border border-gray-100 active:scale-95 transition-transform">
+                <button onClick={handleNext} aria-label="Ver próximo case" className="p-3 bg-[#242014] rounded-full text-[#f78608] shadow-sm border border-white/10 active:scale-95 transition-transform">
                     <ChevronRight size={24} aria-hidden="true" />
                 </button>
             </div>
@@ -213,7 +194,7 @@ export function ResultsDashboard() {
           <button
             onClick={handlePrev}
             aria-label="Ver case anterior"
-            className="absolute left-8 z-40 bg-white/80 backdrop-blur-md p-3 rounded-full text-[#f78608] shadow-lg hover:bg-white hover:scale-110 transition-all border border-white/20"
+            className="absolute left-8 z-40 bg-[#242014]/80 backdrop-blur-md p-3 rounded-full text-[#f78608] shadow-lg hover:bg-[#242014] hover:scale-110 transition-all border border-white/20"
           >
             <ChevronLeft size={32} aria-hidden="true" />
           </button>
@@ -221,7 +202,7 @@ export function ResultsDashboard() {
           <button
             onClick={handleNext}
             aria-label="Ver próximo case"
-            className="absolute right-8 z-40 bg-white/80 backdrop-blur-md p-3 rounded-full text-[#f78608] shadow-lg hover:bg-white hover:scale-110 transition-all border border-white/20"
+            className="absolute right-8 z-40 bg-[#242014]/80 backdrop-blur-md p-3 rounded-full text-[#f78608] shadow-lg hover:bg-[#242014] hover:scale-110 transition-all border border-white/20"
           >
             <ChevronRight size={32} aria-hidden="true" />
           </button>

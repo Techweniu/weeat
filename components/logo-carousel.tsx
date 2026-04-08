@@ -5,7 +5,6 @@ import Image from "next/image"
 
 // Lista de logos .webp
 const logos = [
-  { src: "/logocaiosabeh.webp", alt: "Logo Caio Sabeh" },
   { src: "/logocasatali.webp", alt: "Logo Casa Tali" },
   { src: "/logodinatin.webp", alt: "Logo Dinatin" },
   { src: "/logofratteli.webp", alt: "Logo Fratteli" },
@@ -19,9 +18,9 @@ const duplicatedLogos = [...logos, ...logos, ...logos, ...logos]
 
 export function LogoCarousel() {
   return (
-    <section className="py-10 bg-[#FFFBF5] overflow-hidden border-y-2 border-[#f78608]/30" aria-label="Parceiros weeat">
+    <section className="py-10 bg-[#2a2718] overflow-hidden border-y-2 border-[#f78608]/40" aria-label="Parceiros weeat">
       <div className="container mx-auto px-4 mb-8">
-        <p className="flex items-center justify-center gap-3 font-[family-name:var(--font-poppins)] text-sm text-[#8C8C8C] uppercase tracking-[0.2em]">
+        <p className="flex items-center justify-center gap-3 font-[family-name:var(--font-poppins)] text-sm text-[#f5f0e8]/80 uppercase tracking-[0.2em]">
           <span>Parceiros que confiam na</span>
           <Image
             src="/logo.webp"
@@ -56,9 +55,9 @@ export function LogoCarousel() {
               <div
                 key={index}
                 aria-hidden={isDuplicate ? "true" : undefined}
-                className="relative flex-shrink-0 transition-all duration-300 filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100 cursor-pointer"
+                className={`group relative flex-shrink-0 transition-all duration-300 cursor-pointer ${isCasaTali ? "brightness-150 hover:brightness-100" : ""}`}
               >
-                <div className="h-12 md:h-16 w-auto relative aspect-[3/1] flex items-center justify-center">
+                <div className="h-12 md:h-16 w-auto relative aspect-[3/1] flex items-center justify-center filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
                   <Image
                     src={logo.src}
                     alt={logo.alt}
@@ -69,7 +68,7 @@ export function LogoCarousel() {
                     // Sollo reduzida para 1.8 (mesmo tamanho do casarão) para não cortar.
                     // Bona Ventura aumentada levemente para 1.25 (25% maior).
                     className={`object-contain w-full h-full origin-center
-                      ${isCasaTali ? "scale-150" : ""}
+                      ${isCasaTali ? "scale-[2.2]" : ""}
                       ${isCasarao ? "scale-[1.8]" : ""}
                       ${isSollo ? "scale-[1.8]" : ""} 
                       ${isBonaVentura ? "scale-125" : ""}
@@ -81,8 +80,8 @@ export function LogoCarousel() {
           })}
         </motion.div>
 
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#FFFBF5] to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#FFFBF5] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#2a2718] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#2a2718] to-transparent z-10" />
       </div>
     </section>
   )
