@@ -49,8 +49,9 @@ export function Gallery() {
                   alt={`Bastidores weeat ${idx + 1}`}
                   fill
                   loading="lazy"
+                  quality={75}
                   className="object-contain p-4 group-hover:p-3 transition-all duration-300"
-                  sizes="(max-width: 1200px) 33vw, 25vw"
+                  sizes="(max-width: 1024px) 30vw, 360px"
                 />
                 
                 {/* Ícone de Zoom que aparece no Hover */}
@@ -83,6 +84,7 @@ export function Gallery() {
                             alt={`Bastidores weeat ${idx + 1}`}
                             fill
                             loading="lazy"
+                            quality={75}
                             className="object-contain p-4"
                             sizes="85vw"
                         />

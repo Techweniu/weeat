@@ -65,7 +65,7 @@ export function LogoCarousel() {
                     width={180}
                     height={80}
                     loading="lazy"
-                    sizes="(max-width: 768px) 120px, 180px"
+                    sizes="(max-width: 768px) 96px, 128px"
                     className={`object-contain w-full h-full origin-center
                       ${isCasaTali ? "scale-[2.2]" : ""}
                       ${isCasarao ? "scale-[1.8]" : ""}

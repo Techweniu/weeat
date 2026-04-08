@@ -43,7 +43,7 @@ export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState<string>("")
 
   return (
-    <main className="min-h-screen bg-[#FFFBF5]">
+    <main className="min-h-screen bg-[#1a1710]">
       <Header />
       <HeroSection />
       <LogoCarousel />
