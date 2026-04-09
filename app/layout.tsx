@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "weeat | Crescimento Real para Food Service",
+  title: "weeat",
   description: "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
   metadataBase: new URL("https://weeat.com.br"),
   alternates: {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-icon.png", href: "/apple-icon.png" }],
   },
   openGraph: {
-    title: "weeat | Crescimento Real para Food Service",
+    title: "weeat",
     description: "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
     url: "https://weeat.com.br",
     siteName: "weeat",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "weeat | Crescimento Real para Food Service",
+    title: "weeat",
     description: "Chega de métricas de vaidade. A weeat é o seu braço de Growth focado em dinheiro no bolso. Tenha previsibilidade de vendas e lucro saudável.",
     images: ["/logo.webp"],
   },
