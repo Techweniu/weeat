@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
-import crypto from 'crypto' // <-- Importação necessária para a CAPI do Facebook
+import crypto from 'crypto'
 
 // Função auxiliar para criptografar dados no padrão SHA-256 (Exigência do Facebook)
 const hashData = (data: string) => {
@@ -67,24 +67,34 @@ export async function POST(request: Request) {
         const hashedFirstName = hashData(nameParts[0]);
         const hashedLastName = nameParts.length > 1 ? hashData(nameParts.slice(1).join(" ")) : "";
 
-        // Monta o pacote de dados para o Facebook
+        // Captura os cookies de rastreamento do Facebook para o fbp e fbc
+        const cookieHeader = request.headers.get("cookie") || "";
+        const fbp = cookieHeader.split('; ').find(row => row.startsWith('_fbp='))?.split('=')[1];
+        const fbc = cookieHeader.split('; ').find(row => row.startsWith('_fbc='))?.split('=')[1];
+
+        // Monta o pacote de dados para o Facebook com os parâmetros avançados
         const fbEventData = {
           data: [
             {
               event_name: "Lead",
               event_time: Math.floor(Date.now() / 1000), // Tempo atual em segundos
               action_source: "website",
+              event_source_url: request.headers.get("referer") || "https://weeat.com.br",
               user_data: {
                 em: [hashedEmail],
                 ph: [hashedPhone],
                 fn: [hashedFirstName],
                 ln: hashedLastName ? [hashedLastName] : [],
-                // Captura de IP e Navegador (Aumenta a nota de qualidade do evento no Facebook)
+                // Captura de IP e Navegador
                 client_ip_address: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
                 client_user_agent: request.headers.get("user-agent") || null,
+                // Parâmetros avançados de correspondência
+                fbp: fbp || null,
+                fbc: fbc || null
               },
               custom_data: {
                 currency: "BRL",
+                content_name: "Consultoria WeEat Growth"
               }
             }
           ]
