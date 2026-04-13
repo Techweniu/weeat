@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import crypto from 'crypto'
+import { cookies } from 'next/headers' // Importação nativa para capturar cookies
 
-// Função auxiliar para criptografar dados no padrão SHA-256 (Exigência do Facebook)
+// Função para criptografar dados no padrão SHA-256 (Exigência do Facebook)
 const hashData = (data: string) => {
   if (!data) return '';
   return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
@@ -33,51 +34,42 @@ export async function POST(request: Request) {
       )
     }
 
-    // --- 3. ENVIO DIRETO PARA O N8N ---
+    // --- 3. ENVIO PARA O N8N ---
     const WEBHOOK_URL = "https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads" 
     
-    console.log("Enviando para o n8n...")
-    
-    const response = await fetch(WEBHOOK_URL, {
+    const n8nResponse = await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(validation.data), 
     })
 
-    if (!response.ok) {
-      console.error("Erro no n8n:", await response.text())
-      throw new Error("Falha ao enviar para o n8n")
+    if (!n8nResponse.ok) {
+      console.error("Erro no n8n:", await n8nResponse.text())
     }
-
-    console.log("Sucesso no n8n!")
 
     // --- 4. ENVIO PARA A API DE CONVERSÃO DO FACEBOOK (CAPI) ---
     try {
       const fbPixelId = process.env.FB_PIXEL_ID;
       const fbToken = process.env.FB_ACCESS_TOKEN;
 
-      // Só executa se as variáveis de ambiente estiverem configuradas na Vercel
       if (fbPixelId && fbToken) {
         
-        // Trata os dados do usuário antes de criptografar
+        // CORREÇÃO AQUI: Adicionado o 'await' para resolver a Promise do cookies()
+        const cookieStore = await cookies(); 
+        const fbp = cookieStore.get('_fbp')?.value || null;
+        const fbc = cookieStore.get('_fbc')?.value || null;
+
         const hashedEmail = hashData(validation.data.email);
         const hashedPhone = hashData("55" + validation.data.phone.replace(/\D/g, "")); 
-        
         const nameParts = validation.data.name.trim().toLowerCase().split(" ");
         const hashedFirstName = hashData(nameParts[0]);
         const hashedLastName = nameParts.length > 1 ? hashData(nameParts.slice(1).join(" ")) : "";
 
-        // Captura os cookies de rastreamento do Facebook para o fbp e fbc
-        const cookieHeader = request.headers.get("cookie") || "";
-        const fbp = cookieHeader.split('; ').find(row => row.startsWith('_fbp='))?.split('=')[1];
-        const fbc = cookieHeader.split('; ').find(row => row.startsWith('_fbc='))?.split('=')[1];
-
-        // Monta o pacote de dados para o Facebook com os parâmetros avançados
         const fbEventData = {
           data: [
             {
               event_name: "Lead",
-              event_time: Math.floor(Date.now() / 1000), // Tempo atual em segundos
+              event_time: Math.floor(Date.now() / 1000),
               action_source: "website",
               event_source_url: request.headers.get("referer") || "https://weeat.com.br",
               user_data: {
@@ -85,12 +77,11 @@ export async function POST(request: Request) {
                 ph: [hashedPhone],
                 fn: [hashedFirstName],
                 ln: hashedLastName ? [hashedLastName] : [],
-                // Captura de IP e Navegador
                 client_ip_address: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
                 client_user_agent: request.headers.get("user-agent") || null,
-                // Parâmetros avançados de correspondência
-                fbp: fbp || null,
-                fbc: fbc || null
+                // Parâmetros fbp e fbc enviados sem hash conforme solicitado
+                fbp: fbp,
+                fbc: fbc
               },
               custom_data: {
                 currency: "BRL",
@@ -100,27 +91,21 @@ export async function POST(request: Request) {
           ]
         };
 
-        // Faz a chamada para a API do Facebook
         const fbResponse = await fetch(`https://graph.facebook.com/v19.0/${fbPixelId}/events?access_token=${fbToken}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(fbEventData),
         });
         
-        if(!fbResponse.ok){
-             console.error("Erro no Facebook CAPI:", await fbResponse.text());
+        if (!fbResponse.ok) {
+          console.error("Erro no Facebook CAPI:", await fbResponse.text());
         } else {
-             console.log("Sucesso no Facebook CAPI!");
+          console.log("Sucesso no Facebook CAPI! fbp enviado:", fbp);
         }
-      } else {
-         console.warn("Variáveis de ambiente FB_PIXEL_ID ou FB_ACCESS_TOKEN ausentes. CAPI não disparada.");
       }
     } catch (fbError) {
-       // Isolamos o erro do Facebook num try/catch separado para que, se der falha no Facebook,
-       // o Lead ainda seja salvo com sucesso no seu n8n e o utilizador receba a mensagem de sucesso!
-       console.error("Exceção ao enviar para o Facebook CAPI:", fbError);
+       console.error("Exceção no Facebook CAPI:", fbError);
     }
-    // -----------------------------------------------------------
 
     return NextResponse.json(
       { success: true, message: "Lead processado com sucesso!" },
@@ -128,7 +113,7 @@ export async function POST(request: Request) {
     )
     
   } catch (error) {
-    console.error("Erro ao processar:", error)
-    return NextResponse.json({ error: "Erro interno." }, { status: 500 })
+    console.error("Erro no processamento:", error)
+    return NextResponse.json({ error: "Erro interno no servidor." }, { status: 500 })
   }
 }
