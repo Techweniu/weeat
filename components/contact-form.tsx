@@ -57,11 +57,12 @@ export function ContactForm() {
     onChange(value)
   }
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     setSubmitStatus({ type: null, message: "" })
 
     try {
+      // 1. Envia os dados para a sua API (Kommo/n8n)
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,8 +71,25 @@ export function ContactForm() {
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || "Erro ao enviar formulário")
       
-      // --- INCLUSÃO DO META PIXEL (EVENTO LEAD) ---
+      // --- INCLUSÃO DO META PIXEL (EVENTO LEAD COM CORRESPONDÊNCIA AVANÇADA) ---
       if (typeof window !== "undefined" && (window as any).fbq) {
+        
+        // Limpamos os dados para o padrão do Facebook
+        const userEmail = values.email.trim().toLowerCase();
+        const userPhone = "55" + values.phone.replace(/\D/g, ""); // Remove traços e parênteses e adiciona +55
+        const nameParts = values.name.trim().toLowerCase().split(" ");
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+
+        // Inicia a Correspondência Avançada enviando os dados do Lead
+        (window as any).fbq('init', '1260964142240541', {
+          em: userEmail,
+          ph: userPhone,
+          fn: firstName,
+          ln: lastName
+        });
+
+        // Dispara o evento de Lead com sucesso
         (window as any).fbq('track', 'Lead', {
           content_name: 'Formulário de Contato LP',
           status: 'Sucesso'
@@ -79,6 +97,7 @@ export function ContactForm() {
       }
       // --------------------------------------------
 
+      // 3. Mostra a mensagem de sucesso na tela
       setSubmitStatus({ type: "success", message: "Sucesso! Entraremos em contato em breve." })
       form.reset()
     } catch (error) {
