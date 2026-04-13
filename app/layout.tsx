@@ -88,6 +88,25 @@ export default function RootLayout({
         </noscript>
         {/* -------------------------------------------- */}
 
+        {/* --- GOOGLE ANALYTICS (GA4) --- */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-FL1EGKLP84"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-FL1EGKLP84');
+            `,
+          }}
+        />
+        {/* -------------------------------------------- */}
+
         {/* --- GOOGLE TAG MANAGER (SCRIPT - HEAD) --- */}
         <Script
           id="gtm-script"
@@ -104,7 +123,7 @@ export default function RootLayout({
         />
         {/* -------------------------------------------- */}
 
-        {/* Meta Pixel - Apenas Inicialização */}
+        {/* --- META PIXEL --- */}
         <Script
           id="fb-pixel"
           strategy="afterInteractive"
