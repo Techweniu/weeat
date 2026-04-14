@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import crypto from 'crypto'
-import { cookies } from 'next/headers' // Importação nativa para capturar cookies
+import { cookies } from 'next/headers'
 
-// Função para criptografar dados no padrão SHA-256 (Exigência do Facebook)
 const hashData = (data: string) => {
   if (!data) return '';
   return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
 };
 
-// 1. Schema de validação
 const leadSchema = z.object({
   name: z.string().min(2, "Nome muito curto"),
   email: z.string().email("Email inválido"),
@@ -23,8 +21,6 @@ const leadSchema = z.object({
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-
-    // 2. Valida os dados
     const validation = leadSchema.safeParse(body)
 
     if (!validation.success) {
@@ -34,9 +30,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // --- 3. ENVIO PARA O N8N ---
     const WEBHOOK_URL = "https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads" 
-    
     const n8nResponse = await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,14 +41,12 @@ export async function POST(request: Request) {
       console.error("Erro no n8n:", await n8nResponse.text())
     }
 
-    // --- 4. ENVIO PARA A API DE CONVERSÃO DO FACEBOOK (CAPI) ---
     try {
       const fbPixelId = process.env.FB_PIXEL_ID;
       const fbToken = process.env.FB_ACCESS_TOKEN;
 
       if (fbPixelId && fbToken) {
         
-        // CORREÇÃO AQUI: Adicionado o 'await' para resolver a Promise do cookies()
         const cookieStore = await cookies(); 
         const fbp = cookieStore.get('_fbp')?.value || null;
         const fbc = cookieStore.get('_fbc')?.value || null;
@@ -77,13 +69,14 @@ export async function POST(request: Request) {
                 ph: [hashedPhone],
                 fn: [hashedFirstName],
                 ln: hashedLastName ? [hashedLastName] : [],
+                external_id: [hashedEmail], // <-- ADICIONADO PARA NOTA 10/10
                 client_ip_address: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
                 client_user_agent: request.headers.get("user-agent") || null,
-                // Parâmetros fbp e fbc enviados sem hash conforme solicitado
                 fbp: fbp,
                 fbc: fbc
               },
               custom_data: {
+                value: 1.00,
                 currency: "BRL",
                 content_name: "Consultoria WeEat Growth"
               }
@@ -100,7 +93,7 @@ export async function POST(request: Request) {
         if (!fbResponse.ok) {
           console.error("Erro no Facebook CAPI:", await fbResponse.text());
         } else {
-          console.log("Sucesso no Facebook CAPI! fbp enviado:", fbp);
+          console.log("Sucesso no Facebook CAPI!");
         }
       }
     } catch (fbError) {

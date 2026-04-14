@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-// Schema Atualizado (Sem o campo plan)
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
   email: z.string().email({ message: "Insira um e-mail válido." }),
@@ -51,13 +50,7 @@ export function ContactForm() {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     let value = e.target.value.replace(/\D/g, "")
-    
-    // Se o lead colar um número ou digitar começando com 55 (e tiver mais de 11 dígitos no total colado),
-    // removemos o 55 da frente para encaixar perfeitamente na máscara.
-    if (value.startsWith("55") && value.length > 11) {
-      value = value.substring(2)
-    }
-
+    if (value.startsWith("55") && value.length > 11) value = value.substring(2)
     if (value.length > 11) value = value.substring(0, 11)
     value = value.replace(/^(\d{2})(\d)/g, "($1) $2")
     value = value.replace(/(\d)(\d{4})$/, "$1-$2")
@@ -69,7 +62,6 @@ export function ContactForm() {
     setSubmitStatus({ type: null, message: "" })
 
     try {
-      // 1. Envia os dados para a sua API (Kommo/n8n)
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,25 +70,22 @@ export function ContactForm() {
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || "Erro ao enviar formulário")
       
-      // --- INCLUSÃO DO META PIXEL (EVENTO LEAD COM CORRESPONDÊNCIA AVANÇADA) ---
       if (typeof window !== "undefined" && (window as any).fbq) {
-        
-        // Limpamos os dados para o padrão do Facebook
         const userEmail = values.email.trim().toLowerCase();
-        const userPhone = "55" + values.phone.replace(/\D/g, ""); // O +55 é adicionado no envio automaticamente
+        const userPhone = "55" + values.phone.replace(/\D/g, ""); 
         const nameParts = values.name.trim().toLowerCase().split(" ");
         const firstName = nameParts[0];
         const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
-        // Inicia a Correspondência Avançada enviando os dados do Lead
+        // Correspondência 
         (window as any).fbq('init', '1260964142240541', {
           em: userEmail,
           ph: userPhone,
           fn: firstName,
-          ln: lastName
+          ln: lastName,
+          external_id: userEmail // Usamos o e-mail como ID Único
         });
 
-        // Dispara o evento de Lead com sucesso (Agor com value e currency)
         (window as any).fbq('track', 'Lead', {
           content_name: 'Formulário de Contato LP',
           status: 'Sucesso',
@@ -104,9 +93,7 @@ export function ContactForm() {
           currency: 'BRL'
         });
       }
-      // --------------------------------------------
 
-      // 3. Mostra a mensagem de sucesso na tela
       setSubmitStatus({ type: "success", message: "Sucesso! Entraremos em contato em breve." })
       form.reset()
     } catch (error) {
@@ -198,13 +185,10 @@ export function ContactForm() {
                           <FormLabel htmlFor="input-phone" className="font-[family-name:var(--font-poppins)] font-medium text-white">WhatsApp</FormLabel>
                           <FormControl>
                             <div className="relative group flex items-center">
-                              {/* Ícone */}
                               <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] z-10 transition-colors" aria-hidden="true" />
-                              {/* Prefixo Fixo +55 */}
                               <span className="absolute left-9 top-[13px] text-[#f5f0e8]/50 text-base md:text-sm font-medium pointer-events-none z-10">
                                 +55
                               </span>
-                              {/* O campo de input ajustado com mais padding à esquerda (pl-[70px]) para acomodar o +55 */}
                               <Input 
                                 id="input-phone" 
                                 placeholder="(00) 00000-0000" 
