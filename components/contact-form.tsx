@@ -96,10 +96,12 @@ export function ContactForm() {
           ln: lastName
         });
 
-        // Dispara o evento de Lead com sucesso
+        // Dispara o evento de Lead com sucesso (Agor com value e currency)
         (window as any).fbq('track', 'Lead', {
           content_name: 'Formulário de Contato LP',
-          status: 'Sucesso'
+          status: 'Sucesso',
+          value: 1.00,
+          currency: 'BRL'
         });
       }
       // --------------------------------------------
