@@ -62,6 +62,7 @@ export function ContactForm() {
     setSubmitStatus({ type: null, message: "" })
 
     try {
+      // 1. Envia sempre para a API (para chegar ao n8n, não perdemos o lead)
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,29 +71,36 @@ export function ContactForm() {
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || "Erro ao enviar formulário")
       
+      // --- META PIXEL (SÓ DISPARA SE FATURAMENTO FOR MAIOR QUE 20K) ---
       if (typeof window !== "undefined" && (window as any).fbq) {
-        const userEmail = values.email.trim().toLowerCase();
-        const userPhone = "55" + values.phone.replace(/\D/g, ""); 
-        const nameParts = values.name.trim().toLowerCase().split(" ");
-        const firstName = nameParts[0];
-        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+        
+        // A CONDIÇÃO: Diferente de "Até R$ 20.000"
+        if (values.revenue !== "Até R$ 20.000") {
+          const userEmail = values.email.trim().toLowerCase();
+          const userPhone = "55" + values.phone.replace(/\D/g, ""); 
+          const nameParts = values.name.trim().toLowerCase().split(" ");
+          const firstName = nameParts[0];
+          const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
-        // Correspondência 
-        (window as any).fbq('init', '1260964142240541', {
-          em: userEmail,
-          ph: userPhone,
-          fn: firstName,
-          ln: lastName,
-          external_id: userEmail // Usamos o e-mail como ID Único
-        });
+          // Correspondência Avançada (Inclui external_id)
+          (window as any).fbq('init', '1260964142240541', {
+            em: userEmail,
+            ph: userPhone,
+            fn: firstName,
+            ln: lastName,
+            external_id: userEmail
+          });
 
-        (window as any).fbq('track', 'Lead', {
-          content_name: 'Formulário de Contato LP',
-          status: 'Sucesso',
-          value: 1.00,
-          currency: 'BRL'
-        });
+          // Dispara o Evento
+          (window as any).fbq('track', 'Lead', {
+            content_name: 'Formulário de Contato LP - Qualificado',
+            status: 'Sucesso',
+            value: 1.00,
+            currency: 'BRL'
+          });
+        }
       }
+      // -------------------------------------------------------------
 
       setSubmitStatus({ type: "success", message: "Sucesso! Entraremos em contato em breve." })
       form.reset()
