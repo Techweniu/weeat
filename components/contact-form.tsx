@@ -4,7 +4,8 @@ import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Loader2, Send, Building2, User, Mail, Phone, CheckCircle2 } from "lucide-react"
+import { Loader2, Send, Building2, User, Phone, Users, Landmark } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -12,42 +13,47 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
+// --- 1. ESQUEMA DE VALIDAÇÃO ---
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
-  email: z.string().email({ message: "Insira um e-mail válido." }),
   phone: z.string().min(14, { message: "Insira um telefone válido com DDD." }),
   companyName: z.string().min(2, { message: "Nome da empresa é obrigatório." }),
-  segment: z.string({ required_error: "Selecione um segmento." }),
+  employeeCount: z.string({ required_error: "Selecione o número de funcionários." }),
   revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
 })
 
-const segments = [
-  "Pizzaria", "Hamburgueria", "Churrascaria / Steakhouse",
-  "Restaurante Japonês / Asiático", "Massas e Comida Italiana",
-  "Comida Brasileira", "Outros",
+// --- 2. OPÇÕES DE DADOS ---
+const employeeOptions = [
+  "1 a 5", 
+  "6 a 15", 
+  "16 a 30", 
+  "31 a 50", 
+  "Mais de 50"
 ]
 
 const revenueRanges = [
-  "Até R$ 20.000", "R$ 20.000 - R$ 40.000", "R$ 40.000 - R$ 60.000",
-  "R$ 60.000 - R$ 80.000", "R$ 80.000 - R$ 100.000", "R$ 100.000 - R$ 150.000",
-  "R$ 150.000 - R$ 250.000", "R$ 250.000 - R$ 400.000", "R$ 400.000 - R$ 600.000",
-  "R$ 600.000 - R$ 1.000.000", "Mais de R$ 1.000.000",
+  "R$ 500.000 - R$ 1.000.000",
+  "R$ 250.000 - R$ 500.000",
+  "R$ 150.000 - R$ 250.000",
+  "R$ 100.000 - R$ 150.000",
+  "R$ 80.000 - R$ 100.000",
+  "R$ 60.000 - R$ 80.000",
+  "R$ 40.000 - R$ 60.000",
+  "Até R$ 40.000",
 ]
 
 export function ContactForm() {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [submitStatus, setSubmitStatus] = React.useState<{
-    type: "success" | "error" | null
-    message: string
-  }>({ type: null, message: "" })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "", email: "", phone: "", companyName: "", segment: "", revenue: "",
+      name: "", phone: "", companyName: "", employeeCount: "", revenue: "",
     },
   })
 
+  // MÁSCARA DO TELEFONE
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     let value = e.target.value.replace(/\D/g, "")
     if (value.startsWith("55") && value.length > 11) value = value.substring(2)
@@ -57,253 +63,237 @@ export function ContactForm() {
     onChange(value)
   }
 
+  // AÇÃO DE ENVIO
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
-    setSubmitStatus({ type: null, message: "" })
 
     try {
-      // 1. Envia sempre para a API (para chegar ao n8n, não perdemos o lead)
+      // Captura UTMs da URL (Fica invisível para o usuário)
+      const urlParams = new URLSearchParams(window.location.search)
+      const payload = {
+        ...values,
+        utm_source: urlParams.get("utm_source") || "",
+        utm_medium: urlParams.get("utm_medium") || "",
+        utm_campaign: urlParams.get("utm_campaign") || "",
+        utm_content: urlParams.get("utm_content") || ""
+      }
+
+      // Envia os dados e UTMs para a API (que vai para o n8n e depois Kommo)
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       })
+      
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || "Erro ao enviar formulário")
       
-      // --- META PIXEL (SÓ DISPARA SE FATURAMENTO FOR MAIOR QUE 20K) ---
+      // --- META PIXEL (O FILTRO DOS 40 MIL) ---
       if (typeof window !== "undefined" && (window as any).fbq) {
         
-        // A CONDIÇÃO: Diferente de "Até R$ 20.000"
-        if (values.revenue !== "Até R$ 20.000") {
-          const userEmail = values.email.trim().toLowerCase();
+        // Bloqueia registro de lead no Facebook se faturamento for o mínimo ("Até R$ 40.000")
+        if (values.revenue !== "Até R$ 40.000") {
           const userPhone = "55" + values.phone.replace(/\D/g, ""); 
           const nameParts = values.name.trim().toLowerCase().split(" ");
           const firstName = nameParts[0];
           const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
-          // Correspondência Avançada (Inclui external_id)
           (window as any).fbq('init', '1260964142240541', {
-            em: userEmail,
             ph: userPhone,
             fn: firstName,
             ln: lastName,
-            external_id: userEmail
+            external_id: userPhone
           });
 
-          // Dispara o Evento
           (window as any).fbq('track', 'Lead', {
-            content_name: 'Formulário de Contato LP - Qualificado',
+            content_name: 'Formulário LP - Qualificado',
             status: 'Sucesso',
             value: 1.00,
             currency: 'BRL'
           });
         }
       }
-      // -------------------------------------------------------------
 
-      setSubmitStatus({ type: "success", message: "Sucesso! Entraremos em contato em breve." })
-      form.reset()
+      // Redireciona para a Página de Obrigado!
+      router.push('/obrigado')
+
     } catch (error) {
-      setSubmitStatus({ type: "error", message: error instanceof Error ? error.message : "Erro ao enviar. Tente novamente." })
-    } finally {
+      console.error(error)
+      alert("Erro ao enviar. Tente novamente.")
       setIsSubmitting(false)
     }
   }
 
-  const inputClasses = "pl-10 h-12 bg-[#1a1710] border-white/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#f5f0e8]"
+  // Estilo padronizado "BRANCO" (Inputs claros com texto escuro)
+  const inputClasses = "pl-10 h-12 bg-white border-[#1a1710]/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#1a1710] shadow-sm"
 
   return (
-    <section id="contato" className="py-16 md:py-24 px-4 bg-[#1a1710] relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#f78608]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#22C55E]/5 rounded-full blur-3xl" />
-
+    <section id="contato" className="py-16 md:py-24 px-4 bg-white relative overflow-hidden">
       <div className="container mx-auto max-w-2xl relative z-10">
         
-        <Card className="bg-[#242014]/90 md:bg-[#242014]/80 backdrop-blur-md border-2 border-[#f78608]/20 shadow-xl md:shadow-[0_8px_30px_rgb(0,0,0,0.4)] rounded-3xl overflow-hidden">
+        {/* Card Branco com Sombra */}
+        <Card className="bg-white border-2 border-[#f78608]/10 shadow-2xl rounded-3xl overflow-hidden">
           <CardHeader className="bg-[#f78608]/5 px-6 py-6 md:px-8 md:py-8 border-b border-[#f78608]/10 text-center">
-            <CardTitle className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#f5f0e8]">
-              <div className="p-2 bg-[#1a1710] rounded-full shadow-sm">
+            <CardTitle className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 text-2xl font-[family-name:var(--font-gate)] text-[#1a1710]">
+              <div className="p-2 bg-white rounded-full shadow-sm">
                  <Send className="size-5 md:size-6 text-[#f78608]" aria-hidden="true" />
               </div>
               Fale com um especialista
             </CardTitle>
-            <CardDescription className="font-[family-name:var(--font-poppins)] text-sm md:text-base mt-2">
-              Preencha para receber sua proposta personalizada.
+            <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1a1710]/60 text-sm md:text-base mt-2">
+              Preencha os dados abaixo para receber sua proposta.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6 md:p-8">
-            {submitStatus.type === "success" ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="bg-green-100 p-4 rounded-full mb-6 animate-bounce">
-                  <CheckCircle2 className="size-12 text-green-600" aria-hidden="true" />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 md:space-y-6">
+
+                {/* LINHA 1: Nome e WhatsApp */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#1a1710]/80">Seu nome</FormLabel>
+                        <FormControl>
+                          <div className="relative group">
+                            <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
+                            <Input placeholder="Nome completo" className={inputClasses} {...field} />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field: { onChange, ...field } }) => (
+                      <FormItem>
+                        <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#1a1710]/80">WhatsApp</FormLabel>
+                        <FormControl>
+                          <div className="relative group flex items-center">
+                            <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] z-10 transition-colors" />
+                            <span className="absolute left-9 top-[13px] text-[#1a1710]/40 text-base md:text-sm font-medium pointer-events-none z-10">
+                              +55
+                            </span>
+                            <Input 
+                              placeholder="(00) 00000-0000" 
+                              className={`${inputClasses.replace('pl-10', 'pl-[70px]')}`} 
+                              maxLength={15} 
+                              onChange={(e) => handlePhoneChange(e, onChange)} 
+                              {...field} 
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <h3 className="font-[family-name:var(--font-gate)] text-2xl text-[#f5f0e8] mb-2">Dados enviados!</h3>
-                <p className="font-[family-name:var(--font-poppins)] text-[#f5f0e8]/70 mb-6">{submitStatus.message}</p>
-                <Button variant="outline" onClick={() => setSubmitStatus({ type: null, message: "" })} className="rounded-full font-[family-name:var(--font-poppins)]">
-                  Enviar outro contato
-                </Button>
-              </div>
-            ) : (
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 md:space-y-6">
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="input-name" className="font-[family-name:var(--font-poppins)] font-medium text-white">Seu nome</FormLabel>
+                {/* LINHA 2: Nome da Empresa e Funcionários */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  <FormField
+                    control={form.control}
+                    name="companyName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#1a1710]/80">Nome da Empresa</FormLabel>
+                        <FormControl>
+                          <div className="relative group">
+                            <Building2 className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" />
+                            <Input placeholder="Nome do Restaurante" className={inputClasses} {...field} />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="employeeCount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#1a1710]/80">Nº de Funcionários</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <div className="relative group">
-                              <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
-                              <Input id="input-name" placeholder="Nome completo" className={inputClasses} {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="input-email" className="font-[family-name:var(--font-poppins)] font-medium text-white">Melhor e-mail</FormLabel>
-                          <FormControl>
-                            <div className="relative group">
-                              <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
-                              <Input id="input-email" placeholder="exemplo@email.com" className={inputClasses} {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field: { onChange, ...field } }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="input-phone" className="font-[family-name:var(--font-poppins)] font-medium text-white">WhatsApp</FormLabel>
-                          <FormControl>
-                            <div className="relative group flex items-center">
-                              <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] z-10 transition-colors" aria-hidden="true" />
-                              <span className="absolute left-9 top-[13px] text-[#f5f0e8]/50 text-base md:text-sm font-medium pointer-events-none z-10">
-                                +55
-                              </span>
-                              <Input 
-                                id="input-phone" 
-                                placeholder="(00) 00000-0000" 
-                                className={`${inputClasses.replace('pl-10', 'pl-[70px]')}`} 
-                                maxLength={15} 
-                                onChange={(e) => handlePhoneChange(e, onChange)} 
-                                {...field} 
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="companyName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="input-company" className="font-[family-name:var(--font-poppins)] font-medium text-white">Nome da Empresa</FormLabel>
-                          <FormControl>
-                            <div className="relative group">
-                              <Building2 className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors" aria-hidden="true" />
-                              <Input id="input-company" placeholder="Nome do Restaurante" className={inputClasses} {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                    <FormField
-                      control={form.control}
-                      name="segment"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="select-segment" className="font-[family-name:var(--font-poppins)] font-medium text-white">Segmento</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger id="select-segment" aria-label="Selecione um segmento" className={inputClasses}>
+                              <Users className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors z-10 pointer-events-none" />
+                              <SelectTrigger className={`${inputClasses} pl-10`}>
                                 <SelectValue placeholder="Selecione" />
                               </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {segments.map((item) => (
-                                <SelectItem key={item} value={item} className="font-[family-name:var(--font-poppins)]">
-                                  {item}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                            </div>
+                          </FormControl>
+                          <SelectContent className="bg-white text-[#1a1710] border-[#1a1710]/10">
+                            {employeeOptions.map((item) => (
+                              <SelectItem key={item} value={item} className="font-[family-name:var(--font-poppins)] focus:bg-[#f78608]/10 focus:text-[#f78608]">
+                                {item}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-                    <FormField
-                      control={form.control}
-                      name="revenue"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="select-revenue" className="font-[family-name:var(--font-poppins)] font-medium text-white">Faturamento Mensal</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger id="select-revenue" aria-label="Selecione uma faixa de faturamento" className={inputClasses}>
-                                <SelectValue placeholder="Selecione" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {revenueRanges.map((range) => (
-                                <SelectItem key={range} value={range} className="font-[family-name:var(--font-poppins)]">
-                                  {range}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                {/* LINHA 3: Faturamento */}
+                <FormField
+                  control={form.control}
+                  name="revenue"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-[family-name:var(--font-poppins)] font-medium text-[#1a1710]/80">Faturamento Mensal</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <div className="relative group">
+                            <Landmark className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] transition-colors z-10 pointer-events-none" />
+                            <SelectTrigger className={`${inputClasses} pl-10`}>
+                              <SelectValue placeholder="Selecione a faixa atual" />
+                            </SelectTrigger>
+                          </div>
+                        </FormControl>
+                        <SelectContent className="bg-white text-[#1a1710] border-[#1a1710]/10">
+                          {revenueRanges.map((range) => (
+                            <SelectItem key={range} value={range} className="font-[family-name:var(--font-poppins)] focus:bg-[#f78608]/10 focus:text-[#f78608]">
+                              {range}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <div className="pt-4 md:pt-6">
-                    <Button
-                      type="submit"
-                      className="w-full text-lg h-14 md:h-14 bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)] font-medium shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
-                          Enviando...
-                        </>
-                      ) : (
-                        "Receber Proposta"
-                      )}
-                    </Button>
-                    <p className="text-xs text-center text-[#f5f0e8]/50 mt-4 font-[family-name:var(--font-poppins)]">
-                      Seus dados estão protegidos.
-                    </p>
-                  </div>
-                </form>
-              </Form>
-            )}
+                {/* BOTÃO SUBMIT COM TEXTO RESPONSIVO */}
+                <div className="pt-4 md:pt-6">
+                  <Button
+                    type="submit"
+                    className="w-full h-14 md:h-16 bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-[family-name:var(--font-poppins)] font-bold shadow-[0_8px_30px_rgba(247,134,8,0.3)] hover:scale-[1.02] transition-all text-[13px] sm:text-sm md:text-lg px-2"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        A Processar...
+                      </>
+                    ) : (
+                      "QUERO ESCALAR MEU FATURAMENTO"
+                    )}
+                  </Button>
+                  <p className="text-xs text-center text-[#1a1710]/40 mt-4 font-[family-name:var(--font-poppins)]">
+                    Seus dados estão protegidos.
+                  </p>
+                </div>
+
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </div>

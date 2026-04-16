@@ -3,19 +3,23 @@ import { z } from "zod"
 import crypto from 'crypto'
 import { cookies } from 'next/headers'
 
+// Função para criptografar dados sensíveis (SHA256) exigida pela Meta
 const hashData = (data: string) => {
   if (!data) return '';
   return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
 };
 
+// 1. DEFINIÇÃO DO NOVO ESQUEMA DE VALIDAÇÃO (ZOD)
 const leadSchema = z.object({
   name: z.string().min(2, "Nome muito curto"),
-  email: z.string().email("Email inválido"),
   phone: z.string().min(10, "Telefone inválido"),
   companyName: z.string().min(2, "Nome da empresa inválido"),
-  segment: z.string().min(1, "Segmento obrigatório"),
+  employeeCount: z.string().min(1, "Nº de funcionários obrigatório"), // Novo campo
   revenue: z.string().min(1, "Faturamento obrigatório"),
-  plan: z.string().optional().nullable(),
+  utm_source: z.string().optional(),
+  utm_medium: z.string().optional(),
+  utm_campaign: z.string().optional(),
+  utm_content: z.string().optional(),
 })
 
 export async function POST(request: Request) {
@@ -30,7 +34,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // --- 1. ENVIO PARA O N8N (TODOS OS LEADS VÃO PARA AQUI) ---
+    // --- 1. ENVIO PARA O N8N (Sempre envia todos os leads para o CRM/Planilha) ---
     const WEBHOOK_URL = "https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads" 
     const n8nResponse = await fetch(WEBHOOK_URL, {
       method: "POST",
@@ -43,20 +47,20 @@ export async function POST(request: Request) {
     }
 
     // --- 2. ENVIO PARA O FACEBOOK (CAPI) - SÓ PARA LEADS QUALIFICADOS ---
-    // A CONDIÇÃO: Se o faturamento for diferente de "Até R$ 20.000"
-    if (validation.data.revenue !== "Até R$ 20.000") {
+    // A NOVA CONDIÇÃO: Só envia se o faturamento for DIFERENTE de "Até R$ 40.000"
+    if (validation.data.revenue !== "Até R$ 40.000") {
       try {
         const fbPixelId = process.env.FB_PIXEL_ID;
         const fbToken = process.env.FB_ACCESS_TOKEN;
 
         if (fbPixelId && fbToken) {
-          
           const cookieStore = await cookies(); 
           const fbp = cookieStore.get('_fbp')?.value || null;
           const fbc = cookieStore.get('_fbc')?.value || null;
 
-          const hashedEmail = hashData(validation.data.email);
-          const hashedPhone = hashData("55" + validation.data.phone.replace(/\D/g, "")); 
+          // Preparação dos dados para a Meta (Uso do Telefone como ID principal)
+          const cleanPhone = "55" + validation.data.phone.replace(/\D/g, "");
+          const hashedPhone = hashData(cleanPhone);
           const nameParts = validation.data.name.trim().toLowerCase().split(" ");
           const hashedFirstName = hashData(nameParts[0]);
           const hashedLastName = nameParts.length > 1 ? hashData(nameParts.slice(1).join(" ")) : "";
@@ -69,11 +73,10 @@ export async function POST(request: Request) {
                 action_source: "website",
                 event_source_url: request.headers.get("referer") || "https://weeat.com.br",
                 user_data: {
-                  em: [hashedEmail],
-                  ph: [hashedPhone],
+                  ph: [hashedPhone], // Telefone enviado
                   fn: [hashedFirstName],
                   ln: hashedLastName ? [hashedLastName] : [],
-                  external_id: [hashedEmail], // <-- ID Único para a nota 10/10
+                  external_id: [hashedPhone], // Telefone usado como ID único (external_id)
                   client_ip_address: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || null,
                   client_user_agent: request.headers.get("user-agent") || null,
                   fbp: fbp,
@@ -82,7 +85,7 @@ export async function POST(request: Request) {
                 custom_data: {
                   value: 1.00,
                   currency: "BRL",
-                  content_name: "Consultoria WeEat Growth - Qualificado" // Alterado para refletir a qualificação
+                  content_name: "Lead Qualificado > 40k" 
                 }
               }
             ]
@@ -96,15 +99,11 @@ export async function POST(request: Request) {
           
           if (!fbResponse.ok) {
             console.error("Erro no Facebook CAPI:", await fbResponse.text());
-          } else {
-            console.log("Sucesso no Facebook CAPI! Lead Qualificado enviado.");
           }
         }
       } catch (fbError) {
          console.error("Exceção no Facebook CAPI:", fbError);
       }
-    } else {
-      console.log("Lead não qualificado (Faturamento < 20k). Não enviado ao Facebook.");
     }
 
     return NextResponse.json(

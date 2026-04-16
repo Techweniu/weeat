@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-// Lista de logos .webp
 const logos = [
   { src: "/logocasatali.webp", alt: "Logo Casa Tali" },
   { src: "/logodinatin.webp", alt: "Logo Dinatin" },
@@ -18,18 +17,10 @@ const duplicatedLogos = [...logos, ...logos, ...logos, ...logos]
 
 export function LogoCarousel() {
   return (
-    <section className="py-10 bg-[#2a2718] overflow-hidden border-y-2 border-[#f78608]/40" aria-label="Parceiros weeat">
-      <div className="container mx-auto px-4 mb-8">
-        <p className="flex items-center justify-center gap-3 font-[family-name:var(--font-poppins)] text-sm text-[#f5f0e8]/80 uppercase tracking-[0.2em]">
-          <span>Parceiros que confiam na</span>
-          <Image
-            src="/logo.webp"
-            alt="weeat - Crescimento Real para Food Service"
-            width={128}
-            height={40}
-            priority
-            className="object-contain rounded-lg"
-          />
+    <section className="py-12 bg-white overflow-hidden border-t border-[#1a1710]/5" aria-label="Parceiros weeat">
+      <div className="container mx-auto px-4 mb-10">
+        <p className="flex items-center justify-center gap-3 font-[family-name:var(--font-poppins)] text-sm text-[#1a1710]/50 uppercase tracking-[0.2em] text-center">
+          <span>Donos de restaurantes que começaram a vender mais</span>
         </p>
       </div>
 
@@ -38,7 +29,7 @@ export function LogoCarousel() {
           className="flex items-center gap-12 md:gap-24 whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
-            duration: 30,
+            duration: 35,
             ease: "linear",
             repeat: Infinity,
           }}
@@ -46,19 +37,21 @@ export function LogoCarousel() {
         >
           {duplicatedLogos.map((logo, index) => {
             const isCasaTali = logo.src.includes("casatali")
-            const isCasarao = logo.src.includes("casarao")
-            const isSollo = logo.src.includes("sollo")
-            const isBonaVentura = logo.src.includes("bona-ventura")
-            // Logos duplicadas (índice >= 8) são decorativas para o efeito infinito
             const isDuplicate = index >= logos.length
 
             return (
               <div
                 key={index}
                 aria-hidden={isDuplicate ? "true" : undefined}
-                className={`group relative flex-shrink-0 transition-all duration-300 cursor-pointer ${isCasaTali ? "brightness-150 hover:brightness-100" : ""}`}
+                className="group relative flex-shrink-0 transition-all duration-300 cursor-pointer h-16 flex items-center"
               >
-                <div className="h-12 md:h-16 w-auto relative aspect-[3/1] flex items-center justify-center filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                {/* SOLUÇÃO CIRÚRGICA: Fundo escuro apenas para a Casa Tali */}
+                <div 
+                  className={`relative aspect-[3/1] flex items-center justify-center transition-all duration-300 origin-center
+                    ${isCasaTali ? "h-14 md:h-20 bg-[#1a1710] rounded-2xl p-2 px-4 shadow-xl -mx-4 group-hover:bg-[#1a1710]/90" : "h-12 md:h-16 h-auto"}
+                    group-hover:scale-110 opacity-90 group-hover:opacity-100
+                  `}
+                >
                   <Image
                     src={logo.src}
                     alt={isDuplicate ? "" : logo.alt}
@@ -66,11 +59,11 @@ export function LogoCarousel() {
                     height={80}
                     loading="lazy"
                     sizes="(max-width: 768px) 96px, 128px"
-                    className={`object-contain w-full h-full origin-center
-                      ${isCasaTali ? "scale-[2.2]" : ""}
-                      ${isCasarao ? "scale-[1.8]" : ""}
-                      ${isSollo ? "scale-[1.8]" : ""}
-                      ${isBonaVentura ? "scale-125" : ""}
+                    className={`object-contain w-full h-full origin-center transition-transform duration-300
+                      ${isCasaTali ? "scale-[1.8]" : "invert-0 brightness-100"}
+                      ${logo.src.includes("casarao") ? "scale-[1.8]" : ""}
+                      ${logo.src.includes("sollo") ? "scale-[1.8]" : ""}
+                      ${logo.src.includes("bona-ventura") ? "scale-125" : ""}
                     `}
                   />
                 </div>
@@ -79,8 +72,9 @@ export function LogoCarousel() {
           })}
         </motion.div>
 
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#2a2718] to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#2a2718] to-transparent z-10" />
+        {/* Gradientes laterais em Branco para suavizar a entrada/saída */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
       </div>
     </section>
   )

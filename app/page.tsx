@@ -17,6 +17,9 @@ const ResultsDashboard = dynamic(() => import("@/components/results-dashboard").
 const Gallery = dynamic(() => import("@/components/gallery").then(mod => mod.Gallery), {
   loading: () => <LoadingFallback height="400px" />
 })
+const HowItWorks = dynamic(() => import("@/components/how-it-works").then(mod => mod.HowItWorks), {
+  loading: () => <LoadingFallback height="400px" />
+})
 const MarketStats = dynamic(() => import("@/components/market-stats").then(mod => mod.MarketStats), {
   loading: () => <LoadingFallback height="500px" />
 })
@@ -38,6 +41,9 @@ const FinalCTA = dynamic(() => import("@/components/final-cta").then(mod => mod.
 const ContactForm = dynamic(() => import("@/components/contact-form").then(mod => mod.ContactForm), {
   loading: () => <LoadingFallback height="600px" />
 })
+const ResultsCarousel = dynamic(() => import("@/components/results-carousel").then(mod => mod.ResultsCarousel), {
+  loading: () => <LoadingFallback height="500px" />
+})
 
 export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState<string>("")
@@ -49,11 +55,9 @@ export default function Home() {
       <ProblemSolution />
      
       <ContactForm />
-      <ResultsDashboard />
-      <Gallery />
-
-      <Ecosystem />
-      <SocialProof />
+      <LogoCarousel />
+      <HowItWorks />
+      <ResultsCarousel />
       <Pricing onSelectPlan={setSelectedPlan} />
       <FinalCTA />
     </main>
