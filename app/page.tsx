@@ -46,11 +46,12 @@ export default function Home() {
     <main className="min-h-screen bg-[#1a1710]">
      
       <HeroSection />
-      <LogoCarousel />
+      <ProblemSolution />
+     
       <ContactForm />
       <ResultsDashboard />
       <Gallery />
-      <ProblemSolution />
+
       <Ecosystem />
       <SocialProof />
       <Pricing onSelectPlan={setSelectedPlan} />
