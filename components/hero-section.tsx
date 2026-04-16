@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Rocket, CheckCircle, TrendingUp } from "lucide-react"
 import Image from "next/image"
 
-// --- DADOS ---
+// --- DADOS DOS CARDS ---
 type CardData = {
   emoji: string
   title: string
@@ -29,16 +28,6 @@ const groupBottomRight: CardData[] = [
   { emoji: "🥡", title: "Yakisoba", subtitle: "Pedido #2849", bg: "bg-red-100", color: "text-red-600" },
   { emoji: "🥢", title: "Temaki Salmão", subtitle: "Preparando...", bg: "bg-orange-100", color: "text-orange-500" },
 ]
-const groupBottomLeft: CardData[] = [
-  { emoji: "💸", title: "Faturamento", subtitle: "+35% este mês", bg: "bg-green-100", color: "text-green-700" },
-  { emoji: "📈", title: "Ticket Médio", subtitle: "Subiu para R$ 85", bg: "bg-blue-100", color: "text-blue-600" },
-  { emoji: "💰", title: "Lucro Líquido", subtitle: "Meta Batida 🎯", bg: "bg-yellow-100", color: "text-yellow-700" },
-]
-const groupTopLeft: CardData[] = [
-  { emoji: "🥗", title: "Salada Caesar", subtitle: "Opção Fit", bg: "bg-green-100", color: "text-green-500" },
-  { emoji: "☕", title: "Cappuccino", subtitle: "Venda Cruzada", bg: "bg-stone-100", color: "text-stone-600" },
-  { emoji: "🍰", title: "Sobremesa", subtitle: "Acabou de sair", bg: "bg-pink-100", color: "text-pink-500" },
-]
 
 const mobileHighlights: CardData[] = [
   { emoji: "💸", title: "Faturamento +35%", subtitle: "Crescimento Real", bg: "bg-green-100", color: "text-green-700" },
@@ -47,13 +36,12 @@ const mobileHighlights: CardData[] = [
   { emoji: "📈", title: "Ticket Médio R$ 85", subtitle: "Lucro Saudável", bg: "bg-blue-100", color: "text-blue-600" },
 ]
 
-// --- COMPONENTES AUXILIARES ---
+// --- COMPONENTES DOS CARDS FLUTUANTES ---
 const CardRotator = ({ items, positionClass, intervalTime }: { items: CardData[], positionClass: string, intervalTime: number }) => {
   const [index, setIndex] = useState(0)
   
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    // Atraso inicial para libertar a thread principal durante o LCP
     const initialDelay = setTimeout(() => {
       timer = setInterval(() => { setIndex((prev) => (prev + 1) % items.length) }, intervalTime)
     }, 1500)
@@ -67,7 +55,7 @@ const CardRotator = ({ items, positionClass, intervalTime }: { items: CardData[]
   const currentItem = items[index]
 
   return (
-    <div className={`absolute z-30 ${positionClass}`}>
+    <div className={`absolute z-30 hidden md:block ${positionClass}`}>
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
@@ -75,13 +63,13 @@ const CardRotator = ({ items, positionClass, intervalTime }: { items: CardData[]
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.9 }}
           transition={{ duration: 0.5 }}
-          className="bg-[#242014]/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.4)] border-2 border-[#f78608]/40 flex items-center gap-3 min-w-[180px]"
+          className="bg-[#1a1710]/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.15)] border-2 border-[#f78608]/40 flex items-center gap-3 min-w-[180px]"
         >
           <div className={`${currentItem.bg} p-2 rounded-xl text-2xl flex items-center justify-center w-10 h-10`}>
             {currentItem.emoji}
           </div>
           <div>
-            <p className="text-[10px] text-[#f5f0e8]/60 font-[family-name:var(--font-poppins)] uppercase tracking-wide leading-none mb-1">{currentItem.subtitle}</p>
+            <p className="text-[10px] text-[#f5f0e8]/80 font-[family-name:var(--font-poppins)] uppercase tracking-wide leading-none mb-1">{currentItem.subtitle}</p>
             <p className={`text-sm font-bold font-[family-name:var(--font-gate)] leading-none ${currentItem.color}`}>{currentItem.title}</p>
           </div>
         </motion.div>
@@ -108,7 +96,7 @@ const MobileHeroCarousel = () => {
   const currentItem = mobileHighlights[index]
 
   return (
-    <div className="w-full flex justify-center mt-8 md:mt-6">
+    <div className="w-full flex justify-center mt-6 md:hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
@@ -116,14 +104,14 @@ const MobileHeroCarousel = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
-          className="bg-[#242014] px-6 py-3 rounded-full border border-[#f78608]/20 shadow-md flex items-center gap-3 w-full max-w-xs justify-start"
+          className="bg-[#1a1710] px-6 py-3 rounded-full border border-[#f78608]/20 shadow-lg flex items-center gap-3 w-full max-w-xs justify-start"
         >
           <span className="text-2xl shrink-0">{currentItem.emoji}</span>
           <div className="flex flex-col overflow-hidden">
             <span className={`text-sm font-bold font-[family-name:var(--font-gate)] truncate ${currentItem.color}`}>
               {currentItem.title}
             </span>
-             <span className="text-[10px] text-[#f5f0e8]/50 font-[family-name:var(--font-poppins)] uppercase tracking-wide truncate">
+             <span className="text-[10px] text-[#f5f0e8]/80 font-[family-name:var(--font-poppins)] uppercase tracking-wide truncate">
               {currentItem.subtitle}
             </span>
           </div>
@@ -133,103 +121,66 @@ const MobileHeroCarousel = () => {
   )
 }
 
-// --- COMPONENTE PRINCIPAL ---
+// --- SECÇÃO PRINCIPAL (FUNDO BRANCO) ---
 export function HeroSection() {
   return (
-    <section className="pt-24 pb-12 md:pt-32 md:pb-20 px-4 bg-[#1a1710] overflow-hidden relative min-h-[90vh] md:min-h-screen flex items-center">
+    <section className="bg-white pt-8 pb-12 px-4 flex flex-col items-center text-center w-full min-h-screen relative overflow-hidden">
       
-      {/* Background Decorativo - Removida a sobrecarga gráfica da animação blur */}
-      <div className="absolute top-20 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#f78608]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#22C55E]/5 rounded-full blur-3xl pointer-events-none" />
-      
-      <div className="container mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          
-          <div className="z-20 relative text-center lg:text-left flex flex-col items-center lg:items-start">
-            
-            {/* OTIMIZAÇÃO CRÍTICA LCP: Imagem mobile fora do framer-motion, com unoptimized e sem conflito de sizes */}
-            <div className="block lg:hidden w-full relative h-[320px] rounded-3xl overflow-hidden mb-8 shadow-2xl border-2 border-[#f78608]/10">
-                  <Image
-                    src="/hero-weat.webp"
-                    alt="Chef weeat em ação"
-                    fill
-                    className="object-cover object-top" 
-                    priority={true}
-                    fetchPriority="high" 
-                    
-                />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#1a1710] to-transparent pointer-events-none" />
-            </div>
-
-            {/* h1 e CTA sem opacity:0 para não penalizar o LCP */}
-            <div className="flex flex-col items-center lg:items-start">
-              <h1 className="font-[family-name:var(--font-gate)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#f5f0e8] mb-6 leading-[1.1] text-balance">
-                Inteligência e Crescimento Real para o seu Food Service
-              </h1>
-              <p className="font-[family-name:var(--font-poppins)] text-base md:text-lg md:text-xl text-[#f5f0e8]/80 mb-8 leading-relaxed text-pretty max-w-2xl mx-auto lg:mx-0">
-                Chega de vaidade! A weeat é o seu braço de crescimento focado em dinheiro no bolso. Tenha
-                previsibilidade de vendas e lucro saudável!
-              </p>
-              
-              <div className="flex flex-col items-center lg:items-start w-full">
-                <a
-                  href="#contato"
-                  className="w-full sm:w-auto bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-8 py-6 text-lg font-[family-name:var(--font-poppins)] font-medium transition-transform hover:scale-105 shadow-lg mb-8 inline-flex items-center justify-center"
-                >
-                  Quero Escalar Meu Faturamento
-                </a>
-
-                <div className="hidden sm:flex flex-wrap justify-center lg:justify-start gap-4 md:gap-6">
-                  <div className="flex items-center gap-2">
-                    <Rocket className="text-[#f78608]" size={20} />
-                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#f5f0e8]">ROAS Médio 16x</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="text-[#22C55E]" size={20} />
-                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#f5f0e8]">ROI Mínimo 1.5</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="text-[#f78608]" size={20} />
-                    <span className="font-[family-name:var(--font-poppins)] text-sm font-medium text-[#f5f0e8]">Foco 100% em Resultado</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="block lg:hidden w-full">
-                  <MobileHeroCarousel />
-              </div>
-            </div>
-          </div>
-
-          <div className="hidden lg:block"></div>
-        </div>
+      {/* 1. Logo Centralizada no Topo */}
+      <div className="relative w-48 h-16 md:w-56 md:h-20 mb-8 md:mb-12 z-20">
+        <Image 
+          src="/logo.webp" 
+          alt="weeat Logo" 
+          fill
+          className="object-contain" 
+          priority
+          sizes="(max-width: 768px) 192px, 224px" // <-- ISSO AQUI RESOLVE A QUEDA NAS BOAS PRÁTICAS
+        />
       </div>
 
-      <div className="hidden lg:block absolute top-0 right-0 w-[55%] h-full z-0 overflow-hidden pointer-events-none">
-          <div 
-            className="absolute inset-0 w-full h-full"
-            style={{
-                maskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%, black 100%)'
-            }}
-          >
-                <Image
-                  src="/hero-weat.webp"
-                  alt="Chef weeat em ação"
-                  fill
-                  sizes="(min-width: 1024px) 60vw, 0vw" 
-                  className="object-cover object-left-top" 
-                  priority={true}
-                  fetchPriority="high"
-                  
-              />
-          </div>
+      {/* 2. Títulos em PRETO para contraste perfeito */}
+      <div className="max-w-4xl mx-auto flex flex-col items-center z-20">
+        <h1 className="font-[family-name:var(--font-gate)] text-4xl sm:text-5xl md:text-6xl text-[#1a1710] mb-4 leading-[1.1] text-balance">
+          Aumente as suas vendas, sem depender do ifood!
+        </h1>
+        <p className="font-[family-name:var(--font-poppins)] text-lg md:text-xl text-[#1a1710] mb-8 leading-relaxed max-w-2xl font-medium">
+          "Você foca na cozinha e nós vendemos para você!"
+        </p>
+      </div>
 
-          <div className="absolute inset-0 z-10">
-             <CardRotator items={groupTopRight} positionClass="top-28 right-8" intervalTime={6000} />
-             <CardRotator items={groupMiddleLeft} positionClass="top-1/2 -translate-y-1/2 left-20" intervalTime={5500} />
-             <CardRotator items={groupBottomRight} positionClass="bottom-24 right-8" intervalTime={7000} />
-          </div>
+      {/* 3. Imagem Otimizada com Cards Flutuantes em volta */}
+      <div className="w-full max-w-4xl relative z-10 flex flex-col items-center">
+        
+        <div className="w-full max-w-2xl relative h-[380px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border-2 border-[#1a1710]/10">
+          <Image
+            src="/hero.webp"
+            alt="Cozinheiro feliz weeat"
+            fill
+            className="object-cover object-top" 
+            priority={true}
+            fetchPriority="high" 
+            sizes="(max-width: 768px) 100vw, 800px" // <-- RESOLVE A QUEDA NAS BOAS PRÁTICAS
+          />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none block md:hidden" />
+        </div>
+
+        {/* Cards Rotativos Desktop */}
+        <CardRotator items={groupTopRight} positionClass="top-10 -right-10 lg:-right-20" intervalTime={6000} />
+        <CardRotator items={groupMiddleLeft} positionClass="top-1/2 -translate-y-1/2 -left-10 lg:-left-20" intervalTime={5500} />
+        <CardRotator items={groupBottomRight} positionClass="bottom-10 -right-10 lg:-right-20" intervalTime={7000} />
+
+        {/* Card Rotativo Mobile */}
+        <MobileHeroCarousel />
+      </div>
+
+      {/* 4. CTA: Botão Laranja mantido */}
+      <div className="w-full px-4 md:px-0 mt-10 z-20">
+        <a
+          href="#contato"
+          className="w-full sm:w-auto bg-[#f78608] hover:bg-[#da7607] text-white rounded-full px-10 py-5 text-lg font-[family-name:var(--font-poppins)] font-bold transition-transform hover:scale-105 shadow-[0_8px_30px_rgba(247,134,8,0.3)] inline-flex items-center justify-center"
+        >
+          Quero Escalar Meu Faturamento
+        </a>
       </div>
 
     </section>

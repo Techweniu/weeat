@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import dynamic from "next/dynamic"
-import { Header } from "@/components/header"
+
 import { HeroSection } from "@/components/hero-section"
 import { LogoCarousel } from "@/components/logo-carousel"
 
@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#1a1710]">
-      <Header />
+     
       <HeroSection />
       <LogoCarousel />
       <ContactForm />
