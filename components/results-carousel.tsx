@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -19,7 +20,7 @@ const services = [
   {
     icon: <ShoppingBag className="w-7 h-7 text-[#f78608]" />,
     title: "Soluções Comerciais para Restaurantes",
-    image: "/solucao.webp", // Ajuste para o nome real do seu ficheiro
+    image: "/solucao.webp",
     points: [
       "Scripts, processos e ferramentas prontos para aumentar seus pedidos e reservas.",
       "Treinamos seus atendentes para venderem mais no balcão, salão ou WhatsApp."
@@ -90,7 +91,7 @@ export function ResultsCarousel() {
     <section className="py-20 md:py-32 bg-white w-full overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         
-        {/* Cabeçalho com correção de alinhamento de botões */}
+        {/* Cabeçalho */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-8">
           <div className="max-w-4xl text-left">
             <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-6xl text-[#1a1710] mb-6 leading-tight">
@@ -101,13 +102,13 @@ export function ResultsCarousel() {
             </p>
           </div>
           
-          {/* Botões corrigidos: mais visíveis e alinhados */}
+          {/* Botões Desktop: Forçados a Branco e Limpos */}
           <div className="hidden md:flex gap-4 mb-2">
             <Button 
               variant="outline" 
               size="icon" 
               onClick={() => scroll("left")} 
-              className="rounded-full w-14 h-14 border-[#1a1710]/10 text-[#1a1710] hover:bg-[#f78608] hover:text-white hover:border-[#f78608] shadow-sm transition-all duration-300"
+              className="rounded-full w-14 h-14 bg-white border border-[#1a1710]/20 text-[#1a1710] hover:bg-[#f78608] hover:text-white hover:border-[#f78608] shadow-sm transition-all duration-300"
             >
               <ChevronLeft className="w-7 h-7" />
             </Button>
@@ -115,7 +116,7 @@ export function ResultsCarousel() {
               variant="outline" 
               size="icon" 
               onClick={() => scroll("right")} 
-              className="rounded-full w-14 h-14 border-[#1a1710]/10 text-[#1a1710] hover:bg-[#f78608] hover:text-white hover:border-[#f78608] shadow-sm transition-all duration-300"
+              className="rounded-full w-14 h-14 bg-white border border-[#1a1710]/20 text-[#1a1710] hover:bg-[#f78608] hover:text-white hover:border-[#f78608] shadow-sm transition-all duration-300"
             >
               <ChevronRight className="w-7 h-7" />
             </Button>
@@ -123,7 +124,7 @@ export function ResultsCarousel() {
         </div>
       </div>
 
-      {/* Carrossel Full-Width com cards responsivos */}
+      {/* Carrossel Full-Width */}
       <div className="w-full">
         <div 
           ref={scrollRef}
@@ -132,19 +133,30 @@ export function ResultsCarousel() {
           {services.map((service, index) => (
             <Card 
               key={index}
-              className="w-[88vw] min-w-[300px] max-w-[420px] md:w-[420px] flex-shrink-0 snap-center rounded-[40px] overflow-hidden group border-none shadow-2xl relative"
+              // flex-none resolve o bug do telemóvel espremer o conteúdo
+              className="w-[85vw] min-w-[280px] sm:min-w-[320px] max-w-[420px] md:w-[420px] flex-none snap-center rounded-[40px] overflow-hidden group border border-[#1a1710]/10 hover:border-[#f78608]/50 shadow-2xl relative transition-all duration-300"
             >
-              {/* Imagem de Fundo com Overlay */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                style={{ backgroundImage: `url(${service.image})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90 group-hover:via-black/60 transition-colors duration-500" />
+              
+              {/* Imagem Otimizada com Next.js Image (Ajuda na Performance LCP) */}
+              <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-110">
+                <Image 
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 85vw, 420px"
+                  priority={index < 2} // Carrega os dois primeiros rápido
+                />
+              </div>
 
-              <CardContent className="p-8 md:p-12 flex flex-col h-full min-h-[520px] relative z-10">
+              {/* OVERLAYS CORRIGIDOS PARA GARANTIR LEGIBILIDADE */}
+              <div className="absolute inset-0 bg-black/50" /> {/* Escurecimento Global */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent" /> {/* Gradiente Inferior Intenso */}
+
+              <CardContent className="p-8 md:p-10 flex flex-col h-full min-h-[520px] relative z-10">
                 
-                {/* Badge do Ícone */}
-                <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-10 border border-white/20 group-hover:bg-[#f78608]/20 group-hover:border-[#f78608]/40 transition-all duration-500">
+                {/* Badge do Ícone (Mais escuro para o ícone brilhar) */}
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-[#1a1a1a]/80 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/5 group-hover:bg-[#f78608]/20 transition-all duration-500">
                   {service.icon}
                 </div>
                 
@@ -152,16 +164,16 @@ export function ResultsCarousel() {
                   {service.title}
                 </h3>
                 
-                <div className="flex items-center text-white/90 font-[family-name:var(--font-poppins)] font-semibold text-xs md:text-sm mb-8 group-hover:text-[#f78608] transition-all cursor-pointer">
-                  Saiba mais <ArrowUpRight className="w-4 h-4 ml-2" />
+                <div className="flex items-center text-white/90 font-[family-name:var(--font-poppins)] font-semibold text-xs md:text-sm mb-6 group-hover:text-[#f78608] transition-all cursor-pointer w-max">
+                  Saiba mais <ArrowUpRight className="w-4 h-4 ml-1" />
                 </div>
 
-                {/* Tópicos em Lista */}
-                <div className="space-y-5 mt-auto">
+                {/* Tópicos em Lista (Texto branco e nítido) */}
+                <div className="space-y-4 mt-auto">
                   {service.points.map((point, i) => (
                     <div key={i} className="flex gap-3 items-start">
-                      <div className="w-2 h-2 rounded-full bg-[#f78608] mt-2.5 shrink-0 shadow-[0_0_10px_rgba(247,134,8,0.5)]" />
-                      <p className="font-[family-name:var(--font-poppins)] text-white/70 leading-relaxed text-sm md:text-base group-hover:text-white/90 transition-colors">
+                      <div className="w-2 h-2 rounded-full bg-[#f78608] mt-2 shrink-0 shadow-[0_0_8px_rgba(247,134,8,0.6)]" />
+                      <p className="font-[family-name:var(--font-poppins)] text-white/90 leading-relaxed text-sm md:text-base">
                         {point}
                       </p>
                     </div>
