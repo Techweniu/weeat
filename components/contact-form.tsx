@@ -59,17 +59,21 @@ export function ContactForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
 
-    try {
+try {
+      
+      const phoneWithCountryCode = "+55" + values.phone.replace(/\D/g, "");
+
       // --- CAPTURA DE RASTREABILIDADE (UTMs e IDs de Clique) ---
       const payload = {
         ...values,
+        phone: phoneWithCountryCode, 
         utm_source: searchParams.get("utm_source") || "direto",
         utm_medium: searchParams.get("utm_medium") || "organico",
         utm_campaign: searchParams.get("utm_campaign") || "",
         utm_term: searchParams.get("utm_term") || "",
         utm_content: searchParams.get("utm_content") || "",
-        gclid: searchParams.get("gclid") || "", // Google Ads ID
-        fbclid: searchParams.get("fbclid") || "", // Facebook Ads ID
+        gclid: searchParams.get("gclid") || "", 
+        fbclid: searchParams.get("fbclid") || "", 
         page_url: window.location.href
       }
 
