@@ -61,10 +61,13 @@ export function ContactForm() {
 
     try {
       const phoneWithCountryCode = "+55" + values.phone.replace(/\D/g, "")
+      // Geração de identificador único para deduplicação (Frontend vs CAPI)
+      const eventId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `evt-${Date.now()}`
 
       const payload = {
         ...values,
         phone: phoneWithCountryCode, 
+        event_id: eventId, // Injeção do eventId no payload para o backend
         utm_source: searchParams.get("utm_source") || "direto",
         utm_medium: searchParams.get("utm_medium") || "organico",
         utm_campaign: searchParams.get("utm_campaign") || "",
@@ -90,15 +93,12 @@ export function ContactForm() {
       }
 
       if (typeof window !== "undefined" && (window as any).fbq) {
-        const userPhone = "55" + values.phone.replace(/\D/g, "")
-        const nameParts = values.name.trim().toLowerCase().split(" ")
-
         ;(window as any).fbq('track', 'Lead', {
           content_name: 'Formulário Qualificado',
           value: 1.00,
           currency: 'BRL',
           predicted_ltv: values.revenue 
-        })
+        }, { eventID: eventId }) // Vinculação explícita do eventID ao disparo client-side
       }
 
       router.push('/obrigado')
