@@ -9,9 +9,7 @@ const ProblemCard = () => (
   <Card className="w-full bg-[#0a0a0a] border-2 border-[#EF4444]/30 shadow-none rounded-3xl">
     <CardHeader>
       <div className="flex items-center gap-4 mb-2">
-        <div className="w-12 h-12 bg-[#EF4444]/10 rounded-full flex items-center justify-center shrink-0">
-          <span className="text-2xl">😰</span>
-        </div>
+
         <CardTitle className="font-[family-name:var(--font-gate)] text-2xl md:text-3xl text-[#EF4444] leading-tight">
           COMO VOCÊ ESTÁ HOJE
         </CardTitle>
@@ -40,9 +38,7 @@ const SolutionCard = () => (
     
     <CardHeader>
       <div className="flex items-center gap-4 mb-2">
-        <div className="w-12 h-12 bg-[#f78608]/20 rounded-full flex items-center justify-center shrink-0">
-          <span className="text-2xl">🏆</span>
-        </div>
+
         <CardTitle className="font-[family-name:var(--font-gate)] text-2xl md:text-3xl text-[#f78608] leading-tight">
           COMO FICA COM A WEEAT
         </CardTitle>
