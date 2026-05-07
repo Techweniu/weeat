@@ -9,13 +9,16 @@ const hashData = (data: string) => {
   return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
 };
 
-// 1. DEFINIÇÃO DO NOVO ESQUEMA DE VALIDAÇÃO (ZOD)
+// 1. DEFINIÇÃO DO NOVO ESQUEMA DE VALIDAÇÃO (ZOD) ATUALIZADO
 const leadSchema = z.object({
   name: z.string().min(2, "Nome muito curto"),
   phone: z.string().min(10, "Telefone inválido"),
   companyName: z.string().min(2, "Nome da empresa inválido"),
-  employeeCount: z.string().min(1, "Nº de funcionários obrigatório"), // Novo campo
+  employeeCount: z.string().min(1, "Nº de funcionários obrigatório"),
   revenue: z.string().min(1, "Faturamento obrigatório"),
+  averageTicket: z.string().min(1, "Ticket médio obrigatório"), // Novo campo
+  hasOwnDelivery: z.string().min(1, "Opção de entregador obrigatória"), // Novo campo
+  event_id: z.string().optional(), // Novo campo para deduplicação da Meta
   utm_source: z.string().optional(),
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
@@ -70,6 +73,7 @@ export async function POST(request: Request) {
               {
                 event_name: "Lead",
                 event_time: Math.floor(Date.now() / 1000),
+                event_id: validation.data.event_id, // Injeção do eventId no payload da API da Meta
                 action_source: "website",
                 event_source_url: request.headers.get("referer") || "https://weeat.com.br",
                 user_data: {

@@ -13,20 +13,21 @@ const ProblemCard = () => (
           <span className="text-2xl">😰</span>
         </div>
         <CardTitle className="font-[family-name:var(--font-gate)] text-2xl md:text-3xl text-[#EF4444] leading-tight">
-          O Ciclo de Sobrevivência
+          COMO VOCÊ ESTÁ HOJE
         </CardTitle>
       </div>
     </CardHeader>
     <CardContent className="space-y-5 pb-8">
       {[
-        "Promoção que corrói margem",
-        "Marketing de 'foto bonita' sem vendas",
-        "Refém das taxas abusivas do iFood",
-        "Produto excelente, e poucas vendas"
+        "Pagando até 26% do pedido para o iFood e os clientes são deles, não seus",
+        "Fazendo promoção que destrói a margem só para aparecer na vitrine da plataforma",
+        "Agência postando foto bonita que não gera pedido nenhum e cobrando por isso",
+        "Cheio no sábado, vazio na segunda sem previsibilidade, sem estabilidade",
+        "Trabalhando 12 horas por dia sem saber se o dinheiro vai entrar no mês que vem"
       ].map((item, i) => (
         <div key={i} className="flex items-start gap-4">
           <X className="text-[#EF4444] mt-1 shrink-0" size={22} />
-          <p className="font-[family-name:var(--font-poppins)] text-white/90 text-base md:text-lg">{item}</p>
+          <p className="font-[family-name:var(--font-poppins)] text-white/90 text-base md:text-lg leading-snug">{item}</p>
         </div>
       ))}
     </CardContent>
@@ -43,20 +44,21 @@ const SolutionCard = () => (
           <span className="text-2xl">🏆</span>
         </div>
         <CardTitle className="font-[family-name:var(--font-gate)] text-2xl md:text-3xl text-[#f78608] leading-tight">
-          O Padrão de Escala weeat
+          COMO FICA COM A WEEAT
         </CardTitle>
       </div>
     </CardHeader>
     <CardContent className="space-y-5 pb-8 relative z-10">
       {[
-        "Promoção Inteligente & Lucrativa",
-        "Anúncios com foco em venda!",
-        "Método comprovado",
-        "Dinheiro no seu bolso"
+        "Clientes diretos pelo WhatsApp e cardápio próprio sem pagar comissão de plataforma",
+        "Anúncios que geram pedido real, não likes, não seguidores, não \"engajamento\"",
+        "Relatório semanal com faturamento, pedidos e ROI em linguagem simples",
+        "Casa cheia de segunda a domingo com previsibilidade de vendas todo mês",
+        "Você foca na cozinha nós cuidamos de tudo no marketing"
       ].map((item, i) => (
         <div key={i} className="flex items-start gap-4">
           <Check className="text-[#22C55E] mt-1 shrink-0" size={22} />
-          <p className="font-[family-name:var(--font-poppins)] text-white font-semibold text-base md:text-lg">{item}</p>
+          <p className="font-[family-name:var(--font-poppins)] text-white font-semibold text-base md:text-lg leading-snug">{item}</p>
         </div>
       ))}
     </CardContent>
@@ -67,10 +69,11 @@ const SolutionCard = () => (
 
 export function ProblemSolution() {
   return (
-    <section className="py-20 px-4 bg-black"> {/* Fundo Preto Absoluto */}
+    <section className="py-20 px-4 bg-black">
       <div className="container mx-auto max-w-4xl">
         
-        {/* Título Principal */}
+        {/* Título Principal - Optei por manter para manter a estrutura visual, 
+            mesmo alterando os títulos dos cards como pediu */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="font-[family-name:var(--font-gate)] text-4xl md:text-6xl text-white mb-6 leading-tight">
             Qual é o Seu <br className="md:hidden" /> Cenário Hoje?
@@ -78,13 +81,12 @@ export function ProblemSolution() {
           <div className="w-20 h-1.5 bg-[#f78608] mx-auto rounded-full" />
         </div>
 
-        {/* Layout: Um abaixo do outro */}
+        {/* Layout */}
         <div className="flex flex-col gap-8 md:gap-12">
           <div className="w-full">
             <ProblemCard />
           </div>
           
-          {/* Divisor Visual opcional entre os estados */}
           <div className="flex justify-center py-2">
             <div className="flex flex-col items-center gap-2">
               <div className="w-1 h-8 bg-gradient-to-b from-[#EF4444]/50 to-[#f78608]/50 rounded-full" />
