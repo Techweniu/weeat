@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 
 export default function WhatsappRedirectPage() {
   // Configuração do WhatsApp
-  const whatsappNumber = "5511999999999"; // Coloque o número real aqui (com o 55)
+  const whatsappNumber = "5534936180667"; 
   const message = "Olá! Gostaria de saber mais sobre como acelerar as vendas do meu restaurante.";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
