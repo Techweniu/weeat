@@ -80,31 +80,12 @@ export default function RootLayout({
         {/* --- GOOGLE TAG MANAGER (NOSCRIPT - BODY) --- */}
         <noscript>
           <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-WKGCDDLH"
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5CVNK362"
             height="0" 
             width="0" 
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        {/* -------------------------------------------- */}
-
-        {/* --- GOOGLE ANALYTICS (GA4) --- */}
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-FL1EGKLP84"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-FL1EGKLP84');
-            `,
-          }}
-        />
         {/* -------------------------------------------- */}
 
         {/* --- GOOGLE TAG MANAGER (SCRIPT - HEAD) --- */}
@@ -117,40 +98,10 @@ export default function RootLayout({
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-WKGCDDLH');
+              })(window,document,'script','dataLayer','GTM-5CVNK362');
             `,
           }}
         />
-        {/* -------------------------------------------- */}
-
-        {/* --- META PIXEL --- */}
-        <Script
-          id="fb-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '1260964142240541');
-              fbq('track', 'PageView'); 
-            `,
-          }}
-        />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=1260964142240541&ev=PageView&noscript=1" 
-            alt=""
-          />
-        </noscript>
         {/* -------------------------------------------- */}
 
         {children}
