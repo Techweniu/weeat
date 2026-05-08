@@ -13,19 +13,15 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-// --- ESQUEMA DE VALIDAÇÃO - ATUALIZADO APENAS COM OS NOVOS CAMPOS ---
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
   phone: z.string().min(14, { message: "Insira um telefone válido com DDD." }),
   companyName: z.string().min(2, { message: "Nome da empresa é obrigatório." }),
   revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
   employeeCount: z.string({ required_error: "Selecione o número de funcionários." }),
-  // Novos campos adicionados à validação
   averageTicket: z.string({ required_error: "Selecione o ticket médio." }),
   hasOwnDelivery: z.string({ required_error: "Selecione uma opção." }),
 })
-
-const employeeOptions = ["1 a 5", "6 a 15", "16 a 30", "31 a 50", "Mais de 50"]
 
 const revenueRanges = [
   "Até R$ 40.000",
@@ -38,11 +34,10 @@ const revenueRanges = [
   "R$ 500.000 - R$ 1.000.000",
 ]
 
-// Novas opções para os campos adicionados
 const ticketOptions = ["Até R$ 50", "R$ 50 - R$ 80", "R$ 80 - R$ 120", "Acima de R$ 120"]
 const deliveryOptions = ["Sim", "Não", "Pretendo ter"]
 
-export function ContactForm() {
+export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: string }) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
@@ -63,11 +58,36 @@ export function ContactForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
-    // Mantida a lógica de envio original do seu arquivo
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    console.log(values)
+    
+    try {
+      // ENVIO REAL PARA O n8n COM A SUA URL DE PRODUÇÃO
+      await fetch("https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: values.name,
+          telefone: values.phone,
+          empresa: values.companyName,
+          faturamento: values.revenue,
+          funcionarios: values.employeeCount,
+          ticket_medio: values.averageTicket,
+          entregador: values.hasOwnDelivery,
+          origem: "LP Principal",
+          data: new Date().toLocaleString("pt-BR")
+        }),
+      })
+    } catch (error) {
+      console.error("Erro ao enviar para o n8n:", error)
+    }
+
     setIsSubmitting(false)
-    router.push('/obrigado')
+
+    if (values.revenue === "Até R$ 40.000") {
+      alert("Agradecemos o contato! Infelizmente o seu perfil não atende aos nossos requisitos no momento.")
+      return; 
+    }
+
+    router.push(redirectTo)
   }
 
   const inputClasses = "pl-10 h-12 bg-white border-[#1a1710]/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#1a1710] shadow-sm"
@@ -91,7 +111,6 @@ export function ContactForm() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 md:space-y-6">
                 
-                {/* LINHA 1: Nome e WPP */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <FormField
                     control={form.control}
@@ -133,7 +152,6 @@ export function ContactForm() {
                   />
                 </div>
 
-                {/* LINHA 2: Nome da Empresa e Faturamento */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <FormField
                     control={form.control}
@@ -179,7 +197,6 @@ export function ContactForm() {
                   />
                 </div>
 
-                {/* LINHA 3: Nº de funcionários e Ticket Médio */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <FormField
                     control={form.control}
@@ -197,7 +214,7 @@ export function ContactForm() {
                             </div>
                           </FormControl>
                           <SelectContent className="bg-white">
-                            {employeeOptions.map((item) => (
+                            {["1 a 5", "6 a 15", "16 a 30", "31 a 50", "Mais de 50"].map((item) => (
                               <SelectItem key={item} value={item}>{item}</SelectItem>
                             ))}
                           </SelectContent>
@@ -207,13 +224,12 @@ export function ContactForm() {
                     )}
                   />
 
-                  {/* NOVO CAMPO: TICKET MÉDIO */}
                   <FormField
                     control={form.control}
                     name="averageTicket"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[#1a1710]/80">TIcket Médio:</FormLabel>
+                        <FormLabel className="text-[#1a1710]/80">Ticket Médio:</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <div className="relative group">
@@ -235,13 +251,12 @@ export function ContactForm() {
                   />
                 </div>
 
-                {/* NOVO CAMPO (FULL WIDTH): ENTREGADOR PRÓPRIO */}
                 <FormField
                   control={form.control}
                   name="hasOwnDelivery"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1a1710]/80">Já tem entregador próprio:</FormLabel>
+                      <FormLabel className="text-[#1a1710]/80">Já tem entregador próprio?</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <div className="relative group">
@@ -268,7 +283,7 @@ export function ContactForm() {
                     className="w-full h-14 md:h-16 bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-bold shadow-lg hover:scale-[1.02] transition-all text-sm md:text-lg"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> A Processar...</> : "QUERO ESCALAR MEU FATURAMENTO"}
+                    {isSubmitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Processando...</> : "QUERO ESCALAR MEU FATURAMENTO"}
                   </Button>
                 </div>
               </form>

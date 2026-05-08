@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import { Loader2, ChevronDown } from "lucide-react";
-// Import adicionado para o redirecionamento funcionar
 import { useRouter } from "next/navigation"; 
 
-// Adicionada a propriedade redirectTo
 export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string }) {
-  const router = useRouter(); // Inicializado o router
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("+55 ");
@@ -38,18 +36,33 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulação do envio dos dados
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      // ENVIO REAL PARA O n8n COM A SUA URL DE PRODUÇÃO
+      await fetch("https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: name,
+          telefone: phone,
+          empresa: companyName,
+          faturamento: revenue === "ate_40k" ? "Até R$ 40.000" : revenue === "40k_100k" ? "R$ 40k - 100k" : "Acima de R$ 100k",
+          funcionarios: employeeCount,
+          entregador: hasDelivery,
+          origem: "LP Curta",
+          data: new Date().toLocaleString("pt-BR")
+        }),
+      });
+    } catch (error) {
+      console.error("Erro ao enviar para o n8n:", error);
+    }
+
     setIsSubmitting(false);
 
-    // LÓGICA DE QUALIFICAÇÃO (Regra dos 40k)
-    // "ate_40k" é o value da primeira opção do seu select
     if (revenue === "ate_40k") {
        alert("Agradecemos o contato! Infelizmente o seu perfil não atende aos nossos requisitos no momento.");
        return; 
     }
 
-    // Se faturar mais que 40k, redireciona para a página de carregamento informada
     router.push(redirectTo);
   };
 
@@ -62,59 +75,25 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     <form onSubmit={handleSubmit} className="space-y-3">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-3">
         
-        {/* NOME */}
         <div className="lg:col-span-2">
           <label htmlFor="name" className={labelStyle}>Nome</label>
-          <input 
-            id="name" 
-            type="text" 
-            placeholder="Seu nome" 
-            required 
-            className={inputStyle} 
-            value={name}
-            onChange={handleNameChange}
-          />
+          <input id="name" type="text" placeholder="Seu nome" required className={inputStyle} value={name} onChange={handleNameChange} />
         </div>
         
-        {/* WHATSAPP */}
         <div className="lg:col-span-2">
           <label htmlFor="whatsapp" className={labelStyle}>WhatsApp</label>
-          <input 
-            id="whatsapp" 
-            type="tel" 
-            placeholder="+55 (00) 00000-0000" 
-            required 
-            className={inputStyle} 
-            value={phone}
-            onChange={handlePhoneChange}
-          />
+          <input id="whatsapp" type="tel" placeholder="+55 (00) 00000-0000" required className={inputStyle} value={phone} onChange={handlePhoneChange} />
         </div>
 
-        {/* NOME DA EMPRESA */}
         <div className="lg:col-span-2">
           <label htmlFor="companyName" className={labelStyle}>Nome da empresa</label>
-          <input 
-            id="companyName" 
-            type="text" 
-            placeholder="Sua empresa" 
-            required 
-            className={inputStyle} 
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-          />
+          <input id="companyName" type="text" placeholder="Sua empresa" required className={inputStyle} value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
         </div>
 
-        {/* FATURAMENTO MENSAL */}
         <div className="lg:col-span-1">
           <label htmlFor="revenue" className={labelStyle}>Faturamento Mensal</label>
           <div className={selectWrapperStyle}>
-            <select 
-              id="revenue" 
-              required 
-              className={`${selectStyle} ${revenue === "" ? "text-white/40" : "text-white"}`}
-              value={revenue}
-              onChange={(e) => setRevenue(e.target.value)}
-            >
+            <select id="revenue" required className={`${selectStyle} ${revenue === "" ? "text-white/40" : "text-white"}`} value={revenue} onChange={(e) => setRevenue(e.target.value)}>
               <option value="" disabled>Selecione</option>
               <option value="ate_40k" className="text-black bg-white">Até R$ 40k</option>
               <option value="40k_100k" className="text-black bg-white">R$ 40k - 100k</option>
@@ -124,17 +103,10 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
           </div>
         </div>
 
-        {/* Nº DE FUNCIONÁRIOS */}
         <div className="lg:col-span-1">
           <label htmlFor="employeeCount" className={labelStyle}>N° de funcionários</label>
           <div className={selectWrapperStyle}>
-            <select 
-              id="employeeCount" 
-              required 
-              className={`${selectStyle} ${employeeCount === "" ? "text-white/40" : "text-white"}`}
-              value={employeeCount}
-              onChange={(e) => setEmployeeCount(e.target.value)}
-            >
+            <select id="employeeCount" required className={`${selectStyle} ${employeeCount === "" ? "text-white/40" : "text-white"}`} value={employeeCount} onChange={(e) => setEmployeeCount(e.target.value)}>
               <option value="" disabled>Selecione</option>
               <option value="1-5" className="text-black bg-white">1 a 5</option>
               <option value="6-15" className="text-black bg-white">6 a 15</option>
@@ -145,17 +117,10 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
           </div>
         </div>
 
-        {/* ENTREGADOR PRÓPRIO */}
         <div className="lg:col-span-2">
           <label htmlFor="hasDelivery" className={labelStyle}>Já tem entregador próprio?</label>
           <div className={selectWrapperStyle}>
-            <select 
-              id="hasDelivery" 
-              required 
-              className={`${selectStyle} ${hasDelivery === "" ? "text-white/40" : "text-white"}`}
-              value={hasDelivery}
-              onChange={(e) => setHasDelivery(e.target.value)}
-            >
+            <select id="hasDelivery" required className={`${selectStyle} ${hasDelivery === "" ? "text-white/40" : "text-white"}`} value={hasDelivery} onChange={(e) => setHasDelivery(e.target.value)}>
               <option value="" disabled>Selecione</option>
               <option value="sim" className="text-black bg-white">Sim</option>
               <option value="nao" className="text-black bg-white">Não</option>
@@ -167,11 +132,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
 
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full h-12 bg-[#FF6B00] hover:bg-[#E66000] text-white font-bold rounded-full uppercase tracking-tighter text-[15px] transition-all flex items-center justify-center gap-2 mt-4 font-[family-name:var(--font-poppins)]"
-      >
+      <button type="submit" disabled={isSubmitting} className="w-full h-12 bg-[#FF6B00] hover:bg-[#E66000] text-white font-bold rounded-full uppercase tracking-tighter text-[15px] transition-all flex items-center justify-center gap-2 mt-4 font-[family-name:var(--font-poppins)]">
         {isSubmitting ? <Loader2 className="animate-spin" /> : "Quero lucrar mais agora"}
       </button>
     </form>
