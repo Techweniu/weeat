@@ -95,10 +95,6 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
 
     setIsSubmitting(false);
 
-    if (revenue === "Até R$ 40.000") {
-       alert("Agradecemos o contato! Infelizmente o seu perfil não atende aos nossos requisitos no momento.");
-       return; 
-    }
 
     router.push(redirectTo);
   };

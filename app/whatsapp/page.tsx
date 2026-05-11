@@ -17,7 +17,7 @@ export default function WhatsappRedirectPage() {
     // Temporizador de 2 segundos (2000 ms) antes de redirecionar
     const timer = setTimeout(() => {
       window.location.href = whatsappLink;
-    }, 2000);
+    }, 4000);
 
     // Limpeza do temporizador caso o utilizador saia antes
     return () => clearTimeout(timer);

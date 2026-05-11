@@ -88,9 +88,11 @@ export function HeroSqueeze() {
               </span>
             </div>
             
-            <h1 className="font-[family-name:var(--font-gate)] text-3xl lg:text-5xl xl:text-6xl text-white leading-[1.05] uppercase tracking-tight drop-shadow-md">
-              Descubra uma forma de vender mais através da internet. Está na hora de deixar <span className="text-[#FF6B00]">Mais dinheiro no seu bolso!</span>
-            </h1>
+<h1 className="font-[family-name:var(--font-gate)] text-3xl lg:text-5xl xl:text-6xl text-white leading-[1.05] uppercase tracking-tight drop-shadow-md">
+  Descubra uma forma de seu restaurante vender mais na internet! 
+  <br />
+  <span className="text-[#FF6B00]">Deixe mais dinheiro no seu bolso!</span>
+</h1>
             
             <p className="font-[family-name:var(--font-poppins)] text-base text-white/80 leading-relaxed font-light hidden lg:block max-w-lg">
               Você trabalha 12h por dia só para manter a cozinha rodando. A <span className="text-white font-semibold">weeat</span> muda o jogo com tecnologia própria e estratégia de vendas.

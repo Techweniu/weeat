@@ -103,10 +103,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
 
     setIsSubmitting(false)
 
-    if (values.revenue === "Até R$ 40.000") {
-      alert("Agradecemos o contato! Infelizmente o seu perfil não atende aos nossos requisitos no momento.")
-      return; 
-    }
+
 
     router.push(redirectTo)
   }
@@ -122,10 +119,10 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
               <div className="p-2 bg-white rounded-full shadow-sm">
                  <Send className="size-5 md:size-6 text-[#f78608]" />
               </div>
-              Fale com um especialista
+              Você está a um passo de mudar os rumos do seu negócio
             </CardTitle>
             <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1a1710]/60 text-sm md:text-base mt-2">
-              Preencha os dados abaixo para receber sua proposta.
+              Preencha os dados abaixo com a sua realidade de negócio!
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6 md:p-8">

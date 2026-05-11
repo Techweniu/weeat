@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 
 import { HeroSection } from "@/components/hero-section"
 import { LogoCarousel } from "@/components/logo-carousel"
+import { FloatingWhatsapp } from "@/components/floating-whatsapp";
 
 // Fallbacks de esqueleto para evitar CLS
 const LoadingFallback = ({ height }: { height: string }) => (
@@ -60,6 +61,7 @@ export default function Home() {
       <ResultsCarousel />
       <Pricing onSelectPlan={setSelectedPlan} />
       <FinalCTA />
+      <FloatingWhatsapp />
     </main>
   )
 }
