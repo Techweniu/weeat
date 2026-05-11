@@ -152,7 +152,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
                     name="phone"
                     render={({ field: { onChange, ...field } }) => (
                       <FormItem>
-                        <FormLabel className="text-[#1a1710]/80">WPP:</FormLabel>
+                        <FormLabel className="text-[#1a1710]/80">WhatsApp:</FormLabel>
                         <FormControl>
                           <div className="relative group flex items-center">
                             <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] z-10" />

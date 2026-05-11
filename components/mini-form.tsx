@@ -44,7 +44,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("+55 ");
+  const [phone, setPhone] = useState(""); // <-- Iniciado vazio, igual ao contact-form
   const [companyName, setCompanyName] = useState("");
   const [revenue, setRevenue] = useState("");
   const [employeeCount, setEmployeeCount] = useState("");
@@ -56,17 +56,13 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     setName(val);
   };
 
+  // <-- Nova máscara, idêntica ao contact-form.tsx -->
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value.replace(/\D/g, ""); 
-    if (!val.startsWith("55")) val = "55" + val;
-    if (val.length > 13) val = val.substring(0, 13);
-
-    let formatted = "+55 ";
-    if (val.length > 2) formatted += "(" + val.substring(2, 4);
-    if (val.length > 4) formatted += ") " + val.substring(4, 9);
-    if (val.length > 9) formatted += "-" + val.substring(9, 13);
-    if (val === "55" || val.length < 2) formatted = "+55 ";
-    setPhone(formatted);
+    let value = e.target.value.replace(/\D/g, "");
+    if (value.length > 11) value = value.substring(0, 11);
+    value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+    value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+    setPhone(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,9 +90,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     }
 
     setIsSubmitting(false);
-
-
-    router.push(redirectTo);
+    router.push(redirectTo); // <-- Bloqueio dos 40k removido como alinhamos antes!
   };
 
   const inputStyle = "w-full h-11 bg-[#141414] border border-white/10 rounded-xl px-4 text-white text-sm placeholder:text-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] outline-none transition-all font-[family-name:var(--font-poppins)] mt-1"; 
@@ -115,7 +109,15 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
         
         <div className="lg:col-span-2">
           <label htmlFor="whatsapp" className={labelStyle}>WhatsApp</label>
-          <input id="whatsapp" type="tel" placeholder="+55 (00) 00000-0000" required className={inputStyle} value={phone} onChange={handlePhoneChange} />
+          <input 
+             id="whatsapp" 
+             type="tel" 
+             placeholder="(00) 00000-0000" // <-- Placeholder padronizado
+             required 
+             className={inputStyle} 
+             value={phone} 
+             onChange={handlePhoneChange} 
+          />
         </div>
 
         <div className="lg:col-span-2">
