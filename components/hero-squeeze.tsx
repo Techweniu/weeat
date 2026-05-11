@@ -10,7 +10,6 @@ export function HeroSqueeze() {
         MOBILE: IMAGEM NO TOPO
         ========================================
       */}
-      {/* ALTERADO: h reduzido de 25vh para 20vh para o formulário subir mais */}
       <div className="w-full relative z-0 block lg:hidden h-[20vh]">
         <div className="absolute top-0 left-0 w-full p-4 z-30 bg-gradient-to-b from-black/60 to-transparent">
            <div className="relative w-32 h-10">
@@ -25,7 +24,7 @@ export function HeroSqueeze() {
         </div>
 
         <Image 
-          src="/hero.webp" 
+          src="/cozinheiro.webp" 
           alt="weeat Hero - Acelere seu Restaurante"
           fill
           className="object-cover object-center" 
@@ -43,10 +42,10 @@ export function HeroSqueeze() {
       */}
       <div className="absolute inset-y-0 right-0 z-0 w-[45%] hidden lg:block">
         <Image 
-          src="/hero.webp" 
+          src="/cozinheiro.webp" 
           alt="weeat Hero Background Desktop"
           fill
-          className="object-cover object-center"
+          className="object-cover object-center" // <-- IMAGEM VOLTOU AO ORIGINAL
           priority 
           sizes="(min-width: 1024px) 50vw, 0vw" 
           quality={85}
@@ -56,7 +55,6 @@ export function HeroSqueeze() {
       <div className="absolute inset-y-0 right-[45%] w-1 bg-[#FF6B00] hidden lg:block z-10" />
 
       <div className="absolute inset-y-0 left-0 w-[55%] bg-[#050505] hidden lg:block z-0" />
-
 
       {/* ========================================
         CONTEÚDO PRINCIPAL (DESKTOP E MOBILE)
@@ -77,7 +75,6 @@ export function HeroSqueeze() {
       <div className="relative z-20 flex flex-col flex-1 w-full min-h-screen lg:flex-row pt-0 lg:pt-24">
         
         {/* LADO ESQUERDO: Texto (55%) */}
-        {/* ALTERADO: padding vertical no mobile reduzido ao máximo para subir o formulário */}
         <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 lg:px-16 xl:px-24 pt-4 pb-2 lg:py-12 lg:pb-24 order-1 lg:order-1 bg-[#050505] lg:bg-transparent">
           
           {/* Bloco de Texto */}
@@ -88,11 +85,11 @@ export function HeroSqueeze() {
               </span>
             </div>
             
-<h1 className="font-[family-name:var(--font-gate)] text-3xl lg:text-5xl xl:text-6xl text-white leading-[1.05] uppercase tracking-tight drop-shadow-md">
-  Descubra uma forma de seu restaurante vender mais na internet! 
-  <br />
-  <span className="text-[#FF6B00]">Deixe mais dinheiro no seu bolso!</span>
-</h1>
+            <h1 className="font-[family-name:var(--font-gate)] text-3xl lg:text-5xl xl:text-6xl text-white leading-[1.05] uppercase tracking-tight drop-shadow-md">
+              Descubra uma forma de seu restaurante vender mais na internet! 
+              <br />
+              <span className="text-[#FF6B00]">Deixe mais dinheiro no seu bolso!</span>
+            </h1>
             
             <p className="font-[family-name:var(--font-poppins)] text-base text-white/80 leading-relaxed font-light hidden lg:block max-w-lg">
               Você trabalha 12h por dia só para manter a cozinha rodando. A <span className="text-white font-semibold">weeat</span> muda o jogo com tecnologia própria e estratégia de vendas.
@@ -123,8 +120,8 @@ export function HeroSqueeze() {
         </div>
 
         {/* LADO DIREITO: Formulário (45%) */}
-        {/* ALTERADO: Margem superior reduzida no mobile */}
-        <div className="w-full lg:w-[45%] flex justify-center items-center px-6 lg:px-0 lg:pr-32 xl:pr-48 pb-2 lg:pb-0 mt-2 lg:mt-0 isolate order-2 lg:order-2">
+        {/* AJUSTE NO CONTAINER: lg:justify-start cola o form na linha divisória, e o -translate-x puxa para a área preta */}
+        <div className="w-full lg:w-[45%] flex justify-center lg:justify-start items-center px-6 lg:px-0 pb-2 lg:pb-0 mt-2 lg:mt-0 isolate order-2 lg:order-2 lg:-translate-x-0 xl:-translate-x-0">
           <div className="w-full max-w-md lg:max-w-[420px] flex-shrink-0 z-20">
             <div className="relative bg-[#0a0a0a] lg:bg-[#0a0a0a]/85 lg:backdrop-blur-md border border-white/10 p-5 lg:p-7 rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] transform-gpu">
               <div className="mb-4 lg:mb-5 text-center">
@@ -147,7 +144,6 @@ export function HeroSqueeze() {
         </div>
 
         {/* Estatísticas (APENAS MOBILE - Final da página) */}
-        {/* ALTERADO: Criada uma nova section de stats exclusiva para o mobile na posição 3 (order-3) */}
         <div className="w-full flex lg:hidden flex-col items-center justify-center px-6 py-6 pb-12 order-3 bg-[#050505]">
             <div className="flex flex-row flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <div className="flex flex-col items-center group">

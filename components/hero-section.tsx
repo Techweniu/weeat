@@ -29,14 +29,17 @@ export function HeroSection() {
         </p>
       </div>
 
-      {/* 3. Imagem Otimizada SEM os Cards Flutuantes */}
+      {/* 3. Imagem Otimizada SEM os Cards Flutuantes (CORRIGIDA PARA NÃO CORTAR) */}
       <div className="w-full max-w-4xl relative z-10 flex flex-col items-center">
-        <div className="w-full max-w-2xl relative h-[380px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border-2 border-[#1a1710]/10">
+        {/* Removido o h-[380px] e md:h-[500px] para a caixa esticar junto com a imagem */}
+        <div className="w-full max-w-2xl relative rounded-3xl overflow-hidden shadow-2xl border-2 border-[#1a1710]/10 flex">
           <Image
-            src="/hero.webp"
+            src="/cozinheiro.webp"
             alt="Cozinheiro feliz weeat"
-            fill
-            className="object-cover object-top" 
+            // Trocado "fill" por width e height para manter a proporção sem cortar
+            width={800} 
+            height={1000} 
+            className="w-full h-auto" 
             priority={true}
             fetchPriority="high" 
             sizes="(max-width: 768px) 100vw, 800px" 
