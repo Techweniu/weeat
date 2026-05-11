@@ -4,6 +4,42 @@ import { useState } from "react";
 import { Loader2, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation"; 
 
+const revenueRanges = [
+  "Até R$ 40.000",
+  "R$ 40.000 - R$ 50.000",
+  "R$ 50.000 - R$ 80.000",
+  "R$ 80.000 - R$ 100.000",
+  "R$ 100.000 - R$ 150.000",
+  "R$ 150.000 - R$ 250.000",
+  "R$ 500.000 - R$ 1.000.000",
+];
+
+const employeeOptions = [
+  "1 a 3",
+  "3 a 5",
+  "5 a 7",
+  "7 a 15",
+  "15 a 30",
+  "Mais que 30"
+];
+
+const ticketOptions = [
+  "Até R$ 30,00",
+  "R$ 30,00 a R$ 50,00",
+  "R$ 50,00 a R$ 80,00",
+  "R$ 80,00 a R$ 120,00",
+  "Acima de R$ 120,00"
+];
+
+const ordersPerDayOptions = [
+  "Até 15",
+  "15 a 20",
+  "20 a 30",
+  "30 a 50",
+  "50 a 100",
+  "Mais que 100"
+];
+
 export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,7 +48,8 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
   const [companyName, setCompanyName] = useState("");
   const [revenue, setRevenue] = useState("");
   const [employeeCount, setEmployeeCount] = useState("");
-  const [hasDelivery, setHasDelivery] = useState("");
+  const [averageTicket, setAverageTicket] = useState("");
+  const [ordersPerDay, setOrdersPerDay] = useState("");
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
@@ -37,7 +74,6 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     setIsSubmitting(true);
     
     try {
-      // ENVIO REAL PARA O n8n COM A SUA URL DE PRODUÇÃO
       await fetch("https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -45,9 +81,10 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
           nome: name,
           telefone: phone,
           empresa: companyName,
-          faturamento: revenue === "ate_40k" ? "Até R$ 40.000" : revenue === "40k_100k" ? "R$ 40k - 100k" : "Acima de R$ 100k",
+          faturamento: revenue,
           funcionarios: employeeCount,
-          entregador: hasDelivery,
+          ticket_medio: averageTicket,
+          pedidos_por_dia: ordersPerDay,
           origem: "LP Curta",
           data: new Date().toLocaleString("pt-BR")
         }),
@@ -58,7 +95,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
 
     setIsSubmitting(false);
 
-    if (revenue === "ate_40k") {
+    if (revenue === "Até R$ 40.000") {
        alert("Agradecemos o contato! Infelizmente o seu perfil não atende aos nossos requisitos no momento.");
        return; 
     }
@@ -95,36 +132,48 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
           <div className={selectWrapperStyle}>
             <select id="revenue" required className={`${selectStyle} ${revenue === "" ? "text-white/40" : "text-white"}`} value={revenue} onChange={(e) => setRevenue(e.target.value)}>
               <option value="" disabled>Selecione</option>
-              <option value="ate_40k" className="text-black bg-white">Até R$ 40k</option>
-              <option value="40k_100k" className="text-black bg-white">R$ 40k - 100k</option>
-              <option value="acima_100k" className="text-black bg-white">Acima de R$ 100k</option>
+              {revenueRanges.map((range) => (
+                <option key={range} value={range} className="text-black bg-white">{range}</option>
+              ))}
             </select>
             <ChevronDown className="absolute right-3 top-[calc(50%+2px)] -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
           </div>
         </div>
 
         <div className="lg:col-span-1">
-          <label htmlFor="employeeCount" className={labelStyle}>N° de funcionários</label>
+          <label htmlFor="employeeCount" className={labelStyle}>Número de funcionários</label>
           <div className={selectWrapperStyle}>
             <select id="employeeCount" required className={`${selectStyle} ${employeeCount === "" ? "text-white/40" : "text-white"}`} value={employeeCount} onChange={(e) => setEmployeeCount(e.target.value)}>
               <option value="" disabled>Selecione</option>
-              <option value="1-5" className="text-black bg-white">1 a 5</option>
-              <option value="6-15" className="text-black bg-white">6 a 15</option>
-              <option value="16-30" className="text-black bg-white">16 a 30</option>
-              <option value="30+" className="text-black bg-white">Mais de 30</option>
+              {employeeOptions.map((item) => (
+                <option key={item} value={item} className="text-black bg-white">{item}</option>
+              ))}
             </select>
             <ChevronDown className="absolute right-3 top-[calc(50%+2px)] -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
           </div>
         </div>
 
-        <div className="lg:col-span-2">
-          <label htmlFor="hasDelivery" className={labelStyle}>Já tem entregador próprio?</label>
+        <div className="lg:col-span-1">
+          <label htmlFor="averageTicket" className={labelStyle}>Ticket Médio</label>
           <div className={selectWrapperStyle}>
-            <select id="hasDelivery" required className={`${selectStyle} ${hasDelivery === "" ? "text-white/40" : "text-white"}`} value={hasDelivery} onChange={(e) => setHasDelivery(e.target.value)}>
+            <select id="averageTicket" required className={`${selectStyle} ${averageTicket === "" ? "text-white/40" : "text-white"}`} value={averageTicket} onChange={(e) => setAverageTicket(e.target.value)}>
               <option value="" disabled>Selecione</option>
-              <option value="sim" className="text-black bg-white">Sim</option>
-              <option value="nao" className="text-black bg-white">Não</option>
-              <option value="planejando" className="text-black bg-white">Estou planejando</option>
+              {ticketOptions.map((item) => (
+                <option key={item} value={item} className="text-black bg-white">{item}</option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-[calc(50%+2px)] -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+          </div>
+        </div>
+
+        <div className="lg:col-span-1">
+          <label htmlFor="ordersPerDay" className={labelStyle}>Número de pedidos por dia</label>
+          <div className={selectWrapperStyle}>
+            <select id="ordersPerDay" required className={`${selectStyle} ${ordersPerDay === "" ? "text-white/40" : "text-white"}`} value={ordersPerDay} onChange={(e) => setOrdersPerDay(e.target.value)}>
+              <option value="" disabled>Selecione</option>
+              {ordersPerDayOptions.map((item) => (
+                <option key={item} value={item} className="text-black bg-white">{item}</option>
+              ))}
             </select>
             <ChevronDown className="absolute right-3 top-[calc(50%+2px)] -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
           </div>

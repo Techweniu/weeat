@@ -4,7 +4,7 @@ import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Loader2, Send, Building2, User, Phone, Users, Landmark, Ticket, Truck } from "lucide-react"
+import { Loader2, Send, Building2, User, Phone, Users, Landmark, Ticket, ClipboardList } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
@@ -20,22 +20,44 @@ const formSchema = z.object({
   revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
   employeeCount: z.string({ required_error: "Selecione o número de funcionários." }),
   averageTicket: z.string({ required_error: "Selecione o ticket médio." }),
-  hasOwnDelivery: z.string({ required_error: "Selecione uma opção." }),
+  ordersPerDay: z.string({ required_error: "Selecione o número de pedidos por dia." }), // Alterado de hasOwnDelivery para ordersPerDay
 })
 
 const revenueRanges = [
   "Até R$ 40.000",
-  "R$ 40.000 - R$ 60.000",
-  "R$ 60.000 - R$ 80.000",
+  "R$ 40.000 - R$ 50.000",
+  "R$ 50.000 - R$ 80.000",
   "R$ 80.000 - R$ 100.000",
   "R$ 100.000 - R$ 150.000",
   "R$ 150.000 - R$ 250.000",
-  "R$ 250.000 - R$ 500.000",
   "R$ 500.000 - R$ 1.000.000",
 ]
 
-const ticketOptions = ["Até R$ 50", "R$ 50 - R$ 80", "R$ 80 - R$ 120", "Acima de R$ 120"]
-const deliveryOptions = ["Sim", "Não", "Pretendo ter"]
+const employeeOptions = [
+  "1 a 3",
+  "3 a 5",
+  "5 a 7",
+  "7 a 15",
+  "15 a 30",
+  "Mais que 30"
+]
+
+const ticketOptions = [
+  "Até R$ 30,00",
+  "R$ 30,00 a R$ 50,00",
+  "R$ 50,00 a R$ 80,00",
+  "R$ 80,00 a R$ 120,00",
+  "Acima de R$ 120,00"
+]
+
+const ordersPerDayOptions = [
+  "Até 15",
+  "15 a 20",
+  "20 a 30",
+  "30 a 50",
+  "50 a 100",
+  "Mais que 100"
+]
 
 export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: string }) {
   const router = useRouter()
@@ -44,7 +66,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "", phone: "", companyName: "", employeeCount: "", revenue: "", averageTicket: "", hasOwnDelivery: "",
+      name: "", phone: "", companyName: "", employeeCount: "", revenue: "", averageTicket: "", ordersPerDay: "",
     },
   })
 
@@ -60,7 +82,6 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
     setIsSubmitting(true)
     
     try {
-      // ENVIO REAL PARA O n8n COM A SUA URL DE PRODUÇÃO
       await fetch("https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -71,7 +92,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
           faturamento: values.revenue,
           funcionarios: values.employeeCount,
           ticket_medio: values.averageTicket,
-          entregador: values.hasOwnDelivery,
+          pedidos_por_dia: values.ordersPerDay, // Atualizado para enviar a nova variável
           origem: "LP Principal",
           data: new Date().toLocaleString("pt-BR")
         }),
@@ -203,7 +224,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
                     name="employeeCount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[#1a1710]/80">Nº de funcionários:</FormLabel>
+                        <FormLabel className="text-[#1a1710]/80">Número de funcionários:</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <div className="relative group">
@@ -214,7 +235,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
                             </div>
                           </FormControl>
                           <SelectContent className="bg-white">
-                            {["1 a 5", "6 a 15", "16 a 30", "31 a 50", "Mais de 50"].map((item) => (
+                            {employeeOptions.map((item) => (
                               <SelectItem key={item} value={item}>{item}</SelectItem>
                             ))}
                           </SelectContent>
@@ -253,21 +274,21 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
 
                 <FormField
                   control={form.control}
-                  name="hasOwnDelivery"
+                  name="ordersPerDay"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#1a1710]/80">Já tem entregador próprio?</FormLabel>
+                      <FormLabel className="text-[#1a1710]/80">Número de pedidos por dia:</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <div className="relative group">
-                            <Truck className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 z-10 pointer-events-none" />
+                            <ClipboardList className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 z-10 pointer-events-none" />
                             <SelectTrigger className={`${inputClasses} pl-10`}>
                               <SelectValue placeholder="Selecione" />
                             </SelectTrigger>
                           </div>
                         </FormControl>
                         <SelectContent className="bg-white">
-                          {deliveryOptions.map((item) => (
+                          {ordersPerDayOptions.map((item) => (
                             <SelectItem key={item} value={item}>{item}</SelectItem>
                           ))}
                         </SelectContent>
