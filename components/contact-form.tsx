@@ -20,7 +20,7 @@ const formSchema = z.object({
   revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
   employeeCount: z.string({ required_error: "Selecione o número de funcionários." }),
   averageTicket: z.string({ required_error: "Selecione o ticket médio." }),
-  ordersPerDay: z.string({ required_error: "Selecione o número de pedidos por dia." }), // Alterado de hasOwnDelivery para ordersPerDay
+  ordersPerDay: z.string({ required_error: "Selecione o número de pedidos por dia." }), 
 })
 
 const revenueRanges = [
@@ -61,25 +61,32 @@ const ordersPerDayOptions = [
 
 export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: string }) {
   const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [isSubmitting, ReactSetIsSubmitting] = React.useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "", phone: "", companyName: "", employeeCount: "", revenue: "", averageTicket: "", ordersPerDay: "",
+      name: "", phone: "+55 ", companyName: "", employeeCount: "", revenue: "", averageTicket: "", ordersPerDay: "", 
     },
   })
 
+  // Máscara que força o +55 a ficar sempre presente
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
-    let value = e.target.value.replace(/\D/g, "")
-    if (value.length > 11) value = value.substring(0, 11)
-    value = value.replace(/^(\d{2})(\d)/g, "($1) $2")
-    value = value.replace(/(\d)(\d{4})$/, "$1-$2")
-    onChange(value)
+    let val = e.target.value.replace(/\D/g, ""); 
+    if (!val.startsWith("55")) val = "55" + val;
+    if (val.length > 13) val = val.substring(0, 13);
+
+    let formatted = "+55 ";
+    if (val.length > 2) formatted += "(" + val.substring(2, 4);
+    if (val.length > 4) formatted += ") " + val.substring(4, 9);
+    if (val.length > 9) formatted += "-" + val.substring(9, 13);
+    if (val === "55" || val.length < 2) formatted = "+55 ";
+    
+    onChange(formatted); 
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
+    ReactSetIsSubmitting(true)
     
     try {
       await fetch("https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads", {
@@ -92,7 +99,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
           faturamento: values.revenue,
           funcionarios: values.employeeCount,
           ticket_medio: values.averageTicket,
-          pedidos_por_dia: values.ordersPerDay, // Atualizado para enviar a nova variável
+          pedidos_por_dia: values.ordersPerDay, 
           origem: "LP Principal",
           data: new Date().toLocaleString("pt-BR")
         }),
@@ -101,11 +108,8 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
       console.error("Erro ao enviar para o n8n:", error)
     }
 
-    setIsSubmitting(false)
-
-
-
-    router.push(redirectTo)
+    ReactSetIsSubmitting(false)
+    router.push(redirectTo) 
   }
 
   const inputClasses = "pl-10 h-12 bg-white border-[#1a1710]/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#1a1710] shadow-sm"
@@ -119,10 +123,10 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
               <div className="p-2 bg-white rounded-full shadow-sm">
                  <Send className="size-5 md:size-6 text-[#f78608]" />
               </div>
-              Você está a um passo de mudar os rumos do seu negócio
+              Fale com um especialista
             </CardTitle>
             <CardDescription className="font-[family-name:var(--font-poppins)] text-[#1a1710]/60 text-sm md:text-base mt-2">
-              Preencha os dados abaixo com a sua realidade de negócio!
+              Preencha os dados abaixo para receber sua proposta.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6 md:p-8">
@@ -150,17 +154,17 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
                   <FormField
                     control={form.control}
                     name="phone"
-                    render={({ field: { onChange, ...field } }) => (
+                    render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[#1a1710]/80">WhatsApp:</FormLabel>
+                        <FormLabel className="text-[#1a1710]/80">WPP:</FormLabel>
                         <FormControl>
                           <div className="relative group flex items-center">
                             <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-[#f78608] z-10" />
                             <Input 
-                              placeholder="(00) 00000-0000" 
+                              placeholder="+55 (00) 00000-0000" 
                               className={inputClasses} 
-                              onChange={(e) => handlePhoneChange(e, onChange)} 
-                              {...field} 
+                              {...field} // Colocado ANTES para não cancelar a nossa máscara
+                              onChange={(e) => handlePhoneChange(e, field.onChange)} 
                             />
                           </div>
                         </FormControl>
