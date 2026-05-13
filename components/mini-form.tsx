@@ -44,7 +44,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("+55 "); // O +55 fixo
+  const [phone, setPhone] = useState("+55 "); 
   const [companyName, setCompanyName] = useState("");
   const [revenue, setRevenue] = useState("");
   const [employeeCount, setEmployeeCount] = useState("");
@@ -73,6 +73,13 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // --- TRAVA DE SEGURANÇA: Exige pelo menos 14 caracteres no telefone (ex: +55 (11) 9999-9999) ---
+    if (!name || phone.length < 14 || !companyName || !revenue || !employeeCount || !averageTicket || !ordersPerDay) {
+      alert("Por favor, preencha todos os campos corretamente antes de enviar. Verifique se o telefone está completo.");
+      setIsSubmitting(false);
+      return; 
+    }
     
     try {
       await fetch("https://n8n.srv966092.hstgr.cloud/webhook/weeat-leads", {
@@ -80,7 +87,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: name,
-          telefone: phone.replace("+", ""), // CORREÇÃO: Remove o "+" antes de enviar
+          telefone: phone.replace("+", ""), 
           empresa: companyName,
           faturamento: revenue,
           funcionarios: employeeCount,
@@ -95,7 +102,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     }
 
     setIsSubmitting(false);
-    router.push(redirectTo); // CORREÇÃO: Redirecionamento de volta
+    router.push(redirectTo); 
   };
 
   const inputStyle = "w-full h-11 bg-[#141414] border border-white/10 rounded-xl px-4 text-white text-sm placeholder:text-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] outline-none transition-all font-[family-name:var(--font-poppins)] mt-1"; 
