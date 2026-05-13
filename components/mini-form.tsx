@@ -79,7 +79,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: name,
-          telefone: phone,
+          telefone: phone.replace("+", ""),
           empresa: companyName,
           faturamento: revenue,
           funcionarios: employeeCount,
@@ -90,7 +90,6 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
         }),
       });
 
-      alert("Agradecemos o contato! Seus dados foram enviados com sucesso.");
     } catch (error) {
       console.error("Erro ao enviar para o n8n:", error);
     }
@@ -98,7 +97,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     setIsSubmitting(false);
 
 
-    //router.push(redirectTo);
+    router.push(redirectTo);
   };
 
   const inputStyle = "w-full h-11 bg-[#141414] border border-white/10 rounded-xl px-4 text-white text-sm placeholder:text-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] outline-none transition-all font-[family-name:var(--font-poppins)] mt-1"; 

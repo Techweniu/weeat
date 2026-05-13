@@ -94,7 +94,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: values.name,
-          telefone: values.phone,
+          telefone: values.phone.replace("+", ""),
           empresa: values.companyName,
           faturamento: values.revenue,
           funcionarios: values.employeeCount,
@@ -105,18 +105,12 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
         }),
       })
       
-      // MENSAGEM DE SUCESSO ADICIONADA:
-      alert("Agradecemos o contato! Seus dados foram enviados com sucesso.");
-      
-      // OPCIONAL: Limpar o formulário após o envio
-      // form.reset(); 
-      
     } catch (error) {
       console.error("Erro ao enviar para o n8n:", error)
     }
 
     ReactSetIsSubmitting(false)
-    // router.push(redirectTo)  <--- LINHA REMOVIDA/COMENTADA AQUI
+    router.push(redirectTo)  
   }
   const inputClasses = "pl-10 h-12 bg-white border-[#1a1710]/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#1a1710] shadow-sm"
 
