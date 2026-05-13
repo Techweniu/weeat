@@ -44,7 +44,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("+55 ");
+  const [phone, setPhone] = useState("+55 "); // O +55 fixo
   const [companyName, setCompanyName] = useState("");
   const [revenue, setRevenue] = useState("");
   const [employeeCount, setEmployeeCount] = useState("");
@@ -57,15 +57,16 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value.replace(/\D/g, ""); 
-    if (!val.startsWith("55")) val = "55" + val;
-    if (val.length > 13) val = val.substring(0, 13);
+    let value = e.target.value.replace(/\D/g, "");
+    if (!value.startsWith("55")) value = "55" + value;
+    if (value.length > 13) value = value.substring(0, 13);
 
     let formatted = "+55 ";
-    if (val.length > 2) formatted += "(" + val.substring(2, 4);
-    if (val.length > 4) formatted += ") " + val.substring(4, 9);
-    if (val.length > 9) formatted += "-" + val.substring(9, 13);
-    if (val === "55" || val.length < 2) formatted = "+55 ";
+    if (value.length > 2) formatted += "(" + value.substring(2, 4);
+    if (value.length > 4) formatted += ") " + value.substring(4, 9);
+    if (value.length > 9) formatted += "-" + value.substring(9, 13);
+    if (value === "55" || value.length < 2) formatted = "+55 ";
+    
     setPhone(formatted);
   };
 
@@ -79,7 +80,7 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: name,
-          telefone: phone.replace("+", ""),
+          telefone: phone.replace("+", ""), // CORREÇÃO: Remove o "+" antes de enviar
           empresa: companyName,
           faturamento: revenue,
           funcionarios: employeeCount,
@@ -89,15 +90,12 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
           data: new Date().toLocaleString("pt-BR")
         }),
       });
-
     } catch (error) {
       console.error("Erro ao enviar para o n8n:", error);
     }
 
     setIsSubmitting(false);
-
-
-    router.push(redirectTo);
+    router.push(redirectTo); // CORREÇÃO: Redirecionamento de volta
   };
 
   const inputStyle = "w-full h-11 bg-[#141414] border border-white/10 rounded-xl px-4 text-white text-sm placeholder:text-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] outline-none transition-all font-[family-name:var(--font-poppins)] mt-1"; 
@@ -116,7 +114,15 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
         
         <div className="lg:col-span-2">
           <label htmlFor="whatsapp" className={labelStyle}>WhatsApp</label>
-          <input id="whatsapp" type="tel" placeholder="+55 (00) 00000-0000" required className={inputStyle} value={phone} onChange={handlePhoneChange} />
+          <input 
+             id="whatsapp" 
+             type="tel" 
+             placeholder="+55 (00) 00000-0000" 
+             required 
+             className={inputStyle} 
+             value={phone} 
+             onChange={handlePhoneChange} 
+          />
         </div>
 
         <div className="lg:col-span-2">

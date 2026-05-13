@@ -13,14 +13,15 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
+// 1. CORREÇÃO: Adicionado .min(1) nos campos de seleção para torná-los obrigatoriamente preenchidos.
 const formSchema = z.object({
   name: z.string().min(2, { message: "O nome deve ter pelo menos 2 caracteres." }),
   phone: z.string().min(14, { message: "Insira um telefone válido com DDD." }),
   companyName: z.string().min(2, { message: "Nome da empresa é obrigatório." }),
-  revenue: z.string({ required_error: "Selecione uma faixa de faturamento." }),
-  employeeCount: z.string({ required_error: "Selecione o número de funcionários." }),
-  averageTicket: z.string({ required_error: "Selecione o ticket médio." }),
-  ordersPerDay: z.string({ required_error: "Selecione o número de pedidos por dia." }), 
+  revenue: z.string().min(1, { message: "Selecione uma faixa de faturamento." }),
+  employeeCount: z.string().min(1, { message: "Selecione o número de funcionários." }),
+  averageTicket: z.string().min(1, { message: "Selecione o ticket médio." }),
+  ordersPerDay: z.string().min(1, { message: "Selecione o número de pedidos por dia." }), 
 })
 
 const revenueRanges = [
@@ -70,7 +71,6 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
     },
   })
 
-  // Máscara que força o +55 a ficar sempre presente
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     let val = e.target.value.replace(/\D/g, ""); 
     if (!val.startsWith("55")) val = "55" + val;
@@ -94,7 +94,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: values.name,
-          telefone: values.phone.replace("+", ""),
+          telefone: values.phone.replace("+", ""), // 2. CORREÇÃO: Remove o "+" antes de enviar
           empresa: values.companyName,
           faturamento: values.revenue,
           funcionarios: values.employeeCount,
@@ -104,14 +104,14 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
           data: new Date().toLocaleString("pt-BR")
         }),
       })
-      
     } catch (error) {
       console.error("Erro ao enviar para o n8n:", error)
     }
 
     ReactSetIsSubmitting(false)
-    router.push(redirectTo)  
+    router.push(redirectTo) // 3. CORREÇÃO: Redirecionamento reativado (e alert removido)
   }
+
   const inputClasses = "pl-10 h-12 bg-white border-[#1a1710]/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#1a1710] shadow-sm"
 
   return (
@@ -163,7 +163,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
                             <Input 
                               placeholder="+55 (00) 00000-0000" 
                               className={inputClasses} 
-                              {...field} // Colocado ANTES para não cancelar a nossa máscara
+                              {...field} 
                               onChange={(e) => handlePhoneChange(e, field.onChange)} 
                             />
                           </div>
