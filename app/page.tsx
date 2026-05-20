@@ -61,7 +61,7 @@ export default function Home() {
       <ResultsCarousel />
       <Pricing onSelectPlan={setSelectedPlan} />
       <FinalCTA />
-      <FloatingWhatsapp />
+     
     </main>
   )
 }
