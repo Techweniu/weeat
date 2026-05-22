@@ -74,7 +74,6 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
     e.preventDefault();
     setIsSubmitting(true);
 
-    // --- TRAVA DE SEGURANÇA: Exige pelo menos 14 caracteres no telefone (ex: +55 (11) 9999-9999) ---
     if (!name || phone.length < 14 || !companyName || !revenue || !employeeCount || !averageTicket || !ordersPerDay) {
       alert("Por favor, preencha todos os campos corretamente antes de enviar. Verifique se o telefone está completo.");
       setIsSubmitting(false);
@@ -101,8 +100,11 @@ export function MiniForm({ redirectTo = "/atendimento" }: { redirectTo?: string 
       console.error("Erro ao enviar para o n8n:", error);
     }
 
-    setIsSubmitting(false);
-    router.push(redirectTo); 
+    // --- ALTERAÇÃO AQUI: Espera 2 segundos (2000ms) antes de mudar de página ---
+    setTimeout(() => {
+      setIsSubmitting(false);
+      router.push("/obrigado");
+    }, 2000)
   };
 
   const inputStyle = "w-full h-11 bg-[#141414] border border-white/10 rounded-xl px-4 text-white text-sm placeholder:text-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] outline-none transition-all font-[family-name:var(--font-poppins)] mt-1"; 

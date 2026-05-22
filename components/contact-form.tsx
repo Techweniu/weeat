@@ -94,7 +94,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome: values.name,
-          telefone: values.phone.replace("+", ""), // 2. CORREÇÃO: Remove o "+" antes de enviar
+          telefone: values.phone.replace("+", ""),
           empresa: values.companyName,
           faturamento: values.revenue,
           funcionarios: values.employeeCount,
@@ -108,8 +108,11 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
       console.error("Erro ao enviar para o n8n:", error)
     }
 
-    ReactSetIsSubmitting(false)
-    router.push(redirectTo) // 3. CORREÇÃO: Redirecionamento reativado (e alert removido)
+    // --- ALTERAÇÃO AQUI: Espera 2 segundos (2000ms) antes de mudar de página ---
+    setTimeout(() => {
+      ReactSetIsSubmitting(false)
+      router.push("/obrigado") // Garanta que o redirectTo ou rota aponte para /obrigado
+    }, 2000)
   }
 
   const inputClasses = "pl-10 h-12 bg-white border-[#1a1710]/20 focus:border-[#f78608] focus:ring-[#f78608]/20 rounded-xl text-base md:text-sm text-[#1a1710] shadow-sm"
@@ -305,7 +308,7 @@ export function ContactForm({ redirectTo = "/conectando" }: { redirectTo?: strin
                     className="w-full h-14 md:h-16 bg-[#f78608] hover:bg-[#da7607] text-white rounded-full font-bold shadow-lg hover:scale-[1.02] transition-all text-sm md:text-lg"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Processando...</> : "QUERO ESCALAR MEU FATURAMENTO"}
+                    {isSubmitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Estamos enviando seu formulário, só um segundo...</> : "QUERO ESCALAR MEU FATURAMENTO"}
                   </Button>
                 </div>
               </form>
